@@ -6,6 +6,23 @@
 <meta name="base-path" content=".">
 <title>Categorías — 99Test</title>
 <link rel="stylesheet" href="compartido/estilos.css">
+<style>
+  .cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 500px) { .cat-grid { grid-template-columns: 1fr; } }
+  .cat-item {
+    display: flex; align-items: center; gap: 14px;
+    padding: 18px 20px; background: var(--surface-raised);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    cursor: pointer; transition: all var(--transition);
+  }
+  .cat-item:hover { transform: translateY(-2px); border-color: var(--accent-border); }
+  .cat-item .ci-emoji { font-size: 1.8rem; flex-shrink: 0; }
+  .cat-item .ci-info { flex: 1; }
+  .cat-item .ci-name { font-weight: 700; font-size: 0.95rem; }
+  .cat-item .ci-day { font-size: 0.72rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; margin-top: 1px; }
+  .cat-item .ci-count { font-size: 0.78rem; color: var(--text-secondary); margin-top: 3px; }
+  .cat-item .ci-arrow { font-size: 0.85rem; color: var(--text-secondary); flex-shrink: 0; }
+</style>
 </head>
 <body>
 <div id="headerPlaceholder"></div>
@@ -14,7 +31,7 @@
   <div class="screen active" style="width:100%">
     <div class="card">
       <h2 style="font-family:'Playfair Display';font-size:1.4rem;margin-bottom:3px">🏷️ Categorías</h2>
-      <p style="color:var(--text-secondary);font-size:0.88rem;margin-bottom:18px">Todas las preguntas de los tests diarios agrupadas por categoría.</p>
+      <p style="color:var(--text-secondary);font-size:0.88rem;margin-bottom:18px">Cada día de la semana tiene su categoría con tests nicho.</p>
       <div class="cat-grid" id="catGrid"></div>
       <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);text-align:center">
         <button class="btn btn-secondary btn-sm" onclick="goToPage('tests/especiales/')">⭐ Ver tests especiales</button>
@@ -28,22 +45,24 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const knownCats = [
-    { emoji: "🌍", name: "Geografía", count: 12 },
-    { emoji: "📜", name: "Historia", count: 10 },
-    { emoji: "🔬", name: "Ciencia", count: 10 },
-    { emoji: "📖", name: "Lengua", count: 8 },
-    { emoji: "🧠", name: "Curiosidades", count: 10 },
-    { emoji: "🎨", name: "Arte", count: 6 },
-    { emoji: "🧮", name: "Lógica", count: 4 },
+    { emoji: "🔬", name: "Ciencias Puras", day: "Lunes", desc: "Matemáticas, Física, Química, Biología, Astronomía, Medicina, Geología", tests: 2, folder: "ciencias-puras-lunes" },
+    { emoji: "🎨", name: "Arte y Creatividad", day: "Martes", desc: "Literatura, Filosofía, Arte, Música, Cine, Teatro, Mitología", tests: 2, folder: "arte-y-creatividad-martes" },
+    { emoji: "🌍", name: "Ciencias Sociales", day: "Miércoles", desc: "Historia, Geografía, Política, Economía, Derecho, Sociología, Antropología", tests: 1, folder: "ciencias-sociales-miercoles" },
+    { emoji: "💻", name: "Tecnología e Innovación", day: "Jueves", desc: "Informática, Internet, Inventos, Ingeniería, IA, Exploración Espacial", tests: 1, folder: "tecnologia-e-innovacion-jueves" },
+    { emoji: "⚽", name: "Entretenimiento y Ocio", day: "Viernes", desc: "Deportes, Espectáculos, Gastronomía, Tradiciones, Marcas, Tendencias", tests: 1, folder: "entretenimiento-y-ocio-viernes" },
+    { emoji: "🔥", name: "Mezcla Explosiva", day: "Sáb/Dom", desc: "Preguntas variadas de todas las categorías", tests: 1, folder: "mezcla-explosiva-finde" },
   ];
+
   const grid = document.getElementById('catGrid');
   grid.innerHTML = knownCats.map(c => `
-    <div class="cat-item">
+    <div class="cat-item" onclick="location.href='tests/${c.folder}/'">
       <div class="ci-emoji">${c.emoji}</div>
       <div class="ci-info">
         <div class="ci-name">${c.name}</div>
-        <div class="ci-count">${c.count} preguntas en total</div>
+        <div class="ci-day">${c.day} · ${c.tests} test${c.tests > 1 ? 's' : ''} nicho</div>
+        <div class="ci-count">${c.desc}</div>
       </div>
+      <div class="ci-arrow">→</div>
     </div>
   `).join('');
 });
