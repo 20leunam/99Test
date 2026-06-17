@@ -183,8 +183,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('tdDoneBadge').textContent = '✅ Completado · ' + done.correct + '/10 (' + done.pct + '%)';
   }
 
-  // Click handlers
-  const navTo = () => goToPage('tests/' + test.folder + '/');
+  // Click handlers — va directo al test, no al hub
+  const navTo = () => goToPage('tests/' + test.folder + '/' + test.test + '/');
   document.getElementById('tdCard').onclick = navTo;
   document.getElementById('tdBtn').onclick = navTo;
 });

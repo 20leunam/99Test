@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -150,7 +150,7 @@ function renderCalendar() {
     const mark = isCompleted ? '<span class="check-mark">✓</span>' : '';
 
     if (isAvailable) {
-      html += `<div class="${cls}" onclick="goToPage('tests/${TEST_MANIFEST[diff].folder}/')" title="${TEST_MANIFEST[diff].title}">${d}${mark}</div>`;
+      html += `<div class="${cls}" onclick="goToPage('tests/${TEST_MANIFEST[diff].folder}/${TEST_MANIFEST[diff].test}/')" title="${TEST_MANIFEST[diff].title}">${d}${mark}</div>`;
     } else {
       html += `<div class="${cls}">${d}</div>`;
     }
@@ -189,7 +189,7 @@ function renderTestList() {
     const dateLabel = `${String(testDate.getDate()).padStart(2,'0')} jun`;
 
     items.push(`
-      <div class="tl-item" onclick="goToPage('tests/${test.folder}/')">
+      <div class="tl-item" onclick="goToPage('tests/${test.folder}/${test.test}/')">
         <div class="tl-num">#${i+1}</div>
         <div class="tl-date">${dateLabel}</div>
         <div class="tl-title">${test.title}</div>
