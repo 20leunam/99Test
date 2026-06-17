@@ -104,9 +104,6 @@ function renderHeader() {
       <button class="menu-item" onclick="goToPage('archivo.html')">
         <span class="emoji">📚</span> Tests anteriores
       </button>
-      <button class="menu-item" onclick="goToPage('categorias.html')">
-        <span class="emoji">🏷️</span> Categorías
-      </button>
       <button class="menu-item" onclick="goToPage('tests/especiales/')">
         <span class="emoji">⭐</span> Tests especiales
       </button>
