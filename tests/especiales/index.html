@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="base-path" content="../..">
+<title>Tests Especiales — 99Test</title>
+<link rel="stylesheet" href="../../compartido/estilos.css">
+<style>
+.special-list { display: flex; flex-direction: column; gap: 10px; }
+.special-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px 20px; background: var(--surface-raised);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  cursor: pointer; transition: all var(--transition);
+  text-decoration: none; color: var(--text);
+}
+.special-item:hover { transform: translateY(-1px); }
+.special-item .si-icon { font-size: 1.6rem; flex-shrink: 0; }
+.special-item .si-info { flex: 1; }
+.special-item .si-title { font-weight: 600; font-size: 0.95rem; }
+.special-item .si-meta { font-size: 0.78rem; color: var(--text-secondary); margin-top: 2px; }
+.special-item .si-badge {
+  font-size: 0.68rem; padding: 3px 10px; border-radius: 100px;
+  font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+  background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent-border);
+}
+</style>
+</head>
+<body>
+<div id="headerPlaceholder"></div>
+
+<div class="main-wrap">
+  <div class="screen active" style="width:100%">
+    <div class="card">
+      <h2 style="font-family:'Playfair Display';font-size:1.4rem;margin-bottom:3px">⭐ Tests especiales</h2>
+      <p style="color:var(--text-secondary);font-size:0.88rem;margin-bottom:18px">Tests temáticos fuera de la rotación diaria. Cada uno con su propio estilo.</p>
+      <div class="special-list">
+        <a class="special-item" href="test-catala.html">
+          <div class="si-icon">📖</div>
+          <div class="si-info">
+            <div class="si-title">Paraules Rares del Català</div>
+            <div class="si-meta">50 preguntas · Vocabulario · 5 niveles</div>
+          </div>
+          <span class="si-badge">Català</span>
+        </a>
+        <a class="special-item" href="test-espanol.html">
+          <div class="si-icon">📖</div>
+          <div class="si-info">
+            <div class="si-title">Palabras Raras del Español</div>
+            <div class="si-meta">50 preguntas · Vocabulario · 5 niveles</div>
+          </div>
+          <span class="si-badge">Español</span>
+        </a>
+        <a class="special-item" href="test-oprobots-hardware.html">
+          <div class="si-icon">🤖</div>
+          <div class="si-info">
+            <div class="si-title">OPRobots — Hardware</div>
+            <div class="si-meta">50 preguntas · Robótica · Hardware</div>
+          </div>
+          <span class="si-badge">OPR</span>
+        </a>
+        <a class="special-item" href="test-oprobots-software.html">
+          <div class="si-icon">🤖</div>
+          <div class="si-info">
+            <div class="si-title">OPRobots — Software</div>
+            <div class="si-meta">50 preguntas · Robótica · Software</div>
+          </div>
+          <span class="si-badge">OPR</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="footerPlaceholder"></div>
+<script src="../../compartido/motor.js"></script>
+</body>
+</html>

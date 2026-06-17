@@ -10,6 +10,7 @@ const TEST_MANIFEST = [
   { id: 3, title: "Palabras y Arte",         folder: "3-palabras-y-arte",       emojis: "📖🎨📜" },
   { id: 4, title: "Piensa Rápido",           folder: "4-piensa-rapido",         emojis: "🧮🧠💡" },
   { id: 5, title: "Variado Selecto",         folder: "5-variado-selecto",       emojis: "🌟🌍🔬📖" },
+  // Los tests especiales se listan aparte (no en la rotación diaria)
 ];
 
 const STORAGE_KEY = '99test_results';
@@ -89,7 +90,7 @@ function renderHeader() {
       <button class="menu-item" onclick="goToPage('categorias.html')">
         <span class="emoji">🏷️</span> Categorías
       </button>
-      <button class="menu-item" onclick="goToPage('tests/6-especiales/')">
+      <button class="menu-item" onclick="goToPage('tests/especiales/')">
         <span class="emoji">⭐</span> Tests especiales
       </button>
       <div class="menu-spacer"></div>
@@ -154,7 +155,7 @@ function renderFooter() {
     </footer>`;
   // Donate URL
   const db = document.getElementById('donateBtn');
-  if (db) db.href = 'https://www.paypal.com/donate/?hosted_button_id=YOUR_BUTTON_ID';
+  if (db) db.href = 'https://paypal.me/20leunam';
 }
 
 /* ─── RESULTADOS ── */

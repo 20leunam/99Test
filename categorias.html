@@ -14,8 +14,11 @@
   <div class="screen active" style="width:100%">
     <div class="card">
       <h2 style="font-family:'Playfair Display';font-size:1.4rem;margin-bottom:3px">🏷️ Categorías</h2>
-      <p style="color:var(--text-secondary);font-size:0.88rem;margin-bottom:18px">Todas las preguntas agrupadas por categoría.</p>
+      <p style="color:var(--text-secondary);font-size:0.88rem;margin-bottom:18px">Todas las preguntas de los tests diarios agrupadas por categoría.</p>
       <div class="cat-grid" id="catGrid"></div>
+      <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);text-align:center">
+        <button class="btn btn-secondary btn-sm" onclick="goToPage('tests/especiales/')">⭐ Ver tests especiales</button>
+      </div>
     </div>
   </div>
 </div>
@@ -24,12 +27,6 @@
 <script src="compartido/motor.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // Count questions per category across all tests
-  const cats = {};
-
-  // We need to load question data for each test
-  // Since we can't easily load all test files dynamically,
-  // let's use the manifest + known category distribution
   const knownCats = [
     { emoji: "🌍", name: "Geografía", count: 12 },
     { emoji: "📜", name: "Historia", count: 10 },
@@ -39,7 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
     { emoji: "🎨", name: "Arte", count: 6 },
     { emoji: "🧮", name: "Lógica", count: 4 },
   ];
-
   const grid = document.getElementById('catGrid');
   grid.innerHTML = knownCats.map(c => `
     <div class="cat-item">
