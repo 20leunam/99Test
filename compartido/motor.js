@@ -4,13 +4,30 @@
 
 /* ─── MANIFIESTO DE TESTS ── */
 const TEST_MANIFEST = [
-  { id: 0, title: "Ciencias Puras",              folder: "ciencias-puras-lunes",            test: "0-el-cuerpo-humano",    emojis: "🔬🧪📐",      day: "Lunes" },
-  { id: 1, title: "Arte y Creatividad",          folder: "arte-y-creatividad-martes",        test: "0-arte-y-arquitectura", emojis: "🎨📖🎭",      day: "Martes" },
-  { id: 2, title: "Ciencias Sociales",           folder: "ciencias-sociales-miercoles",      test: "0-historia-y-geografia",emojis: "🌍📜🏛️",      day: "Miércoles" },
-  { id: 3, title: "Tecnología e Innovación",     folder: "tecnologia-e-innovacion-jueves",   test: "0-grandes-inventos",    emojis: "💻🔧🚀",     day: "Jueves" },
-  { id: 4, title: "Entretenimiento y Ocio",      folder: "entretenimiento-y-ocio-viernes",   test: "0-deportes-y-espectaculos",emojis: "⚽🍿🎮",   day: "Viernes" },
-  { id: 5, title: "Mezcla Explosiva",            folder: "mezcla-explosiva-finde",           test: "0-mezcla-explosiva",    emojis: "🔥🧩✨",      day: "Sábado" },
-  { id: 6, title: "Mezcla Explosiva",            folder: "mezcla-explosiva-finde",           test: "0-mezcla-explosiva",    emojis: "🔥🧩✨",      day: "Domingo" },
+  // Semana 1
+  { id: 0,  title: "Ciencias Puras",            folder: "ciencias-puras-lunes",          test: "0-el-cuerpo-humano",     emojis: "🔬🧪📐", day: "Lunes" },
+  { id: 1,  title: "Arte y Creatividad",        folder: "arte-y-creatividad-martes",      test: "0-arte-y-arquitectura",  emojis: "🎨📖🎭", day: "Martes" },
+  { id: 2,  title: "Ciencias Sociales",         folder: "ciencias-sociales-miercoles",    test: "0-historia-y-geografia", emojis: "🌍📜🏛️", day: "Miércoles" },
+  { id: 3,  title: "Tecnología e Innovación",   folder: "tecnologia-e-innovacion-jueves", test: "0-grandes-inventos",     emojis: "💻🔧🚀", day: "Jueves" },
+  { id: 4,  title: "Entretenimiento y Ocio",    folder: "entretenimiento-y-ocio-viernes", test: "0-deportes-y-espectaculos",emojis:"⚽🍿🎮", day:"Viernes" },
+  { id: 5,  title: "Mezcla Explosiva",          folder: "mezcla-explosiva-finde",         test: "0-mezcla-explosiva",     emojis: "🔥🧩✨", day: "Sábado" },
+  { id: 6,  title: "Mezcla Explosiva",          folder: "mezcla-explosiva-finde",         test: "1-mezcla-explosiva",     emojis: "🔥🧩✨", day: "Domingo" },
+  // Semana 2
+  { id: 7,  title: "Ciencias Puras",            folder: "ciencias-puras-lunes",          test: "1-el-universo",          emojis: "🔬🧪📐", day: "Lunes" },
+  { id: 8,  title: "Arte y Creatividad",        folder: "arte-y-creatividad-martes",      test: "1-palabras-y-origenes",  emojis: "🎨📖🎭", day: "Martes" },
+  { id: 9,  title: "Ciencias Sociales",         folder: "ciencias-sociales-miercoles",    test: "1-politica-y-economia",  emojis: "🌍📜🏛️", day: "Miércoles" },
+  { id: 10, title: "Tecnología e Innovación",   folder: "tecnologia-e-innovacion-jueves", test: "1-informatica-e-internet",emojis:"💻🔧🚀", day:"Jueves" },
+  { id: 11, title: "Entretenimiento y Ocio",    folder: "entretenimiento-y-ocio-viernes", test: "1-gastronomia-y-tradiciones",emojis:"⚽🍿🎮",day:"Viernes" },
+  { id: 12, title: "Mezcla Explosiva",          folder: "mezcla-explosiva-finde",         test: "2-mezcla-explosiva",     emojis: "🔥🧩✨", day: "Sábado" },
+  { id: 13, title: "Mezcla Explosiva",          folder: "mezcla-explosiva-finde",         test: "3-mezcla-explosiva",     emojis: "🔥🧩✨", day: "Domingo" },
+  // Semana 3
+  { id: 14, title: "Ciencias Puras",            folder: "ciencias-puras-lunes",          test: "2-quimica-y-fisica",     emojis: "🔬🧪📐", day: "Lunes" },
+  { id: 15, title: "Arte y Creatividad",        folder: "arte-y-creatividad-martes",      test: "2-cine-y-teatro",        emojis: "🎨📖🎭", day: "Martes" },
+  { id: 16, title: "Ciencias Sociales",         folder: "ciencias-sociales-miercoles",    test: "2-sociologia-y-antropologia",emojis:"🌍📜🏛️",day:"Miércoles" },
+  { id: 17, title: "Tecnología e Innovación",   folder: "tecnologia-e-innovacion-jueves", test: "2-ia-y-robotica",         emojis: "💻🔧🚀", day: "Jueves" },
+  { id: 18, title: "Entretenimiento y Ocio",    folder: "entretenimiento-y-ocio-viernes", test: "2-marcas-y-tendencias",   emojis:"⚽🍿🎮", day:"Viernes" },
+  { id: 19, title: "Mezcla Explosiva",          folder: "mezcla-explosiva-finde",         test: "4-mezcla-explosiva",     emojis: "🔥🧩✨", day: "Sábado" },
+  { id: 20, title: "Mezcla Explosiva",          folder: "mezcla-explosiva-finde",         test: "5-mezcla-explosiva",     emojis: "🔥🧩✨", day: "Domingo" },
 ];
 
 const STORAGE_KEY = '99test_results';

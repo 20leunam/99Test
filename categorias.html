@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -43,15 +43,7 @@
 <div id="footerPlaceholder"></div>
 <script src="compartido/motor.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const knownCats = [
-    { emoji: "🔬", name: "Ciencias Puras", day: "Lunes", desc: "Matemáticas, Física, Química, Biología, Astronomía, Medicina, Geología", tests: 2, folder: "ciencias-puras-lunes" },
-    { emoji: "🎨", name: "Arte y Creatividad", day: "Martes", desc: "Literatura, Filosofía, Arte, Música, Cine, Teatro, Mitología", tests: 2, folder: "arte-y-creatividad-martes" },
-    { emoji: "🌍", name: "Ciencias Sociales", day: "Miércoles", desc: "Historia, Geografía, Política, Economía, Derecho, Sociología, Antropología", tests: 1, folder: "ciencias-sociales-miercoles" },
-    { emoji: "💻", name: "Tecnología e Innovación", day: "Jueves", desc: "Informática, Internet, Inventos, Ingeniería, IA, Exploración Espacial", tests: 1, folder: "tecnologia-e-innovacion-jueves" },
-    { emoji: "⚽", name: "Entretenimiento y Ocio", day: "Viernes", desc: "Deportes, Espectáculos, Gastronomía, Tradiciones, Marcas, Tendencias", tests: 1, folder: "entretenimiento-y-ocio-viernes" },
-    { emoji: "🔥", name: "Mezcla Explosiva", day: "Sáb/Dom", desc: "Preguntas variadas de todas las categorías", tests: 1, folder: "mezcla-explosiva-finde" },
-  ];
+document.addEventListener("DOMContentLoaded",()=>{const knownCats=[{emoji:"🔬",name:"Ciencias Puras",day:"Lunes",desc:"Matematicas, Fisica, Quimica, Biologia, Astronomia, Medicina, Geologia"},{emoji:"🎨",name:"Arte y Creatividad",day:"Martes",desc:"Literatura, Filosofia, Arte, Musica, Cine, Teatro, Mitologia"},{emoji:"🌍",name:"Ciencias Sociales",day:"Miercoles",desc:"Historia, Geografia, Politica, Economia, Derecho, Sociologia, Antropologia"},{emoji:"💻",name:"Tecnologia e Innovacion",day:"Jueves",desc:"Informatica, Internet, Inventos, Ingenieria, IA, Exploracion Espacial"},{emoji:"⚽",name:"Entretenimiento y Ocio",day:"Viernes",desc:"Deportes, Espectaculos, Gastronomia, Tradiciones, Marcas, Tendencias"},{emoji:"🔥",name:"Mezcla Explosiva",day:"Sab/Dom",desc:"Preguntas variadas de todas las categorias"}];const grid=document.getElementById("catGrid");grid.innerHTML=knownCats.map(c=>`<div class="cat-item"><div class="ci-emoji">${c.emoji}</div><div class="ci-info"><div class="ci-name">${c.name}</div><div class="ci-day">${c.day}</div><div class="ci-count">${c.desc}</div></div></div>`).join("")})
 
   const grid = document.getElementById('catGrid');
   grid.innerHTML = knownCats.map(c => `
