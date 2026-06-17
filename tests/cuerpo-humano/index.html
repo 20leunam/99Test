@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="base-path" content="../..">
+<title>El Cuerpo Humano — 99Test</title>
+<link rel="stylesheet" href="../../compartido/estilos.css">
+<style>
+:root{--accent:#d46a8a;--accent-glow:rgba(212,106,138,0.2);--accent-bg:rgba(212,106,138,0.08);--accent-border:rgba(212,106,138,0.15);--accent-shadow:rgba(212,106,138,0.25);--gold-gradient:linear-gradient(135deg,#d46a8a,#e8a0b8,#d46a8a)}
+body.dark{--accent:#d46a8a;--accent-glow:rgba(212,106,138,0.25);--accent-bg:rgba(212,106,138,0.1);--accent-border:rgba(212,106,138,0.2);--accent-shadow:rgba(212,106,138,0.3);--gold-gradient:linear-gradient(135deg,#d46a8a,#e8a0b8,#d46a8a)}
+</style>
+</head>
+<body>
+<div id="headerPlaceholder"></div>
+<div class="main-wrap">
+  <div class="screen active" style="width:100%">
+    <div class="card" style="text-align:center">
+      <div style="font-size:2.5rem;margin-bottom:4px">🫀</div>
+      <h1 style="font-family:'Playfair Display';font-size:1.5rem;font-weight:700;background:var(--gold-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent">El Cuerpo Humano</h1>
+      <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:2px">Los martes toca cuerpo humano</p>
+      <p style="color:var(--text-secondary);font-size:0.82rem;margin-bottom:20px">Anatomía, biología, salud y curiosidades del organismo.</p>
+      <h3 style="font-size:0.8rem;text-transform:uppercase;letter-spacing:.07em;color:var(--text-secondary);margin-bottom:12px;font-weight:600">🧪 Tests disponibles</h3>
+      <div class="archive-list" id="testList"></div>
+    </div>
+  </div>
+</div>
+<div id="footerPlaceholder"></div>
+<script>
+const TESTS = [
+  { title: "El Cuerpo Humano", path: "0-el-cuerpo-humano/", q: 30, desc: "Anatomía, órganos y funcionamiento del cuerpo" },
+];
+</script>
+<script src="../../compartido/motor.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const list = document.getElementById('testList');
+  list.innerHTML = TESTS.map((t,i) => `
+    <div class="archive-item" onclick="goToPage('${t.path}')">
+      <div class="ai-num">#${i+1}</div>
+      <div class="ai-title">${t.title}</div>
+      <div style="font-size:0.72rem;color:var(--text-secondary);margin-right:8px">${t.q} preg · 10 por partida</div>
+      <div style="font-size:1rem;color:var(--accent)">→</div>
+    </div>
+  `).join('');
+});
+</script>
+</body>
+</html>

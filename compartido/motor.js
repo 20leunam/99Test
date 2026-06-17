@@ -4,13 +4,13 @@
 
 /* ─── MANIFIESTO DE TESTS ── */
 const TEST_MANIFEST = [
-  { id: 0, title: "Grandes Inventos",      folder: "0-grandes-inventos",      emojis: "💡🔧⚙️",      day: "Lunes" },
-  { id: 1, title: "El Cuerpo Humano",      folder: "1-el-cuerpo-humano",      emojis: "🫀🧠🦴",        day: "Martes" },
-  { id: 2, title: "Arte y Arquitectura",   folder: "2-arte-y-arquitectura",   emojis: "🎨🏛️🖌️",        day: "Miércoles" },
-  { id: 3, title: "El Universo",           folder: "3-el-universo",           emojis: "🌌🚀🌍",        day: "Jueves" },
-  { id: 4, title: "Palabras y Orígenes",   folder: "4-palabras-y-origenes",   emojis: "📖🔍🗣️",        day: "Viernes" },
-  { id: 5, title: "Mezcla Explosiva",      folder: "5-mezcla-explosiva",      emojis: "🔥🧩✨",        day: "Sábado" },
-  { id: 6, title: "Mezcla Explosiva",      folder: "5-mezcla-explosiva",      emojis: "🔥🧩✨",        day: "Domingo" },
+  { id: 0, title: "Grandes Inventos",      folder: "inventos",           emojis: "💡🔧⚙️",      day: "Lunes" },
+  { id: 1, title: "El Cuerpo Humano",      folder: "cuerpo-humano",      emojis: "🫀🧠🦴",        day: "Martes" },
+  { id: 2, title: "Arte y Arquitectura",   folder: "arte-y-arquitectura",emojis: "🎨🏛️🖌️",        day: "Miércoles" },
+  { id: 3, title: "El Universo",           folder: "universo",           emojis: "🌌🚀🌍",        day: "Jueves" },
+  { id: 4, title: "Palabras y Orígenes",   folder: "palabras-y-origenes",emojis: "📖🔍🗣️",        day: "Viernes" },
+  { id: 5, title: "Mezcla Explosiva",      folder: "mezcla-explosiva",   emojis: "🔥🧩✨",        day: "Sábado" },
+  { id: 6, title: "Mezcla Explosiva",      folder: "mezcla-explosiva",   emojis: "🔥🧩✨",        day: "Domingo" },
 ];
 
 const STORAGE_KEY = '99test_results';
