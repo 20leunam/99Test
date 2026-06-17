@@ -93,6 +93,9 @@ function renderHeader() {
       <button class="menu-item" onclick="goToPage('tests/especiales/')">
         <span class="emoji">⭐</span> Tests especiales
       </button>
+      <button class="menu-item" onclick="goToPage('sobre.html')">
+        <span class="emoji">ℹ️</span> Sobre 99Test
+      </button>
       <div class="menu-spacer"></div>
       <div class="menu-footer" id="menuFooter">
         🔥 Racha: <strong id="menuStreak">0</strong> días<br>

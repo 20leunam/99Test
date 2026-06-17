@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="base-path" content=".">
+<title>Sobre 99Test — Tests diarios</title>
+<link rel="stylesheet" href="compartido/estilos.css">
+<style>
+  .about-section { margin-bottom: 28px; }
+  .about-section:last-child { margin-bottom: 0; }
+  .about-section h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.15rem; font-weight: 700; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .about-section p { font-size: 0.9rem; line-height: 1.7; color: var(--text-secondary); }
+  .about-section p strong { color: var(--text); }
+
+  .feature-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    margin: 16px 0;
+  }
+  @media (max-width: 500px) { .feature-grid { grid-template-columns: 1fr; } }
+  .feature-card {
+    background: var(--surface-raised); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 18px 16px;
+    transition: all var(--transition);
+  }
+  .feature-card:hover { transform: translateY(-2px); }
+  .feature-card .fc-icon { font-size: 1.5rem; margin-bottom: 6px; display: block; }
+  .feature-card .fc-title { font-weight: 600; font-size: 0.85rem; margin-bottom: 3px; }
+  .feature-card .fc-desc { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.5; }
+
+  .timeline { position: relative; padding-left: 24px; margin: 16px 0; }
+  .timeline::before {
+    content: ''; position: absolute; left: 7px; top: 4px; bottom: 4px;
+    width: 2px; background: var(--border); border-radius: 2px;
+  }
+  .tl-item { position: relative; margin-bottom: 18px; }
+  .tl-item:last-child { margin-bottom: 0; }
+  .tl-item::before {
+    content: ''; position: absolute; left: -20px; top: 6px;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--accent); border: 2px solid var(--surface);
+  }
+  .tl-item .tl-title { font-weight: 600; font-size: 0.88rem; }
+  .tl-item .tl-desc { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5; }
+
+  .highlight-box {
+    background: var(--accent-bg); border: 1px solid var(--accent-border);
+    border-radius: var(--radius); padding: 20px; text-align: center;
+    margin: 16px 0;
+  }
+  .highlight-box .hb-num {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.2rem; font-weight: 900;
+    background: var(--gold-gradient); -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .highlight-box .hb-label { font-size: 0.82rem; color: var(--text-secondary); margin-top: 2px; }
+  .highlight-box .hb-sub { font-size: 0.78rem; color: var(--text-secondary); margin-top: 8px; }
+
+  .support-box {
+    text-align: center; padding: 20px; border-top: 1px solid var(--border);
+    margin-top: 8px;
+  }
+  .support-box p { font-size: 0.85rem; margin-bottom: 10px; }
+</style>
+</head>
+<body>
+<div id="headerPlaceholder"></div>
+
+<div class="main-wrap">
+  <div class="screen active" style="width:100%">
+    <div class="card">
+      <div style="text-align:center;margin-bottom:20px">
+        <div style="font-size:2.8rem;margin-bottom:4px">🧪</div>
+        <h1 style="font-family:'Playfair Display',Georgia,serif;font-size:1.8rem;font-weight:700;
+            background:var(--gold-gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+            background-clip:text;letter-spacing:-0.02em">99Test</h1>
+        <p style="color:var(--text-secondary);font-size:0.9rem">Tests diarios · 10 preguntas · Todos los temas</p>
+      </div>
+
+      <div class="about-section">
+        <h3>🎯 ¿Qué es?</h3>
+        <p>
+          <strong>99Test</strong> es una web de tests diarios con un concepto sencillo:
+          cada día recibes un test nuevo de <strong>10 preguntas</strong> sobre temas variados.
+          Puedes repetirlo, consultar tests anteriores y seguir tu racha de días.
+          Sin registro, sin complicaciones.
+        </p>
+      </div>
+
+      <div class="about-section">
+        <h3>✨ Cómo funciona</h3>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <span class="fc-icon">📅</span>
+            <div class="fc-title">Test del día</div>
+            <div class="fc-desc">Cada día se asigna un test distinto. Entra y responde 10 preguntas en menos de 5 minutos.</div>
+          </div>
+          <div class="feature-card">
+            <span class="fc-icon">🔁</span>
+            <div class="fc-title">Rejugable</div>
+            <div class="fc-desc">Puedes repetir cualquier test las veces que quieras. Las preguntas se reordenan.</div>
+          </div>
+          <div class="feature-card">
+            <span class="fc-icon">🔥</span>
+            <div class="fc-title">Racha diaria</div>
+            <div class="fc-desc">Completa el test cada día para mantener tu racha. Tu progreso se guarda automáticamente.</div>
+          </div>
+          <div class="feature-card">
+            <span class="fc-icon">📚</span>
+            <div class="fc-title">Tests anteriores</div>
+            <div class="fc-desc">Todos los tests pasados siguen disponibles desde el calendario. Nunca caducan.</div>
+          </div>
+          <div class="feature-card">
+            <span class="fc-icon">🏷️</span>
+            <div class="fc-title">Categorías</div>
+            <div class="fc-desc">Geografía, historia, ciencia, lengua, arte, lógica, curiosidades… cada test tiene su personalidad.</div>
+          </div>
+          <div class="feature-card">
+            <span class="fc-icon">⭐</span>
+            <div class="fc-title">Tests especiales</div>
+            <div class="fc-desc">Tests temáticos con su propio estilo: vocabulario, robótica y más por venir.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-section">
+        <h3>📊 En cifras</h3>
+        <div class="highlight-box">
+          <div class="hb-num">60+</div>
+          <div class="hb-label">preguntas en rotación</div>
+          <div class="hb-sub">7 categorías diferentes · 6 tests diarios + especiales</div>
+        </div>
+      </div>
+
+      <div class="about-section">
+        <h3>🗓️ Calendario de tests</h3>
+        <p>Los tests se publican diariamente desde el <strong>15 de junio de 2026</strong>.</p>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-title">15 jun — Mezcla Explosiva</div>
+            <div class="tl-desc">Preguntas variadas de todas las categorías</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-title">16 jun — Ciencia y Curiosidades</div>
+            <div class="tl-desc">Naturaleza, cuerpo humano, datos sorprendentes</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-title">17 jun — Viaje por el Mundo</div>
+            <div class="tl-desc">Geografía e historia universal</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-title">18 jun — Palabras y Arte</div>
+            <div class="tl-desc">Lengua, literatura y expresiones artísticas</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-title">19 jun — Piensa Rápido</div>
+            <div class="tl-desc">Lógica, matemáticas y acertijos</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-title">20 jun — Variado Selecto</div>
+            <div class="tl-desc">Selección especial de preguntas variadas</div>
+          </div>
+        </div>
+        <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:8px">
+          Después del 20 de junio la rotación se repite, pero siempre puedes jugar cualquier test anterior.
+        </p>
+      </div>
+
+      <div class="about-section">
+        <h3>🎨 Personalidad visual</h3>
+        <p>
+          Cada test tiene su propio <strong>color característico</strong> que lo distingue:
+          naranja, azul, verde, púrpura, ámbar y coral.
+          Los tests especiales conservan su diseño original.
+          Puedes cambiar entre <strong>tema claro y oscuro</strong> con el botón en la esquina superior derecha.
+        </p>
+      </div>
+
+      <div class="about-section">
+        <h3>💛 Apoyar el proyecto</h3>
+        <p style="margin-bottom:8px">
+          Si disfrutas haciendo los tests diarios, puedes invitarme a un café.
+          Cada donación ayuda a mantener el proyecto y crear más contenido.
+        </p>
+        <div class="support-box">
+          <p>🤝 <strong>Gracias por tu apoyo</strong></p>
+          <a class="btn btn-primary" href="https://paypal.me/20leunam" target="_blank" style="text-decoration:none;font-size:0.85rem">💛 Donar con PayPal</a>
+        </div>
+      </div>
+
+      <div style="text-align:center;padding-top:16px;border-top:1px solid var(--border);margin-top:4px">
+        <p style="font-size:0.78rem;color:var(--text-secondary)">
+          Desarrollado por <strong>20leunam</strong> · 2026
+        </p>
+        <div style="margin-top:10px">
+          <button class="btn btn-secondary btn-sm" onclick="goToPage('')">🏠 Volver al inicio</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="footerPlaceholder"></div>
+<script src="compartido/motor.js"></script>
+</body>
+</html>
