@@ -7,26 +7,39 @@
 <title>99Test — Test del Día</title>
 <link rel="stylesheet" href="compartido/estilos.css">
 <style>
+  .home-body { min-height: 100vh; min-height: 100dvh; }
+  .home-main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+  }
+
   .hub-grid {
     display: grid;
-    grid-template-columns: 1fr 1.6fr 1fr;
-    gap: 16px;
-    align-items: start;
+    grid-template-columns: 1fr 1.8fr 1fr;
+    gap: 20px;
+    align-items: stretch;
+    width: 100%;
+    max-width: 1020px;
   }
   @media (max-width: 860px) {
-    .hub-grid { grid-template-columns: 1fr; }
+    .hub-grid { grid-template-columns: 1fr; max-width: 480px; }
   }
 
   .hub-panel {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
-    padding: 28px 24px 24px;
+    padding: 32px 26px 26px;
     box-shadow: var(--shadow-lg);
     position: relative;
     overflow: hidden;
     cursor: pointer;
     transition: all var(--transition);
+    display: flex;
+    flex-direction: column;
   }
   .hub-panel:hover { transform: translateY(-3px); }
   .hub-panel::before {
@@ -35,9 +48,10 @@
   }
 
   .hub-panel.featured {
-    grid-row: span 1;
-    padding: 32px 28px 28px;
+    padding: 36px 30px 30px;
   }
+  .hub-panel .hp-spacer { flex: 1; }
+  .hub-panel .hp-bottom { margin-top: auto; }
 
   .hp-icon { font-size: 2.2rem; margin-bottom: 8px; display: block; }
   .hp-title {
@@ -92,10 +106,10 @@
   }
 </style>
 </head>
-<body>
+<body class="home-body">
 <div id="headerPlaceholder"></div>
 
-<div class="main-wrap">
+<div class="home-main">
   <div class="screen active" style="width:100%;max-width:960px">
     <div class="hub-grid" id="hubGrid">
       <!-- Left: Sobre 99Test -->
@@ -109,7 +123,8 @@
           <p>🔥 Lleva tu racha de días seguidos</p>
           <p>⭐ Tests especiales de vocabulario y robótica</p>
         </div>
-        <div class="hp-cta-sm">ℹ️ Más información →</div>
+        <div class="hp-spacer"></div>
+        <div class="hp-bottom hp-cta-sm" style="align-self:flex-start">ℹ️ Más información →</div>
       </div>
 
       <!-- Center: Test del Día (featured, larger) -->
@@ -131,7 +146,8 @@
           <div><span class="tc-day" id="tdDay">Lunes</span></div>
         </div>
 
-        <div style="text-align:center">
+        <div class="hp-spacer"></div>
+        <div class="hp-bottom" style="text-align:center">
           <button class="hp-cta" id="tdBtn">▶ Comenzar test</button>
         </div>
       </div>
@@ -147,7 +163,8 @@
           <p>🤖 OPRobots — Hardware y Software</p>
           <p style="margin-top:6px;font-size:0.75rem">Cada uno con su propio diseño y estilo</p>
         </div>
-        <div class="hp-cta-sm">⭐ Explorar →</div>
+        <div class="hp-spacer"></div>
+        <div class="hp-bottom hp-cta-sm" style="align-self:flex-start">⭐ Explorar →</div>
       </div>
     </div>
   </div>
