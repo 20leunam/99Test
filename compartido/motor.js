@@ -453,11 +453,10 @@ function showQuizResults() {
 
 /* ─── REPETIR TEST ── */
 function repeatTest() {
-  if (quizState && quizState.testId === getTodaysTestId()) {
-    const r = getResults();
-    delete r[dateStr(new Date())];
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(r));
-  }
+  // Borra el resultado de hoy para poder repetir
+  const r = getResults();
+  delete r[dateStr(new Date())];
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(r));
   location.reload();
 }
 
