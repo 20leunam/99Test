@@ -551,71 +551,7 @@
 </style>
 </head>
 <body>
-<!-- 99Test Navigation -->
-<style>
-.nt99{position:sticky;top:0;z-index:9999;height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;background:rgba(255,255,255,0.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(0,0,0,0.07);font-family:system-ui,-apple-system,sans-serif}
-.nt99-l{font-family:Georgia,serif;font-size:1rem;font-weight:900;background:linear-gradient(135deg,#b8943e,#d4b06a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;cursor:pointer;text-decoration:none;user-select:none;letter-spacing:-0.01em}
-.nt99-rt{display:flex;gap:4px;align-items:center}
-.nt99-b{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;border:none;background:rgba(0,0,0,0.05);cursor:pointer;font-size:.95rem;transition:all .15s;color:#444;padding:0;line-height:1;font-family:system-ui,sans-serif}
-.nt99-b:hover{background:rgba(0,0,0,0.1)}
-.nt99-o{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.3);z-index:9998;display:none}
-.nt99-o.s{display:block}
-.nt99-m{position:fixed;top:0;right:-270px;width:260px;height:100%;background:#fff;border-left:1px solid #e0e0e0;z-index:9999;transition:right .25s ease;padding:58px 0 12px;overflow-y:auto;display:flex;flex-direction:column;font-family:system-ui,-apple-system,sans-serif}
-.nt99-m.s{right:0}
-.nt99-lb{font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:#aaa;font-weight:600;padding:4px 16px 2px;margin-top:4px}
-.nt99-m a{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:.83rem;font-weight:500;color:#333;text-decoration:none;transition:all .1s}
-.nt99-m a:hover{background:#f5f5f2}
-.nt99-f{flex:1}
-.nt99-cr{padding:12px 16px;border-top:1px solid #eee;font-size:.7rem;color:#aaa;text-align:center;line-height:1.5}
-.nt99-cr a{display:inline;padding:0;font-size:.7rem;color:#003087;font-weight:600;text-decoration:none}
-.nt99-cr a{display:inline;padding:0;font-size:.7rem;color:#003087;font-weight:600;text-decoration:none}
-</style>
-<style>
-.nt99-wrap{width:100%;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.nt99{position:sticky;top:0;z-index:9999;height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;background:rgba(255,255,255,0.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(0,0,0,0.07);font-family:system-ui,-apple-system,sans-serif;flex-shrink:0}
-.nt99-l{font-family:Georgia,serif;font-size:1rem;font-weight:900;background:linear-gradient(135deg,#b8943e,#d4b06a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;cursor:pointer;text-decoration:none;user-select:none;letter-spacing:-0.01em}
-.nt99-rt{display:flex;gap:4px;align-items:center}
-.nt99-b{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;border:none;background:rgba(0,0,0,0.05);cursor:pointer;font-size:.95rem;transition:all .15s;color:#444;padding:0;line-height:1;font-family:system-ui,sans-serif}
-.nt99-b:hover{background:rgba(0,0,0,0.1)}
-.nt99-o{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.3);z-index:9998;display:none}
-.nt99-o.s{display:block}
-
-.nt99-m.s{right:0}
-.nt99-lb{font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:#aaa;font-weight:600;padding:4px 16px 2px;margin-top:4px}
-.nt99-m a{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:.83rem;font-weight:500;color:#333;text-decoration:none;transition:all .1s}
-.nt99-m a:hover{background:#f5f5f2}
-.nt99-f{flex:1}
-.nt99-cr{padding:12px 16px;border-top:1px solid #eee;font-size:.7rem;color:#aaa;text-align:center;line-height:1.5}
-.nt99-cr a{display:inline;padding:0;font-size:.7rem;color:#003087;font-weight:600;text-decoration:none}
-</style>
-</head>
-<body>
-<header class="nt99">
-  <a class="nt99-l" href="../../index.html">99Test</a>
-  <div class="nt99-rt">
-    <button class="nt99-b" id="nt99Tb">&#127769;</button>
-    <button class="nt99-b" onclick="ntTg()">&#9776;</button>
-  </div>
-</header>
-<div class="nt99-o" id="ntOv" onclick="ntCl()"></div>
-<nav class="nt99-m" id="ntMn">
-  <div class="nt99-lb">Navegaci&oacute;n</div>
-  <a href="../../index.html">&#127968; Inicio</a>
-  <a href="../../archivo.html">&#128218; Tests anteriores</a>
-  <a href="../../categorias.html">&#127991; Categor&iacute;as</a>
-  <a href="./">&#11088; Especiales</a>
-  <a href="../../sobre.html">&#8505; Sobre 99Test</a>
-  <div class="nt99-f"></div>
-  <div class="nt99-cr">
-    <a href="https://paypal.me/20leunam" target="_blank">&#128155; Donar con PayPal</a><br>
-    Desarrollado por <strong>20leunam</strong> &copy; 2026
-  </div>
-</nav>
-<script>
-function ntTg(){document.getElementById('ntOv').classList.toggle('s');document.getElementById('ntMn').classList.toggle('s')}
-function ntCl(){document.getElementById('ntOv').classList.remove('s');document.getElementById('ntMn').classList.remove('s')}
-</script>
-<div class="nt99-wrap"><!-- ═══════════ START SCREEN ═══════════ -->
+<!-- ═══════════ START SCREEN ═══════════ -->
 <div class="screen active" id="startScreen">
   <div class="start-card">
     <span class="start-icon">📖</span>
@@ -1263,6 +1199,7 @@ function switchScreen(id) {
 
 </body>
 </html>
+
 
 
 
