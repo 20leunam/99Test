@@ -19,10 +19,10 @@
   .hub-grid {
     display: grid;
     grid-template-columns: 1fr 1.8fr 1fr;
-    gap: 20px;
+    gap: 24px;
     align-items: stretch;
     width: 100%;
-    max-width: 1020px;
+    max-width: 1100px;
   }
   @media (max-width: 860px) {
     .hub-grid { grid-template-columns: 1fr; max-width: 480px; }
@@ -32,7 +32,7 @@
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
-    padding: 32px 26px 26px;
+    padding: 44px 32px 32px;
     box-shadow: var(--shadow-lg);
     position: relative;
     overflow: hidden;
@@ -43,66 +43,69 @@
   }
   .hub-panel:hover { transform: translateY(-3px); }
   .hub-panel::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
     background: var(--gold-gradient);
   }
 
   .hub-panel.featured {
-    padding: 36px 30px 30px;
+    padding: 52px 36px 36px;
   }
   .hub-panel .hp-spacer { flex: 1; }
   .hub-panel .hp-bottom { margin-top: auto; }
 
-  .hp-icon { font-size: 2.2rem; margin-bottom: 8px; display: block; }
+  .hp-icon { font-size: 2.8rem; margin-bottom: 10px; display: block; }
   .hp-title {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 1.2rem; font-weight: 700; margin-bottom: 4px;
+    font-size: 1.5rem; font-weight: 700; margin-bottom: 6px;
   }
-  .hp-subtitle { font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 12px; }
+  .hp-subtitle { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.5; }
+
+  .hub-panel p, .hub-panel li { font-size: 0.9rem; line-height: 1.7; }
 
   .hp-test-card {
     background: var(--surface-raised); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 18px; margin: 12px 0;
+    border-radius: var(--radius); padding: 24px; margin: 16px 0;
     text-align: center;
   }
-  .hp-test-card .tc-emoji { font-size: 2.8rem; display: block; margin-bottom: 6px; }
+  .hp-test-card .tc-emoji { font-size: 3.4rem; display: block; margin-bottom: 8px; }
   .hp-test-card .tc-name {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 1.4rem; font-weight: 700;
+    font-size: 1.7rem; font-weight: 700;
     background: var(--gold-gradient); -webkit-background-clip: text;
     -webkit-text-fill-color: transparent; background-clip: text;
   }
-  .hp-test-card .tc-meta { font-size: 0.78rem; color: var(--text-secondary); margin-top: 4px; }
+  .hp-test-card .tc-meta { font-size: 0.88rem; color: var(--text-secondary); margin-top: 6px; }
   .hp-test-card .tc-day {
-    display: inline-block; font-size: 0.68rem; text-transform: uppercase;
+    display: inline-block; font-size: 0.78rem; text-transform: uppercase;
     letter-spacing: 0.06em; font-weight: 600;
-    padding: 3px 10px; border-radius: 100px;
+    padding: 4px 14px; border-radius: 100px;
     background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent-border);
-    margin-top: 8px;
+    margin-top: 10px;
   }
 
   .hp-cta {
-    display: inline-block; margin-top: 12px; padding: 12px 28px;
-    border-radius: 100px; font-weight: 600; font-size: 0.85rem;
+    display: inline-block; margin-top: 16px; padding: 14px 36px;
+    border-radius: 100px; font-weight: 600; font-size: 1rem;
     background: var(--gold-gradient); color: #fff; border: none;
     cursor: pointer; transition: all var(--transition);
-    box-shadow: 0 6px 20px var(--accent-shadow);
+    box-shadow: 0 6px 24px var(--accent-shadow);
   }
-  .hp-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 28px var(--accent-shadow); }
+  .hp-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 30px var(--accent-shadow); }
   .hp-cta-sm {
-    display: inline-flex; align-items: center; gap: 6px;
-    margin-top: 10px; padding: 9px 20px;
-    border-radius: 100px; font-weight: 600; font-size: 0.8rem;
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-top: 12px; padding: 11px 24px;
+    border-radius: 100px; font-weight: 600; font-size: 0.88rem;
     background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent-border);
     cursor: pointer; transition: all var(--transition);
   }
   .hp-cta-sm:hover { background: var(--accent-border); }
+  .home-body .footer { padding: 12px 20px; }
 
   .hp-done {
     display: inline-flex; align-items: center; gap: 6px;
-    padding: 6px 14px; border-radius: 100px; font-size: 0.78rem; font-weight: 600;
+    padding: 8px 18px; border-radius: 100px; font-size: 0.85rem; font-weight: 600;
     background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border);
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
 </style>
 </head>
