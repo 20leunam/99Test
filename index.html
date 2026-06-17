@@ -7,44 +7,147 @@
 <title>99Test — Test del Día</title>
 <link rel="stylesheet" href="compartido/estilos.css">
 <style>
-  .hub-bg {
-    background-image:
-      radial-gradient(ellipse at 30% 20%, rgba(184,148,62,0.05) 0%, transparent 60%),
-      radial-gradient(ellipse at 70% 80%, rgba(184,148,62,0.03) 0%, transparent 60%);
+  .hub-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr 1fr;
+    gap: 16px;
+    align-items: start;
   }
-  body.dark .hub-bg {
-    background-image:
-      radial-gradient(ellipse at 30% 20%, rgba(201,169,110,0.06) 0%, transparent 60%),
-      radial-gradient(ellipse at 70% 80%, rgba(201,169,110,0.04) 0%, transparent 60%);
+  @media (max-width: 860px) {
+    .hub-grid { grid-template-columns: 1fr; }
+  }
+
+  .hub-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px 24px 24px;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all var(--transition);
+  }
+  .hub-panel:hover { transform: translateY(-3px); }
+  .hub-panel::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--gold-gradient);
+  }
+
+  .hub-panel.featured {
+    grid-row: span 1;
+    padding: 32px 28px 28px;
+  }
+
+  .hp-icon { font-size: 2.2rem; margin-bottom: 8px; display: block; }
+  .hp-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.2rem; font-weight: 700; margin-bottom: 4px;
+  }
+  .hp-subtitle { font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 12px; }
+
+  .hp-test-card {
+    background: var(--surface-raised); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 18px; margin: 12px 0;
+    text-align: center;
+  }
+  .hp-test-card .tc-emoji { font-size: 2.8rem; display: block; margin-bottom: 6px; }
+  .hp-test-card .tc-name {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.4rem; font-weight: 700;
+    background: var(--gold-gradient); -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .hp-test-card .tc-meta { font-size: 0.78rem; color: var(--text-secondary); margin-top: 4px; }
+  .hp-test-card .tc-day {
+    display: inline-block; font-size: 0.68rem; text-transform: uppercase;
+    letter-spacing: 0.06em; font-weight: 600;
+    padding: 3px 10px; border-radius: 100px;
+    background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent-border);
+    margin-top: 8px;
+  }
+
+  .hp-cta {
+    display: inline-block; margin-top: 12px; padding: 12px 28px;
+    border-radius: 100px; font-weight: 600; font-size: 0.85rem;
+    background: var(--gold-gradient); color: #fff; border: none;
+    cursor: pointer; transition: all var(--transition);
+    box-shadow: 0 6px 20px var(--accent-shadow);
+  }
+  .hp-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 28px var(--accent-shadow); }
+  .hp-cta-sm {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 10px; padding: 9px 20px;
+    border-radius: 100px; font-weight: 600; font-size: 0.8rem;
+    background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent-border);
+    cursor: pointer; transition: all var(--transition);
+  }
+  .hp-cta-sm:hover { background: var(--accent-border); }
+
+  .hp-done {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px; border-radius: 100px; font-size: 0.78rem; font-weight: 600;
+    background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border);
+    margin-bottom: 8px;
   }
 </style>
 </head>
-<body class="hub-bg">
+<body>
 <div id="headerPlaceholder"></div>
 
 <div class="main-wrap">
-  <div class="screen active" style="width:100%">
-    <div class="card">
-      <div class="home-hero">
-        <div class="home-title">Test del Día</div>
-        <div class="home-subtitle" id="todayDate">—</div>
+  <div class="screen active" style="width:100%;max-width:960px">
+    <div class="hub-grid" id="hubGrid">
+      <!-- Left: Sobre 99Test -->
+      <div class="hub-panel" onclick="goToPage('sobre.html')">
+        <span class="hp-icon">🧪</span>
+        <div class="hp-title">Sobre 99Test</div>
+        <div class="hp-subtitle">Un test nuevo cada día. Diez preguntas. Todos los temas.</div>
+        <div style="font-size:0.8rem;color:var(--text-secondary);line-height:1.6">
+          <p>📅 6 categorías temáticas que rotan cada semana</p>
+          <p>📚 30 preguntas por test · 10 por partida</p>
+          <p>🔥 Lleva tu racha de días seguidos</p>
+          <p>⭐ Tests especiales de vocabulario y robótica</p>
+        </div>
+        <div class="hp-cta-sm">ℹ️ Más información →</div>
       </div>
 
-      <div id="doneBanner" style="display:none"></div>
+      <!-- Center: Test del Día (featured, larger) -->
+      <div class="hub-panel featured" id="todayPanel">
+        <div style="text-align:center">
+          <div class="hp-icon" id="tdEmoji">📅</div>
+          <div class="hp-title" id="tdDayLabel">Test del Día</div>
+          <div class="hp-subtitle" id="tdDate">—</div>
+        </div>
 
-      <div class="test-card" id="todayCard">
-        <div class="test-title" id="todayTitle">—</div>
-        <div class="test-meta" id="todayMeta">30 preguntas · 10 por partida</div>
-        <div class="test-badges">
-          <span class="badge" id="todayBadge">Test #1</span>
-          <span class="badge" id="todayDay"></span>
-          <span class="badge" id="todayEmojis">🌍</span>
+        <div id="tdDone" style="display:none;text-align:center">
+          <div class="hp-done" id="tdDoneBadge">✅ Completado hoy</div>
+        </div>
+
+        <div class="hp-test-card" id="tdCard" style="cursor:pointer">
+          <span class="tc-emoji" id="tdBigEmoji">🔬</span>
+          <div class="tc-name" id="tdName">—</div>
+          <div class="tc-meta" id="tdMeta">30 preg · 10 por partida</div>
+          <div><span class="tc-day" id="tdDay">Lunes</span></div>
+        </div>
+
+        <div style="text-align:center">
+          <button class="hp-cta" id="tdBtn">▶ Comenzar test</button>
         </div>
       </div>
 
-      <div class="btn-row">
-        <button class="btn btn-primary" id="startBtn">▶ Comenzar test</button>
-        <button class="btn btn-secondary" onclick="goToPage('archivo.html')">📚 Tests</button>
+      <!-- Right: Tests Especiales -->
+      <div class="hub-panel" onclick="goToPage('tests/especiales/')">
+        <span class="hp-icon">⭐</span>
+        <div class="hp-title">Tests Especiales</div>
+        <div class="hp-subtitle">Tests temáticos con personalidad propia</div>
+        <div style="font-size:0.8rem;color:var(--text-secondary);line-height:1.6">
+          <p>📖 Paraules rares del català</p>
+          <p>📖 Palabras raras del español</p>
+          <p>🤖 OPRobots — Hardware y Software</p>
+          <p style="margin-top:6px;font-size:0.75rem">Cada uno con su propio diseño y estilo</p>
+        </div>
+        <div class="hp-cta-sm">⭐ Explorar →</div>
       </div>
     </div>
   </div>
@@ -53,36 +156,37 @@
 <div id="footerPlaceholder"></div>
 <script src="compartido/motor.js"></script>
 <script>
-/* ─── HUB ── */
 document.addEventListener('DOMContentLoaded', () => {
   const todayId = getTodaysTestId();
   const test = TEST_MANIFEST[todayId];
   if (!test) return;
 
-  document.getElementById('todayDate').textContent = '📅 ' + formatDateEs(new Date());
-  document.getElementById('todayTitle').textContent = test.title;
-  document.getElementById('todayMeta').textContent = '30 preguntas · 10 por partida · ' + test.emojis;
-  document.getElementById('todayBadge').textContent = 'Test #' + (todayId + 1);
-  document.getElementById('todayDay').textContent = test.day;
-  document.getElementById('todayEmojis').textContent = test.emojis;
+  const emojiMap = {
+    "ciencias-puras":"🔬", "arte-y-creatividad":"🎨", "ciencias-sociales":"🌍",
+    "tecnologia-e-innovacion":"💻", "entretenimiento-y-ocio":"⚽", "mezcla-explosiva":"🔥"
+  };
+
+  document.getElementById('tdEmoji').textContent = '📅';
+  document.getElementById('tdDayLabel').textContent = 'Test del Día';
+  document.getElementById('tdDate').textContent = '📅 ' + formatDateEs(new Date());
+  document.getElementById('tdBigEmoji').textContent = emojiMap[test.folder] || '📝';
+  document.getElementById('tdName').textContent = test.title;
+  document.getElementById('tdMeta').textContent = '30 preg · 10 por partida · ' + test.emojis;
+  document.getElementById('tdDay').textContent = test.day;
 
   // Today's results
   const results = getResults();
   const todayKey = dateStr(new Date());
   const done = results[todayKey];
-  const banner = document.getElementById('doneBanner');
   if (done) {
-    banner.style.display = 'block';
-    banner.innerHTML = '<div class="done-badge">✅ Completado · ' + done.correct + '/10 (' + done.pct + '%)</div>';
+    document.getElementById('tdDone').style.display = 'block';
+    document.getElementById('tdDoneBadge').textContent = '✅ Completado · ' + done.correct + '/10 (' + done.pct + '%)';
   }
 
-  // Start button
-  document.getElementById('startBtn').onclick = () => {
-    goToPage('tests/' + test.folder + '/');
-  };
-  document.getElementById('todayCard').onclick = () => {
-    goToPage('tests/' + test.folder + '/');
-  };
+  // Click handlers
+  const navTo = () => goToPage('tests/' + test.folder + '/');
+  document.getElementById('tdCard').onclick = navTo;
+  document.getElementById('tdBtn').onclick = navTo;
 });
 </script>
 </body>
