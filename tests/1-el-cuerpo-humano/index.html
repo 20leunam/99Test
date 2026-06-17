@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="base-path" content="../..">
+<meta name="test-id" content="1">
+<meta name="test-title" content="El Cuerpo Humano">
+<title>Test: El Cuerpo Humano — 99Test</title>
+<link rel="stylesheet" href="../../compartido/estilos.css">
+<style>
+:root{--accent:#d46a8a;--accent-glow:rgba(212,106,138,0.2);--accent-bg:rgba(212,106,138,0.08);--accent-border:rgba(212,106,138,0.15);--accent-shadow:rgba(212,106,138,0.25);--gold-gradient:linear-gradient(135deg,#d46a8a,#e8a0b8,#d46a8a)}
+body.dark{--accent:#d46a8a;--accent-glow:rgba(212,106,138,0.25);--accent-bg:rgba(212,106,138,0.1);--accent-border:rgba(212,106,138,0.2);--accent-shadow:rgba(212,106,138,0.3);--gold-gradient:linear-gradient(135deg,#d46a8a,#e8a0b8,#d46a8a)}
+</style>
+</head>
+<body>
+<div id="headerPlaceholder"></div>
+<div id="isTestPage" style="display:none"></div>
+<div class="main-wrap"><div class="screen active" style="width:100%"><div id="app"></div></div></div>
+<div id="footerPlaceholder"></div>
+<script>
+const QUESTIONS = [
+  {q:"¿Cuántos huesos tiene un adulto?",opts:["106","206","306","156"],correct:1,cat:"🫀 Anatomía",exp:"Un adulto tiene 206 huesos. Los bebés nacen con ~270 que se fusionan."},
+  {q:"¿Qué órgano bombea la sangre?",opts:["Pulmón","Hígado","Corazón","Riñón"],correct:2,cat:"🫀 Anatomía",exp:"El corazón late ~100.000 veces al día, bombeando ~7.500 litros de sangre."},
+  {q:"¿Cuántos dientes tiene un adulto completo?",opts:["28","30","32","34"],correct:2,cat:"🫀 Anatomía",exp:"Un adulto tiene 32 dientes: 8 incisivos, 4 caninos, 8 premolares y 12 molares."},
+  {q:"¿Cuál es el órgano más grande del cuerpo?",opts:["Hígado","Cerebro","Piel","Pulmones"],correct:2,cat:"🫀 Anatomía",exp:"La piel es el órgano más grande: ~2 m² en un adulto medio."},
+  {q:"¿Cuántos cromosomas tiene una célula humana?",opts:["23","44","46","48"],correct:2,cat:"🔬 Biología",exp:"Los humanos tenemos 46 cromosomas (23 pares)."},
+  {q:"¿Qué porcentaje del cuerpo es agua?",opts:["40%","50%","60%","70%"],correct:2,cat:"🔬 Biología",exp:"Aprox. 60% del cuerpo humano es agua. Varía por edad y sexo."},
+  {q:"¿Cuántas neuronas tiene el cerebro humano?",opts:["10 millones","1.000 millones","86.000 millones","500.000 millones"],correct:2,cat:"🧠 Neurociencia",exp:"El cerebro humano tiene ~86.000 millones de neuronas."},
+  {q:"¿Cuál es el hueso más largo del cuerpo?",opts:["Tibia","Fémur","Húmero","Columna"],correct:1,cat:"🦴 Esqueleto",exp:"El fémur es el hueso más largo, mide ~1/4 de la altura total."},
+  {q:"¿Cuál es el músculo más fuerte del cuerpo?",opts:["Cuádriceps","Glúteo","Masetero","Corazón"],correct:2,cat:"💪 Músculos",exp:"El masetero (mandíbula) es el músculo más fuerte en relación con su tamaño."},
+  {q:"¿Cuántos litros de sangre tiene un adulto?",opts:["3-4","5-6","7-8","9-10"],correct:1,cat:"🫀 Anatomía",exp:"Un adulto tiene entre 5 y 6 litros de sangre."},
+  {q:"¿Qué parte del cerebro controla el equilibrio?",opts:["Cerebro","Cerebelo","Tronco","Hipotálamo"],correct:1,cat:"🧠 Neurociencia",exp:"El cerebelo coordina el equilibrio y la motricidad fina."},
+  {q:"¿Cuántos pares de costillas tenemos?",opts:["10","11","12","13"],correct:2,cat:"🦴 Esqueleto",exp:"Tenemos 12 pares de costillas (24 en total)."},
+  {q:"¿Cuál es el vaso sanguíneo más pequeño?",opts:["Vena","Arteria","Capilar","Vénula"],correct:2,cat:"🫀 Anatomía",exp:"Los capilares miden ~5-10 µm de diámetro."},
+  {q:"¿Qué órgano filtra la sangre?",opts:["Hígado","Riñón","Páncreas","Bazo"],correct:1,cat:"🔬 Biología",exp:"Los riñones filtran ~180 litros de sangre al día."},
+  {q:"¿Cuántas veces parpadeamos al día?",opts:["500","5.000","15.000","50.000"],correct:2,cat:"🧠 Curiosidades",exp:"Parpadeamos ~15.000 veces al día, unos 20 parpadeos por minuto."},
+  {q:"¿Qué hormona regula el sueño?",opts:["Serotonina","Melatonina","Adrenalina","Cortisol"],correct:1,cat:"🔬 Biología",exp:"La melatonina regula el ciclo circadiano del sueño."},
+  {q:"¿Cuál es el hueso más pequeño del cuerpo?",opts:["Falange","Estribo","Rótula","Sesamoideo"],correct:1,cat:"🦴 Esqueleto",exp:"El estribo, en el oído medio, mide ~3 mm."},
+  {q:"¿Cuántos grupos sanguíneos principales hay?",opts:["2","4","6","8"],correct:1,cat:"🔬 Biología",exp:"Hay 4 grupos principales: A, B, AB y 0, con factor Rh ±."},
+  {q:"¿Qué porcentaje de oxígeno transporta la hemoglobina?",opts:["50%","75%","98%","100%"],correct:2,cat:"🔬 Biología",exp:"La hemoglobina transporta el 98% del oxígeno en la sangre."},
+  {q:"¿Cuánto mide el intestino delgado?",opts:["2-3 m","4-5 m","6-7 m","8-10 m"],correct:2,cat:"🫀 Anatomía",exp:"El intestino delgado mide unos 6-7 metros de largo."},
+  {q:"¿Qué vitamina produce la piel con el sol?",opts:["Vitamina A","Vitamina C","Vitamina D","Vitamina E"],correct:2,cat:"🔬 Biología",exp:"La luz solar activa la producción de vitamina D en la piel."},
+  {q:"¿Cuántos litros de saliva produce una persona al año?",opts:["100","365","730","1.000"],correct:2,cat:"🧠 Curiosidades",exp:"Producimos ~2 litros de saliva al día, unos 730 litros al año."},
+  {q:"¿Qué parte del ojo enfoca la luz?",opts:["Córnea","Cristalino","Retina","Pupila"],correct:1,cat:"🫀 Anatomía",exp:"El cristalino enfoca la luz sobre la retina."},
+  {q:"¿Cuántos músculos tiene el cuerpo humano?",opts:["~320","~430","~650","~850"],correct:2,cat:"💪 Músculos",exp:"El cuerpo humano tiene aproximadamente 650 músculos."},
+  {q:"¿Cuál es la velocidad máxima del impulso nervioso?",opts:["10 m/s","50 m/s","120 m/s","300 m/s"],correct:2,cat:"🧠 Neurociencia",exp:"Los impulsos nerviosos viajan hasta 120 m/s."},
+  {q:"¿Cuántas papilas gustativas tenemos?",opts:["500","2.000","10.000","50.000"],correct:2,cat:"🧠 Curiosidades",exp:"Tenemos ~10.000 papilas gustativas, que se regeneran cada 10 días."},
+  {q:"¿Qué órgano produce la bilis?",opts:["Vesícula","Hígado","Páncreas","Duodeno"],correct:1,cat:"🔬 Biología",exp:"El hígado produce bilis; la vesícula la almacena."},
+  {q:"¿Cuántos latidos da el corazón en una vida media?",opts:["300M","1.000M","2.500M","5.000M"],correct:2,cat:"🫀 Anatomía",exp:"El corazón late ~2.500 millones de veces en 70 años."},
+  {q:"¿Qué parte del cuerpo no tiene irrigación sanguínea?",opts:["Piel","Córnea","Dientes","Uñas"],correct:1,cat:"🧠 Curiosidades",exp:"La córnea no tiene vasos sanguíneos; recibe oxígeno del aire."},
+  {q:"¿Cuántas células tiene el cuerpo humano?",opts:["1B","10B","37B","100B"],correct:2,cat:"🔬 Biología",exp:"El cuerpo humano tiene ~37 billones de células (37 × 10¹²)."},
+];
+</script>
+<script src="../../compartido/motor.js"></script>
+</body>
+</html>

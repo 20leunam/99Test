@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="base-path" content="../..">
+<meta name="test-id" content="2">
+<meta name="test-title" content="Arte y Arquitectura">
+<title>Test: Arte y Arquitectura — 99Test</title>
+<link rel="stylesheet" href="../../compartido/estilos.css">
+<style>
+:root{--accent:#9a7ac4;--accent-glow:rgba(154,122,196,0.2);--accent-bg:rgba(154,122,196,0.08);--accent-border:rgba(154,122,196,0.15);--accent-shadow:rgba(154,122,196,0.25);--gold-gradient:linear-gradient(135deg,#9a7ac4,#c4a8e0,#9a7ac4)}
+body.dark{--accent:#b094d4;--accent-glow:rgba(176,148,212,0.25);--accent-bg:rgba(176,148,212,0.1);--accent-border:rgba(176,148,212,0.2);--accent-shadow:rgba(176,148,212,0.3);--gold-gradient:linear-gradient(135deg,#b094d4,#d0bce8,#b094d4)}
+</style>
+</head>
+<body>
+<div id="headerPlaceholder"></div>
+<div id="isTestPage" style="display:none"></div>
+<div class="main-wrap"><div class="screen active" style="width:100%"><div id="app"></div></div></div>
+<div id="footerPlaceholder"></div>
+<script>
+const QUESTIONS = [
+  {q:"¿Quién pintó 'La noche estrellada'?",opts:["Picasso","Van Gogh","Dalí","Monet"],correct:1,cat:"🎨 Pintura",exp:"Van Gogh la pintó en 1889 desde el asilo de Saint-Rémy."},
+  {q:"¿Quién pintó la Capilla Sixtina?",opts:["Leonardo","Rafael","Miguel Ángel","Donatello"],correct:2,cat:"🎨 Pintura",exp:"Miguel Ángel pintó el techo de la Capilla Sixtina (1508-1512)."},
+  {q:"¿Cuál es la novela más vendida de la historia?",opts:["El Quijote","Historia de dos ciudades","Cien años de soledad","El Principito"],correct:0,cat:"📖 Literatura",exp:"El Quijote ha vendido más de 500 millones de copias."},
+  {q:"¿Quién escribió 'Cien años de soledad'?",opts:["Vargas Llosa","Cortázar","García Márquez","Borges"],correct:2,cat:"📖 Literatura",exp:"García Márquez la publicó en 1967."},
+  {q:"¿Qué instrumento tiene 88 teclas?",opts:["Órgano","Piano","Clavicémbalo","Acordeón"],correct:1,cat:"🎵 Música",exp:"Un piano estándar tiene 88 teclas."},
+  {q:"¿En qué país nació el flamenco?",opts:["Portugal","Francia","España","Italia"],correct:2,cat:"🎵 Música",exp:"El flamenco nació en Andalucía, España, en el siglo XVIII."},
+  {q:"¿Quién esculpió 'El David' de mármol?",opts:["Donatello","Miguel Ángel","Bernini","Cellini"],correct:1,cat:"🗿 Escultura",exp:"Miguel Ángel esculpió el David (5,17 m) entre 1501 y 1504."},
+  {q:"¿Qué arquitecto diseñó la Sagrada Familia?",opts:["Domènech","Gaudí","Cerdà","Montaner"],correct:1,cat:"🏛️ Arquitectura",exp:"Gaudí trabajó en la Sagrada Familia desde 1883 hasta su muerte."},
+  {q:"¿Quién pintó 'La persistencia de la memoria' (los relojes blandos)?",opts:["Miró","Dalí","Magritte","Ernst"],correct:1,cat:"🎨 Pintura",exp:"Dalí pintó los relojes derretidos en 1931."},
+  {q:"¿Cuál es la pirámide más grande de Egipto?",opts:["Keops","Kefrén","Micerinos","Zóser"],correct:0,cat:"🏛️ Arquitectura",exp:"La Gran Pirámide de Keops mide 146 m de altura."},
+  {q:"¿Qué movimiento artístico representa 'El Grito' de Munch?",opts:["Impresionismo","Expresionismo","Surrealismo","Cubismo"],correct:1,cat:"🎨 Pintura",exp:"'El Grito' (1893) es una obra cumbre del expresionismo."},
+  {q:"¿Quién pintó la Mona Lisa?",opts:["Rafael","Leonardo da Vinci","Miguel Ángel","Tiziano"],correct:1,cat:"🎨 Pintura",exp:"Da Vinci pintó la Mona Lisa entre 1503 y 1519."},
+  {q:"¿Quién escribió la Odisea?",opts:["Sófocles","Homero","Platón","Aristóteles"],correct:1,cat:"📖 Literatura",exp:"Homero escribió la Odisea y la Ilíada."},
+  {q:"¿Qué arquitecto diseñó el Museo Guggenheim de Bilbao?",opts:["Gehry","Hadid","Foster","Calatrava"],correct:0,cat:"🏛️ Arquitectura",exp:"Frank Gehry diseñó el Guggenheim de Bilbao (1997)."},
+  {q:"¿Quién pintó 'Las meninas'?",opts:["El Greco","Velázquez","Goya","Murillo"],correct:1,cat:"🎨 Pintura",exp:"Velázquez pintó Las meninas en 1656."},
+  {q:"¿Qué estilo arquitectónico caracteriza a la catedral de Notre Dame?",opts:["Románico","Gótico","Barroco","Renacentista"],correct:1,cat:"🏛️ Arquitectura",exp:"Notre Dame de París es un ejemplo cumbre del gótico francés."},
+  {q:"¿Quién compuso la Quinta Sinfonía?",opts:["Mozart","Beethoven","Bach","Chopin"],correct:1,cat:"🎵 Música",exp:"Beethoven compuso la Quinta Sinfonía, que comienza con 'ta-ta-ta-tá'."},
+  {q:"¿Cuál es el museo más visitado del mundo?",opts:["Louvre","Met","British Museum","Prado"],correct:0,cat:"🎨 Arte",exp:"El Louvre en París recibe ~10 millones de visitantes al año."},
+  {q:"¿Quién pintó 'La creación de Adán' en la Capilla Sixtina?",opts:["Rafael","Leonardo","Miguel Ángel","Botticelli"],correct:2,cat:"🎨 Pintura",exp:"Miguel Ángel pintó 'La creación de Adán' en el techo de la Capilla Sixtina."},
+  {q:"¿Qué arquitecto diseñó la Torre Eiffel?",opts:["Eiffel","Gustave Eiffel","Haussmann","Baltard"],correct:1,cat:"🏛️ Arquitectura",exp:"Gustave Eiffel diseñó la torre para la Exposición de 1889."},
+  {q:"¿Qué corriente artística incluye a Warhol y Lichtenstein?",opts:["Pop art","Modernismo","Dadaísmo","Fauvismo"],correct:0,cat:"🎨 Arte",exp:"El pop art surgió en los 50-60, usando imágenes de la cultura popular."},
+  {q:"¿Quién escribió 'Don Quijote de la Mancha'?",opts:["Lope de Vega","Calderón","Cervantes","Quevedo"],correct:2,cat:"📖 Literatura",exp:"Cervantes publicó la primera parte en 1605."},
+  {q:"¿Cuál es el edificio más alto del mundo?",opts:["Burj Khalifa","Shanghai Tower","Merdeka","Abraj Al-Bait"],correct:0,cat:"🏛️ Arquitectura",exp:"El Burj Khalifa mide 828 metros (Dubái)."},
+  {q:"¿Quién pintó el 'Guernica'?",opts:["Dalí","Miró","Picasso","Gris"],correct:2,cat:"🎨 Pintura",exp:"Picasso pintó el Guernica en 1937."},
+  {q:"¿Qué instrumento de cuerda se toca con arco?",opts:["Guitarra","Violín","Arpa","Laúd"],correct:1,cat:"🎵 Música",exp:"El violín se toca frotando las cuerdas con un arco."},
+  {q:"¿Quién diseñó la ciudad de Brasilia?",opts:["Niemeyer","Costa","Bo Bardi","Reidy"],correct:1,cat:"🏛️ Arquitectura",exp:"Lúcio Costa diseñó el plan urbanístico; Niemeyer los edificios."},
+  {q:"¿Qué artista es conocido por sus autorretratos con la oreja vendada?",opts:["Gauguin","Van Gogh","Rembrandt","Munch"],correct:1,cat:"🎨 Pintura",exp:"Van Gogh se autorretrató tras cortarse la oreja en 1888."},
+  {q:"¿En qué período se construyó el Coliseo romano?",opts:["República","Imperio Flavio","Imperio Trajano","Roma bizantina"],correct:1,cat:"🏛️ Arquitectura",exp:"El Coliseo se construyó en el s. I d.C. bajo la dinastía Flavia."},
+  {q:"¿Quién compuso 'Las cuatro estaciones'?",opts:["Bach","Vivaldi","Handel","Haydn"],correct:1,cat:"🎵 Música",exp:"Vivaldi compuso 'Las cuatro estaciones' en 1723."},
+  {q:"¿Cuál es la obra más famosa de Shakespeare?",opts:["Hamlet","Otelo","Macbeth","Romeo y Julieta"],correct:0,cat:"📖 Literatura",exp:"Hamlet es considerada su obra maestra, escrita hacia 1600."},
+];
+</script>
+<script src="../../compartido/motor.js"></script>
+</body>
+</html>

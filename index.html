@@ -34,9 +34,10 @@
 
       <div class="test-card" id="todayCard">
         <div class="test-title" id="todayTitle">—</div>
-        <div class="test-meta" id="todayMeta">10 preguntas</div>
+        <div class="test-meta" id="todayMeta">30 preguntas · 10 por partida</div>
         <div class="test-badges">
           <span class="badge" id="todayBadge">Test #1</span>
+          <span class="badge" id="todayDay"></span>
           <span class="badge" id="todayEmojis">🌍</span>
         </div>
       </div>
@@ -60,8 +61,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('todayDate').textContent = '📅 ' + formatDateEs(new Date());
   document.getElementById('todayTitle').textContent = test.title;
-  document.getElementById('todayMeta').textContent = '10 preguntas · ' + test.emojis;
+  document.getElementById('todayMeta').textContent = '30 preguntas · 10 por partida · ' + test.emojis;
   document.getElementById('todayBadge').textContent = 'Test #' + (todayId + 1);
+  document.getElementById('todayDay').textContent = test.day;
   document.getElementById('todayEmojis').textContent = test.emojis;
 
   // Today's results

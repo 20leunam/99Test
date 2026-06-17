@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="base-path" content="../..">
+<meta name="test-id" content="4">
+<meta name="test-title" content="Palabras y Orígenes">
+<title>Test: Palabras y Orígenes — 99Test</title>
+<link rel="stylesheet" href="../../compartido/estilos.css">
+<style>
+:root{--accent:#3a9e7a;--accent-glow:rgba(58,158,122,0.2);--accent-bg:rgba(58,158,122,0.08);--accent-border:rgba(58,158,122,0.15);--accent-shadow:rgba(58,158,122,0.25);--gold-gradient:linear-gradient(135deg,#3a9e7a,#6bc4a4,#3a9e7a)}
+body.dark{--accent:#4ab894;--accent-glow:rgba(74,184,148,0.25);--accent-bg:rgba(74,184,148,0.1);--accent-border:rgba(74,184,148,0.2);--accent-shadow:rgba(74,184,148,0.3);--gold-gradient:linear-gradient(135deg,#4ab894,#7cd4b8,#4ab894)}
+</style>
+</head>
+<body>
+<div id="headerPlaceholder"></div>
+<div id="isTestPage" style="display:none"></div>
+<div class="main-wrap"><div class="screen active" style="width:100%"><div id="app"></div></div></div>
+<div id="footerPlaceholder"></div>
+<script>
+const QUESTIONS = [
+  {q:"¿Qué significa 'efímero'?",opts:["Muy grande","Que dura poco","Muy antiguo","Que brilla"],correct:1,cat:"📖 Significados",exp:"Efímero significa que dura muy poco tiempo, pasajero."},
+  {q:"¿Qué significa 'ambiguo'?",opts:["Con varios significados","Sin significado","Muy claro","Dudoso"],correct:0,cat:"📖 Significados",exp:"Ambiguo es algo que puede entenderse de varios modos."},
+  {q:"¿Cuál es el plural correcto de 'crisis'?",opts:["Crisis","Crisises","Crises","Crisisos"],correct:0,cat:"📖 Gramática",exp:"'Crisis' es invariable: la crisis / las crisis."},
+  {q:"¿Qué figura retórica es la exageración?",opts:["Metáfora","Hipérbole","Ironía","Símil"],correct:1,cat:"📖 Lengua",exp:"La hipérbole exagera: 'te llamé un millón de veces'."},
+  {q:"¿Cuál es la palabra más larga del español según la RAE?",opts:["Electroencefalografista","Esternocleidomastoideo","Anticonstitucionalmente","Otorrinolaringólogo"],correct:2,cat:"📖 Curiosidades",exp:"'Anticonstitucionalmente' tiene 23 letras."},
+  {q:"¿Cuál es el antónimo de 'benévolo'?",opts:["Malévolo","Amable","Compasivo","Gentil"],correct:0,cat:"📖 Significados",exp:"Malévolo significa malvado, lo opuesto a benévolo."},
+  {q:"¿De qué idioma proviene la palabra 'chocolate'?",opts:["Inglés","Náhuatl","Francés","Italiano"],correct:1,cat:"🔍 Orígenes",exp:"'Chocolate' viene del náhuatl 'xocolātl'."},
+  {q:"¿Qué palabra significa 'sinónimo de guía o manual'?",opts:["Vademécum","Com pendio","Epítome","Diccionario"],correct:0,cat:"📖 Significados",exp:"Vademécum: libro de consulta o guía."},
+  {q:"¿Cuál es el superlativo de 'bueno'?",opts:["Buenísimo","Óptimo","Bonísimo","Mejor"],correct:1,cat:"📖 Gramática",exp:"Óptimo es el superlativo culto de bueno."},
+  {q:"¿Qué palabra designa a quien lee mucho?",opts:["Bibliófilo","Lector","Letraherido","Erudito"],correct:2,cat:"📖 Curiosidades",exp:"Letraherido: apasionado por la lectura."},
+  {q:"¿Cuál es el origen de la palabra 'algoritmo'?",opts:["Griego","Árabe","Latín","Sánscrito"],correct:0,cat:"🔍 Orígenes",exp:"Proviene de 'arithmos' (número). El matemático persa Al-Juarismi le dio nombre."},
+  {q:"¿Qué significa 'cónclave'?",opts:["Reunión secreta","Acuerdo","Debate","Votación"],correct:0,cat:"📖 Significados",exp:"Cónclave: reunión de cardenales para elegir papa; también reunión secreta."},
+  {q:"¿Qué palabra tiene las 5 vocales?",opts:["Murciélago","Arteriosclerosis","Aureolado","Abuelito"],correct:0,cat:"📖 Curiosidades",exp:"'Murciélago' contiene las cinco vocales."},
+  {q:"¿Cuál es el plural de 'currículum'?",opts:["Curriculums","Curricula","Currícula","Currículum"],correct:1,cat:"📖 Gramática",exp:"El plural culto es 'currícula' (del latín)."},
+  {q:"¿Qué significa 'intríngulis'?",opts:["Complicación","Duda","Parte oculta de algo","Enfado"],correct:2,cat:"📖 Significados",exp:"Intríngulis: lo más complejo u oculto de un asunto."},
+  {q:"¿De qué idioma viene 'safari'?",opts:["Árabe","Suajili","Zulú","Afrikáans"],correct:1,cat:"🔍 Orígenes",exp:"'Safari' en suajili significa 'viaje'."},
+  {q:"¿Qué palabra significa 'indiferente a los placeres'?",opts:["Asceta","Estoico","Sibarita","Epicúreo"],correct:0,cat:"📖 Significados",exp:"Asceta: persona que renuncia a los placeres materiales."},
+  {q:"¿Cuál es la abreviatura de 'etcétera' correcta?",opts:["etc.","etcé.","etc...","&c."],correct:0,cat:"📖 Lengua",exp:"La abreviatura correcta es 'etc.'"},
+  {q:"¿Qué significa 'ósculo'?",opts:["Beso","Abrazo","Saludo","Sonrisa"],correct:0,cat:"📖 Significados",exp:"Ósculo: beso dado con respeto o afecto."},
+  {q:"¿Cuál es el gentilicio de 'Toledo'?",opts:["Toledano","Toledés","Toletano","Toledeño"],correct:0,cat:"📖 Curiosidades",exp:"Toledano/a es el gentilicio de Toledo."},
+  {q:"¿Qué palabra francesa usamos para 'sauna'?",opts:["Hammam","Sauna","Baño turco","Temascal"],correct:1,cat:"🔍 Orígenes",exp:"'Sauna' viene del finlandés, no del francés."},
+  {q:"¿Qué significa 'ad nauseam'?",opts:["Hasta el cansancio","Con asco","Sin límite","En exceso"],correct:0,cat:"📖 Expresiones",exp:"'Ad nauseam': hasta causar repetición molesta."},
+  {q:"¿Cuál es la palabra más larga sin repetición de letras?",opts:["Calumbrientos","Centrifugados","Estuprolando","Abuelito"],correct:1,cat:"📖 Curiosidades",exp:"'Centrifugados' (13 letras sin repetir)."},
+  {q:"¿Qué significa 'adalid'?",opts:["Líder","Guerrero","Defensor","Campeón"],correct:2,cat:"📖 Significados",exp:"Adalid: defensor o protector de una causa."},
+  {q:"¿De qué idioma viene 'tornado'?",opts:["Inglés","Español","Portugués","Italiano"],correct:1,cat:"🔍 Orígenes",exp:"'Tornado' viene del español 'tornar' (girar)."},
+  {q:"¿Qué significa 'inmarcesible'?",opts:["Que no se marchita","Inmortal","Eterno","Indestructible"],correct:0,cat:"📖 Significados",exp:"Inmarcesible: que no se puede marchitar."},
+  {q:"¿Cuál es el femenino de 'actor'?",opts:["Actora","Actriz","Actoara","Actriz y actora"],correct:3,cat:"📖 Gramática",exp:"Ambos son válidos: 'actriz' es el más usado; 'actora' es jurídico."},
+  {q:"¿Qué significa 'tiquismiquis'?",opts:["Exigente","Pegajoso","Dulce","Pequeño"],correct:0,cat:"📖 Significados",exp:"Tiquismiquis: persona excesivamente puntillosa."},
+  {q:"¿Qué palabra española viene del árabe 'al-qutun'?",opts:["Algodón","Almohada","Alcoba","Alfombra"],correct:0,cat:"🔍 Orígenes",exp:"'Algodón' viene del árabe 'al-qutun'."},
+  {q:"¿Qué significa 'ufulano'? (persona ficticia)",opts:["Fulano","Mengano","Zutano","Perengano"],correct:0,cat:"📖 Significados",exp:"Fulano: persona indeterminada o supuesta."},
+];
+</script>
+<script src="../../compartido/motor.js"></script>
+</body>
+</html>

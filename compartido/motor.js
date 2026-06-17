@@ -4,13 +4,13 @@
 
 /* ─── MANIFIESTO DE TESTS ── */
 const TEST_MANIFEST = [
-  { id: 0, title: "Mezcla Explosiva",       folder: "0-mezcla-explosiva",      emojis: "🌍📜🔬📖🧠" },
-  { id: 1, title: "Ciencia y Curiosidades",  folder: "1-ciencia-y-curiosidades", emojis: "🔬🧠🌌" },
-  { id: 2, title: "Viaje por el Mundo",      folder: "2-viaje-por-el-mundo",    emojis: "🌍🗺️📜" },
-  { id: 3, title: "Palabras y Arte",         folder: "3-palabras-y-arte",       emojis: "📖🎨📜" },
-  { id: 4, title: "Piensa Rápido",           folder: "4-piensa-rapido",         emojis: "🧮🧠💡" },
-  { id: 5, title: "Variado Selecto",         folder: "5-variado-selecto",       emojis: "🌟🌍🔬📖" },
-  // Los tests especiales se listan aparte (no en la rotación diaria)
+  { id: 0, title: "Grandes Inventos",      folder: "0-grandes-inventos",      emojis: "💡🔧⚙️",      day: "Lunes" },
+  { id: 1, title: "El Cuerpo Humano",      folder: "1-el-cuerpo-humano",      emojis: "🫀🧠🦴",        day: "Martes" },
+  { id: 2, title: "Arte y Arquitectura",   folder: "2-arte-y-arquitectura",   emojis: "🎨🏛️🖌️",        day: "Miércoles" },
+  { id: 3, title: "El Universo",           folder: "3-el-universo",           emojis: "🌌🚀🌍",        day: "Jueves" },
+  { id: 4, title: "Palabras y Orígenes",   folder: "4-palabras-y-origenes",   emojis: "📖🔍🗣️",        day: "Viernes" },
+  { id: 5, title: "Mezcla Explosiva",      folder: "5-mezcla-explosiva",      emojis: "🔥🧩✨",        day: "Sábado" },
+  { id: 6, title: "Mezcla Explosiva",      folder: "5-mezcla-explosiva",      emojis: "🔥🧩✨",        day: "Domingo" },
 ];
 
 const STORAGE_KEY = '99test_results';
@@ -194,8 +194,11 @@ function calcStreak() {
 let quizState = null;
 
 function initQuiz(questions, opts = {}) {
+  const pool = [...questions];
+  const selected = shuffle(pool).slice(0, 10);
   quizState = {
-    questions: shuffle(questions.map((q,i) => ({...q, origIdx: i}))),
+    questions: selected,
+    poolSize: pool.length,
     currentIdx: 0,
     score: 0,
     wrong: 0,
@@ -252,6 +255,7 @@ function showDoneToday(result, test, testId, questions) {
           ${result.correct}/${result.total}
         </div>
         <div style="color:var(--text-secondary)">${pct}% — ${result.correct >= 7 ? '¡Buen trabajo!' : 'Sigue practicando'}</div>
+        <div style="font-size:0.78rem;color:var(--text-secondary);margin-top:4px">📚 ${questions.length} preguntas en el banco · 10 por partida</div>
       </div>
       <div class="btn-row">
         <button class="btn btn-primary" onclick="location.reload()">🔁 Repetir test</button>
@@ -295,7 +299,7 @@ function renderQuestion() {
   quizState.selectedOpt = null;
 
   byId('qCatBadge').textContent = q.cat;
-  byId('qCounter').innerHTML = `<strong>${quizState.currentIdx+1}</strong> / <strong>${qs.length}</strong>`;
+  byId('qCounter').innerHTML = `<strong>${quizState.currentIdx+1}</strong> / <strong>${qs.length}</strong> <span style="font-weight:400;opacity:0.6;font-size:0.75rem">· ${quizState.poolSize} en banco</span>`;
   byId('qScore').textContent = quizState.score;
   byId('qProgress').style.width = ((quizState.currentIdx / qs.length) * 100) + '%';
   byId('qNum').textContent = 'PREGUNTA ' + (quizState.currentIdx+1);
@@ -422,6 +426,7 @@ function showQuizResults() {
       <div class="score-ring">
         <div class="big-num" style="font-size:2.8rem">${correct}/${total}</div>
         <div class="label">${pct}% de aciertos</div>
+        <div style="font-size:0.75rem;color:var(--text-secondary);margin-top:4px">📚 ${quizState.poolSize} preguntas en banco · 10 por partida</div>
       </div>
       <div class="stats-row">
         <div class="stat-box"><div class="num green">${correct}</div><div class="lbl">Aciertos</div></div>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="base-path" content="../..">
+<meta name="test-id" content="0">
+<meta name="test-title" content="Grandes Inventos">
+<title>Test: Grandes Inventos — 99Test</title>
+<link rel="stylesheet" href="../../compartido/estilos.css">
+<style>
+:root{--accent:#d4a43e;--accent-glow:rgba(212,164,62,0.2);--accent-bg:rgba(212,164,62,0.08);--accent-border:rgba(212,164,62,0.15);--accent-shadow:rgba(212,164,62,0.25);--gold-gradient:linear-gradient(135deg,#d4a43e,#e8c87a,#d4a43e)}
+body.dark{--accent:#d4a43e;--accent-glow:rgba(212,164,62,0.25);--accent-bg:rgba(212,164,62,0.1);--accent-border:rgba(212,164,62,0.2);--accent-shadow:rgba(212,164,62,0.3);--gold-gradient:linear-gradient(135deg,#d4a43e,#e8c87a,#d4a43e)}
+</style>
+</head>
+<body>
+<div id="headerPlaceholder"></div>
+<div id="isTestPage" style="display:none"></div>
+<div class="main-wrap"><div class="screen active" style="width:100%"><div id="app"></div></div></div>
+<div id="footerPlaceholder"></div>
+<script>
+const QUESTIONS = [
+  {q:"¿Quién inventó la bombilla incandescente práctica?",opts:["Edison","Tesla","Westinghouse","Faraday"],correct:0,cat:"💡 Inventos",exp:"Thomas Edison patentó la bombilla en 1880, aunque otros ya habían creado prototipos."},
+  {q:"¿En qué año se inventó el teléfono?",opts:["1876","1886","1866","1896"],correct:0,cat:"💡 Inventos",exp:"Alexander Graham Bell patentó el teléfono en 1876."},
+  {q:"¿Quién creó la primera imprenta de tipos móviles?",opts:["Gutenberg","Caxton","Franklin","Manutius"],correct:0,cat:"💡 Inventos",exp:"Gutenberg inventó la imprenta de tipos móviles hacia 1440."},
+  {q:"¿Qué invento permitió la navegación oceánica precisa?",opts:["Brújula","Cronómetro marino","Astrolabio","Telescopio"],correct:1,cat:"💡 Inventos",exp:"El cronómetro marino de John Harrison (1761) permitía calcular la longitud en alta mar."},
+  {q:"¿Quién inventó el primer avión con motor?",opts:["Santos Dumont","Wright","Blériot","da Vinci"],correct:1,cat:"💡 Inventos",exp:"Los hermanos Wright volaron el primer avión motorizado en 1903."},
+  {q:"¿Cuál fue el primer vehículo fabricado en serie?",opts:["Ford T","Mercedes","Cadillac","Dodge"],correct:0,cat:"💡 Inventos",exp:"El Ford T (1908) fue el primer coche producido en cadena de montaje."},
+  {q:"¿Quién inventó el primer telégrafo eléctrico?",opts:["Morse","Marconi","Baudot","Bell"],correct:0,cat:"💡 Inventos",exp:"Samuel Morse creó el telégrafo en 1837 y desarrolló el código Morse."},
+  {q:"¿Qué inventó Alexander Fleming?",opts:["Vacuna","Penicilina","Aspirina","Rayos X"],correct:1,cat:"💡 Inventos",exp:"Fleming descubrió la penicilina en 1928, revolucionando la medicina."},
+  {q:"¿En qué año se inventó la radio?",opts:["1895","1901","1912","1888"],correct:0,cat:"💡 Inventos",exp:"Marconi realizó la primera transmisión radioeléctrica en 1895."},
+  {q:"¿Quién inventó el primer ordenador electrónico?",opts:["Turing","Eckert y Mauchly","Von Neumann","Zuse"],correct:1,cat:"💡 Inventos",exp:"ENIAC (1946) fue el primer ordenador electrónico de propósito general, creado por Eckert y Mauchly."},
+  {q:"¿Qué inventó James Watt?",opts:["Motor eléctrico","Máquina de vapor","Pararrayos","Locomotora"],correct:1,cat:"💡 Inventos",exp:"Watt perfeccionó la máquina de vapor en 1769, impulsando la Revolución Industrial."},
+  {q:"¿Quién desarrolló la primera vacuna?",opts:["Pasteur","Jenner","Koch","Salk"],correct:1,cat:"💡 Inventos",exp:"Edward Jenner creó la primera vacuna contra la viruela en 1796."},
+  {q:"¿Qué inventó Alfred Nobel?",opts:["Gas mostaza","Dinamita","TNT","Pólvora"],correct:1,cat:"💡 Inventos",exp:"Nobel inventó la dinamita en 1867 y creó los premios Nobel."},
+  {q:"¿Cuándo se inventó el microscopio compuesto?",opts:["1590","1650","1700","1500"],correct:0,cat:"💡 Inventos",exp:"Zacharias Janssen fabricó el primer microscopio compuesto hacia 1590."},
+  {q:"¿Quién inventó el pararrayos?",opts:["Franklin","Newton","Galileo","Volta"],correct:0,cat:"💡 Inventos",exp:"Benjamin Franklin inventó el pararrayos en 1752."},
+  {q:"¿Qué inventó Guglielmo Marconi?",opts:["Teléfono","Radio","Televisor","Radar"],correct:1,cat:"💡 Inventos",exp:"Marconi desarrolló la radio y ganó el Nobel en 1909."},
+  {q:"¿Quién patentó el primer motor de combustión interna?",opts:["Diesel","Otto","Benz","Ford"],correct:1,cat:"💡 Inventos",exp:"Nikolaus Otto patentó el motor de cuatro tiempos en 1876."},
+  {q:"¿En qué año se inventó la televisión electrónica?",opts:["1927","1935","1918","1941"],correct:0,cat:"💡 Inventos",exp:"Philo Farnsworth transmitió la primera imagen electrónica en 1927."},
+  {q:"¿Qué inventó Louis Pasteur?",opts:["Penicilina","Pasteurización","Anestesia","Insulina"],correct:1,cat:"💡 Inventos",exp:"Pasteur desarrolló la pasteurización en 1864."},
+  {q:"¿Quién creó el primer sistema operativo gráfico?",opts:["Microsoft","Apple","Xerox","IBM"],correct:2,cat:"💡 Inventos",exp:"Xerox Alto (1973) fue el primer ordenador con interfaz gráfica."},
+  {q:"¿Qué invento permitió la fotografía?",opts:["Cámara oscura","Daguerrotipo","Fonógrafo","Linterna mágica"],correct:1,cat:"💡 Inventos",exp:"El daguerrotipo de Daguerre (1839) fue el primer proceso fotográfico práctico."},
+  {q:"¿Quién inventó el primer transistor?",opts:["Shockley, Bardeen, Brattain","Kilby","Noyce","Tesla"],correct:0,cat:"💡 Inventos",exp:"El transistor se inventó en 1947 en los laboratorios Bell."},
+  {q:"¿Cuándo se patentó el chicle?",opts:["1869","1884","1899","1855"],correct:0,cat:"💡 Inventos",exp:"Thomas Adams patentó el chicle moderno en 1869."},
+  {q:"¿Quién inventó el código de barras?",opts:["Woodland y Silver","Sarnoff","Fessenden","Baird"],correct:0,cat:"💡 Inventos",exp:"Norman Woodland inventó el código de barras en 1949, inspirado en el morse."},
+  {q:"¿Qué inventó John Logie Baird?",opts:["Radio","Televisor mecánico","Radar","Cine sonoro"],correct:1,cat:"💡 Inventos",exp:"Baird demostró la primera televisión mecánica en 1926."},
+  {q:"¿Quién inventó el primer reloj de bolsillo?",opts:["Huygens","Harrison","Galileo","Tompion"],correct:0,cat:"💡 Inventos",exp:"Christiaan Huygens creó el primer reloj de bolsillo en 1675."},
+  {q:"¿En qué año se inventó la cremallera?",opts:["1913","1893","1906","1920"],correct:1,cat:"💡 Inventos",exp:"Whitcomb Judson patentó la cremallera en 1893; Gideon Sundback la perfeccionó en 1913."},
+  {q:"¿Qué inventó Nikola Tesla?",opts:["Radio","Motor de corriente alterna","Bombilla","Teléfono"],correct:1,cat:"💡 Inventos",exp:"Tesla inventó el motor de corriente alterna en 1888."},
+  {q:"¿Quién inventó la calculadora mecánica?",opts:["Pascal","Leibniz","Babbage","Pascal y Leibniz"],correct:3,cat:"💡 Inventos",exp:"Pascal creó la Pascalina en 1642; Leibniz mejoró el diseño."},
+  {q:"¿Cuál fue el primer material plástico sintético?",opts:["Nylon","Baquelita","Celofán","PVC"],correct:1,cat:"💡 Inventos",exp:"Leo Baekeland inventó la baquelita en 1907, el primer plástico sintético."},
+];
+</script>
+<script src="../../compartido/motor.js"></script>
+</body>
+</html>
