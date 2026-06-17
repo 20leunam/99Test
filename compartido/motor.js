@@ -4,13 +4,13 @@
 
 /* ─── MANIFIESTO DE TESTS ── */
 const TEST_MANIFEST = [
-  { id: 0, title: "Ciencias Puras",              folder: "ciencias-puras",              test: "0-el-cuerpo-humano",    emojis: "🔬🧪📐",      day: "Lunes" },
-  { id: 1, title: "Arte y Creatividad",          folder: "arte-y-creatividad",          test: "0-arte-y-arquitectura", emojis: "🎨📖🎭",      day: "Martes" },
-  { id: 2, title: "Ciencias Sociales",           folder: "ciencias-sociales",           test: "0-historia-y-geografia",emojis: "🌍📜🏛️",      day: "Miércoles" },
-  { id: 3, title: "Tecnología e Innovación",     folder: "tecnologia-e-innovacion",     test: "0-grandes-inventos",    emojis: "💻🔧🚀",     day: "Jueves" },
-  { id: 4, title: "Entretenimiento y Ocio",      folder: "entretenimiento-y-ocio",      test: "0-deportes-y-espectaculos",emojis: "⚽🍿🎮",   day: "Viernes" },
-  { id: 5, title: "Mezcla Explosiva",            folder: "mezcla-explosiva",            test: "0-mezcla-explosiva",    emojis: "🔥🧩✨",      day: "Sábado" },
-  { id: 6, title: "Mezcla Explosiva",            folder: "mezcla-explosiva",            test: "0-mezcla-explosiva",    emojis: "🔥🧩✨",      day: "Domingo" },
+  { id: 0, title: "Ciencias Puras",              folder: "ciencias-puras-lunes",            test: "0-el-cuerpo-humano",    emojis: "🔬🧪📐",      day: "Lunes" },
+  { id: 1, title: "Arte y Creatividad",          folder: "arte-y-creatividad-martes",        test: "0-arte-y-arquitectura", emojis: "🎨📖🎭",      day: "Martes" },
+  { id: 2, title: "Ciencias Sociales",           folder: "ciencias-sociales-miercoles",      test: "0-historia-y-geografia",emojis: "🌍📜🏛️",      day: "Miércoles" },
+  { id: 3, title: "Tecnología e Innovación",     folder: "tecnologia-e-innovacion-jueves",   test: "0-grandes-inventos",    emojis: "💻🔧🚀",     day: "Jueves" },
+  { id: 4, title: "Entretenimiento y Ocio",      folder: "entretenimiento-y-ocio-viernes",   test: "0-deportes-y-espectaculos",emojis: "⚽🍿🎮",   day: "Viernes" },
+  { id: 5, title: "Mezcla Explosiva",            folder: "mezcla-explosiva-finde",           test: "0-mezcla-explosiva",    emojis: "🔥🧩✨",      day: "Sábado" },
+  { id: 6, title: "Mezcla Explosiva",            folder: "mezcla-explosiva-finde",           test: "0-mezcla-explosiva",    emojis: "🔥🧩✨",      day: "Domingo" },
 ];
 
 const STORAGE_KEY = '99test_results';
@@ -238,6 +238,12 @@ function startTestFromPage() {
   // Start quiz
   showQuizScreen(testTitle, testId);
   initQuiz(QUESTIONS, { title: testTitle, testId });
+  // Show category · nicho line
+  const catName = test ? test.title : (testTitle ? testTitle.split(' · ')[0] : '');
+  const el = document.getElementById('qCategoryLine');
+  if (el && catName) {
+    el.textContent = (catName !== testTitle) ? catName + ' &#183; ' + testTitle : catName;
+  }
 }
 
 function showDoneToday(result, test, testId, questions) {
@@ -258,7 +264,7 @@ function showDoneToday(result, test, testId, questions) {
         <div style="font-size:0.78rem;color:var(--text-secondary);margin-top:4px">📚 ${questions.length} preguntas en el banco · 10 por partida</div>
       </div>
       <div class="btn-row">
-        <button class="btn btn-primary" onclick="location.reload()">🔁 Repetir test</button>
+        <button class="btn btn-primary" onclick="repeatTest()">🔁 Repetir test</button>
         <button class="btn btn-secondary" onclick="goToPage('')">🏠 Inicio</button>
       </div>
       ${result.correct >= 7 ? '<div style="margin-top:16px;font-size:0.85rem;color:var(--text-secondary)">🔥 Racha: ' + calcStreak() + ' días</div>' : ''}
@@ -278,6 +284,7 @@ function showQuizScreen(title, testId) {
         <span class="quiz-score-live">🎯 <strong id="qScore">0</strong></span>
       </div>
       <div class="progress-track"><div class="progress-fill" id="qProgress" style="width:0%"></div></div>
+      <div style="text-align:center;font-size:0.78rem;color:var(--text-secondary);margin-bottom:12px" id="qCategoryLine">···</div>
       <div class="q-number" id="qNum">PREGUNTA 1</div>
       <div class="q-text" id="qText">—</div>
       <div class="opts" id="qOpts"></div>
@@ -436,12 +443,22 @@ function showQuizResults() {
       </div>
       ${bars ? `<div class="breakdown"><h3>📊 Por categoría</h3>${bars}</div>` : ''}
       <div class="btn-row">
-        <button class="btn btn-primary" onclick="location.reload()">🔁 Repetir test</button>
+        <button class="btn btn-primary" onclick="repeatTest()">🔁 Repetir test</button>
         <button class="btn btn-secondary" onclick="goToPage('')">🏠 Inicio</button>
       </div>
     </div>`;
 
   if (pct >= 70) spawnConfetti();
+}
+
+/* ─── REPETIR TEST ── */
+function repeatTest() {
+  if (quizState && quizState.testId === getTodaysTestId()) {
+    const r = getResults();
+    delete r[dateStr(new Date())];
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(r));
+  }
+  location.reload();
 }
 
 /* ─── CONFETTI ── */
