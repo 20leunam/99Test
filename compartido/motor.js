@@ -4,13 +4,13 @@
 
 /* ─── MANIFIESTO DE TESTS ── */
 const TEST_MANIFEST = [
-  { id: 0, title: "Grandes Inventos",      folder: "inventos",           emojis: "💡🔧⚙️",      day: "Lunes" },
-  { id: 1, title: "El Cuerpo Humano",      folder: "cuerpo-humano",      emojis: "🫀🧠🦴",        day: "Martes" },
-  { id: 2, title: "Arte y Arquitectura",   folder: "arte-y-arquitectura",emojis: "🎨🏛️🖌️",        day: "Miércoles" },
-  { id: 3, title: "El Universo",           folder: "universo",           emojis: "🌌🚀🌍",        day: "Jueves" },
-  { id: 4, title: "Palabras y Orígenes",   folder: "palabras-y-origenes",emojis: "📖🔍🗣️",        day: "Viernes" },
-  { id: 5, title: "Mezcla Explosiva",      folder: "mezcla-explosiva",   emojis: "🔥🧩✨",        day: "Sábado" },
-  { id: 6, title: "Mezcla Explosiva",      folder: "mezcla-explosiva",   emojis: "🔥🧩✨",        day: "Domingo" },
+  { id: 0, title: "Ciencias Puras",              folder: "ciencias-puras",              emojis: "🔬🧪📐",      day: "Lunes" },
+  { id: 1, title: "Arte y Creatividad",          folder: "arte-y-creatividad",          emojis: "🎨📖🎭",      day: "Martes" },
+  { id: 2, title: "Ciencias Sociales",           folder: "ciencias-sociales",           emojis: "🌍📜🏛️",      day: "Miércoles" },
+  { id: 3, title: "Tecnología e Innovación",     folder: "tecnologia-e-innovacion",     emojis: "💻🔧🚀",     day: "Jueves" },
+  { id: 4, title: "Entretenimiento y Ocio",      folder: "entretenimiento-y-ocio",      emojis: "⚽🍿🎮",      day: "Viernes" },
+  { id: 5, title: "Mezcla Explosiva",            folder: "mezcla-explosiva",            emojis: "🔥🧩✨",      day: "Sábado" },
+  { id: 6, title: "Mezcla Explosiva",            folder: "mezcla-explosiva",            emojis: "🔥🧩✨",      day: "Domingo" },
 ];
 
 const STORAGE_KEY = '99test_results';

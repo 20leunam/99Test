@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="base-path" content="../../..">
+<meta name="test-id" content="2">
+<meta name="test-title" content="Historia y Geografía">
+<title>Test: Historia y Geografía — 99Test</title>
+<link rel="stylesheet" href="../../../compartido/estilos.css">
+<style>
+:root{--accent:#d4a43e;--accent-glow:rgba(212,164,62,0.2);--accent-bg:rgba(212,164,62,0.08);--accent-border:rgba(212,164,62,0.15);--accent-shadow:rgba(212,164,62,0.25);--gold-gradient:linear-gradient(135deg,#d4a43e,#e8c87a,#d4a43e)}
+body.dark{--accent:#d4a43e;--accent-glow:rgba(212,164,62,0.25);--accent-bg:rgba(212,164,62,0.1);--accent-border:rgba(212,164,62,0.2);--accent-shadow:rgba(212,164,62,0.3);--gold-gradient:linear-gradient(135deg,#d4a43e,#e8c87a,#d4a43e)}
+</style>
+</head>
+<body>
+<div id="headerPlaceholder"></div>
+<div id="isTestPage" style="display:none"></div>
+<div class="main-wrap"><div class="screen active" style="width:100%"><div id="app"></div></div></div>
+<div id="footerPlaceholder"></div>
+<script>
+const QUESTIONS = [
+  {q:"¿En qué año cayó el muro de Berlín?",opts:["1987","1989","1991","1985"],correct:1,cat:"📜 Historia",exp:"El muro cayó el 9 de noviembre de 1989."},
+  {q:"¿Cuál es el río más largo del mundo?",opts:["Amazonas","Nilo","Misisipi","Yangtsé"],correct:1,cat:"🌍 Geografía",exp:"El Nilo mide unos 6.650 km."},
+  {q:"¿Quién fue el primer presidente de EE.UU.?",opts:["Adams","Jefferson","Washington","Franklin"],correct:2,cat:"📜 Historia",exp:"Washington fue presidente de 1789 a 1797."},
+  {q:"¿Cuántos países hay en África?",opts:["44","48","54","58"],correct:2,cat:"🌍 Geografía",exp:"África tiene 54 países reconocidos por la ONU."},
+  {q:"¿En qué año empezó la II Guerra Mundial?",opts:["1937","1938","1939","1940"],correct:2,cat:"📜 Historia",exp:"Comenzó el 1 de septiembre de 1939."},
+  {q:"¿Cuál es la capital de Australia?",opts:["Sídney","Melbourne","Canberra","Brisbane"],correct:2,cat:"🌍 Geografía",exp:"Canberra fue elegida capital en 1908."},
+  {q:"¿Qué imperio construyó el Coliseo romano?",opts:["Griego","Romano","Bizantino","Egipcio"],correct:1,cat:"📜 Historia",exp:"El Coliseo fue construido en el s. I d.C."},
+  {q:"¿Qué estrecho separa Europa de África?",opts:["Gibraltar","Bósforo","Dardanelos","Mesina"],correct:0,cat:"🌍 Geografía",exp:"Gibraltar separa España de Marruecos."},
+  {q:"¿En qué año comenzó la Revolución Francesa?",opts:["1776","1789","1799","1804"],correct:1,cat:"📜 Historia",exp:"Comenzó en 1789 con la toma de la Bastilla."},
+  {q:"¿Cuál es el desierto más grande del mundo?",opts:["Sáhara","Gobi","Antártida","Kalahari"],correct:2,cat:"🌍 Geografía",exp:"La Antártida es el mayor desierto."},
+  {q:"¿Qué civilización construyó Machu Picchu?",opts:["Azteca","Maya","Inca","Olmeca"],correct:2,cat:"📜 Historia",exp:"Machu Picchu fue construida por los incas."},
+  {q:"¿Qué país tiene más husos horarios?",opts:["Rusia","EE.UU.","Francia","China"],correct:2,cat:"🌍 Geografía",exp:"Francia tiene 12 husos horarios."},
+  {q:"¿Quién fue el primer emperador romano?",opts:["Julio César","Augusto","Nerón","Trajano"],correct:1,cat:"📜 Historia",exp:"Augusto fue el primer emperador (27 a.C.)."},
+  {q:"¿Cuál es la montaña más alta del mundo?",opts:["K2","Everest","Kailash","Denali"],correct:1,cat:"🌍 Geografía",exp:"El Everest mide 8.849 m."},
+  {q:"¿Qué país construyó el Canal de Panamá?",opts:["Francia","España","EE.UU.","Inglaterra"],correct:2,cat:"📜 Historia",exp:"EE.UU. completó el canal en 1914."},
+  {q:"¿Cuál es el océano más grande?",opts:["Atlántico","Índico","Pacífico","Ártico"],correct:2,cat:"🌍 Geografía",exp:"El Pacífico cubre ~165 millones de km²."},
+  {q:"¿En qué año llegó el hombre a la Luna?",opts:["1967","1969","1971","1973"],correct:1,cat:"📜 Historia",exp:"Apolo 11 alunizó el 20 de julio de 1969."},
+  {q:"¿Cuál es el país más poblado del mundo?",opts:["China","India","EE.UU.","Indonesia"],correct:1,cat:"🌍 Geografía",exp:"India superó a China en 2023."},
+  {q:"¿Qué tratado puso fin a la I Guerra Mundial?",opts:["Versalles","París","Londres","Ginebra"],correct:0,cat:"📜 Historia",exp:"El Tratado de Versalles se firmó en 1919."},
+  {q:"¿Cuántos países tiene la Unión Europea?",opts:["23","25","27","30"],correct:2,cat:"🌍 Geografía",exp:"La UE tiene 27 miembros (2026)."},
+  {q:"¿Quién descubrió América en 1492?",opts:["Colón","Magallanes","Vespucio","Pizarro"],correct:0,cat:"📜 Historia",exp:"Colón llegó a América el 12 de octubre de 1492."},
+  {q:"¿Cuál es el país más grande del mundo?",opts:["Canadá","EE.UU.","Rusia","China"],correct:2,cat:"🌍 Geografía",exp:"Rusia es el país más grande, con 17,1 millones de km²."},
+  {q:"¿Qué siglo es el año 1492?",opts:["XIV","XV","XVI","XIII"],correct:1,cat:"📜 Historia",exp:"1492 pertenece al siglo XV."},
+  {q:"¿Cuál es la capital de Japón?",opts:["Pekín","Seúl","Tokio","Bangkok"],correct:2,cat:"🌍 Geografía",exp:"Tokio es la capital de Japón."},
+  {q:"¿Quién fue el primer presidente de la democracia española?",opts:["Suárez","González","Aznar","Carrero"],correct:0,cat:"📜 Historia",exp:"Adolfo Suárez fue el primer presidente de la democracia (1977)."},
+  {q:"¿Qué país tiene forma de bota?",opts:["Francia","España","Italia","Grecia"],correct:2,cat:"🌍 Geografía",exp:"Italia tiene forma característica de bota."},
+  {q:"¿Cuándo se fundó la ONU?",opts:["1942","1945","1948","1950"],correct:1,cat:"📜 Historia",exp:"La ONU se fundó el 24 de octubre de 1945."},
+  {q:"¿Cuál es el estrecho más importante para el comercio mundial?",opts:["Malaca","Suez","Gibraltar","Panamá"],correct:0,cat:"🌍 Geografía",exp:"El estrecho de Malaca conecta el Índico con el Pacífico."},
+  {q:"¿Qué emperador francés fue derrotado en Waterloo?",opts:["Luis XIV","Napoleón","Carlomagno","Napoleón III"],correct:1,cat:"📜 Historia",exp:"Napoleón fue derrotado en Waterloo en 1815."},
+  {q:"¿Cuál es el lago más grande del mundo?",opts:["Titicaca","Caspio","Victoria","Superior"],correct:1,cat:"🌍 Geografía",exp:"El mar Caspio es el lago más grande (371.000 km²)."},
+];
+</script>
+<script src="../../../compartido/motor.js"></script>
+</body>
+</html>

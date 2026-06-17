@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="base-path" content="../../..">
+<meta name="test-id" content="4">
+<meta name="test-title" content="Deportes y Espectáculos">
+<title>Test: Deportes y Espectáculos — 99Test</title>
+<link rel="stylesheet" href="../../../compartido/estilos.css">
+<style>
+:root{--accent:#d46a8a;--accent-glow:rgba(212,106,138,0.2);--accent-bg:rgba(212,106,138,0.08);--accent-border:rgba(212,106,138,0.15);--accent-shadow:rgba(212,106,138,0.25);--gold-gradient:linear-gradient(135deg,#d46a8a,#e8a0b8,#d46a8a)}
+body.dark{--accent:#d46a8a;--accent-glow:rgba(212,106,138,0.25);--accent-bg:rgba(212,106,138,0.1);--accent-border:rgba(212,106,138,0.2);--accent-shadow:rgba(212,106,138,0.3);--gold-gradient:linear-gradient(135deg,#d46a8a,#e8a0b8,#d46a8a)}
+</style>
+</head>
+<body>
+<div id="headerPlaceholder"></div>
+<div id="isTestPage" style="display:none"></div>
+<div class="main-wrap"><div class="screen active" style="width:100%"><div id="app"></div></div></div>
+<div id="footerPlaceholder"></div>
+<script>
+const QUESTIONS = [
+  {q:"¿Cuántos jugadores tiene un equipo de fútbol?",opts:["9","10","11","12"],correct:2,cat:"⚽ Deportes",exp:"Cada equipo tiene 11 jugadores en el campo."},
+  {q:"¿Cuál es el deporte más popular del mundo?",opts:["Baloncesto","Cricket","Fútbol","Tenis"],correct:2,cat:"⚽ Deportes",exp:"El fútbol es el deporte más popular, con ~4.000 millones de aficionados."},
+  {q:"¿Qué país ha ganado más Mundiales de fútbol?",opts:["Alemania","Argentina","Brasil","Italia"],correct:2,cat:"⚽ Deportes",exp:"Brasil ha ganado 5 Mundiales."},
+  {q:"¿Cuántos puntos vale un triple en baloncesto?",opts:["2","3","4","1"],correct:1,cat:"⚽ Deportes",exp:"Un triple vale 3 puntos en baloncesto."},
+  {q:"¿Cada cuántos años se celebran los Juegos Olímpicos?",opts:["2","3","4","5"],correct:2,cat:"⚽ Deportes",exp:"Los JJ.OO. se celebran cada 4 años."},
+  {q:"¿Qué tenista tiene más Grand Slams (hombres)?",opts:["Federer","Nadal","Djokovic","Sampras"],correct:2,cat:"⚽ Deportes",exp:"Djokovic tiene el récord de más Grand Slams."},
+  {q:"¿Qué distancia tiene una maratón?",opts:["40 km","42,195 km","45 km","50 km"],correct:1,cat:"⚽ Deportes",exp:"La distancia oficial de maratón es 42,195 km."},
+  {q:"¿En qué país se originó el baloncesto?",opts:["Canadá","EE.UU.","Inglaterra","España"],correct:1,cat:"⚽ Deportes",exp:"James Naismith inventó el baloncesto en EE.UU. en 1891."},
+  {q:"¿Cuántos anillos olímpicos hay?",opts:["4","5","6","7"],correct:1,cat:"⚽ Deportes",exp:"Los cinco anillos representan los continentes."},
+  {q:"¿Qué país inventó el tenis moderno?",opts:["Francia","Inglaterra","EE.UU.","España"],correct:1,cat:"⚽ Deportes",exp:"El tenis moderno se originó en Inglaterra en el s. XIX."},
+  {q:"¿Cuál es la serie más vista de la historia?",opts:["Juego de Tronos","Los Simpson","Friends","Breaking Bad"],correct:2,cat:"🍿 Espectáculos",exp:"Friends es la serie más vista, con 52 millones en su final."},
+  {q:"¿Qué película tiene la mayor recaudación de la historia?",opts:["Avatar","Vengadores Endgame","Titanic","Star Wars"],correct:0,cat:"🍿 Espectáculos",exp:"Avatar recaudó ~2.900 millones de dólares."},
+  {q:"¿Quién es conocido como 'El Rey del Pop'?",opts:["Prince","Michael Jackson","Madonna","Elvis"],correct:1,cat:"🎵 Música",exp:"Michael Jackson es el Rey del Pop."},
+  {q:"¿Qué grupo británico lanzó 'Hey Jude'?",opts:["Rolling Stones","Queen","The Beatles","Pink Floyd"],correct:2,cat:"🎵 Música",exp:"The Beatles lanzaron 'Hey Jude' en 1968."},
+  {q:"¿Cuál es el plato más famoso de la gastronomía japonesa?",opts:["Ramen","Sushi","Tempura","Teriyaki"],correct:1,cat:"🍔 Gastronomía",exp:"El sushi es el plato japonés más conocido mundialmente."},
+  {q:"¿Qué país inventó la pizza?",opts:["Francia","España","Italia","Grecia"],correct:2,cat:"🍔 Gastronomía",exp:"La pizza moderna nació en Nápoles, Italia."},
+  {q:"¿Cuál es la bebida alcohólica más consumida del mundo?",opts:["Vino","Cerveza","Whisky","Sake"],correct:1,cat:"🍔 Gastronomía",exp:"La cerveza es la bebida alcohólica más consumida."},
+  {q:"¿Qué marca tiene el logo de la manzana mordida?",opts:["Samsung","Apple","Xiaomi","Google"],correct:1,cat:"🏷️ Marcas",exp:"Apple tiene el icónico logo de la manzana mordida."},
+  {q:"¿Cuál es la red social con más usuarios?",opts:["Instagram","TikTok","Facebook","WhatsApp"],correct:2,cat:"📱 Tendencias",exp:"Facebook tiene más de 3.000 millones de usuarios."},
+  {q:"¿Qué año se celebró el primer Mundial de fútbol?",opts:["1928","1930","1934","1938"],correct:1,cat:"⚽ Deportes",exp:"El primer Mundial se celebró en Uruguay en 1930."},
+  {q:"¿Qué canal es conocido por los documentales de naturaleza?",opts:["CNN","BBC","National Geographic","MTV"],correct:2,cat:"🍿 Espectáculos",exp:"National Geographic es famoso por sus documentales."},
+  {q:"¿Qué cantante lanzó 'Thriller', el álbum más vendido?",opts:["Prince","Michael Jackson","Madonna","Whitney"],correct:1,cat:"🎵 Música",exp:"'Thriller' (1982) vendió más de 70 millones de copias."},
+  {q:"¿Cuál es la comida rápida más vendida del mundo?",opts:["Pizza","Hamburguesa","Patatas fritas","Tacos"],correct:1,cat:"🍔 Gastronomía",exp:"Las hamburguesas son la comida rápida más vendida."},
+  {q:"¿En qué país se originó el té como bebida cultural?",opts:["Japón","India","China","Inglaterra"],correct:2,cat:"🍔 Gastronomía",exp:"El té se originó en China hace más de 5.000 años."},
+  {q:"¿Qué empresa fundó Steve Jobs?",opts:["Microsoft","Apple","Google","Amazon"],correct:1,cat:"🏷️ Marcas",exp:"Steve Jobs cofundó Apple en 1976."},
+  {q:"¿Qué videojuego es el más vendido de la historia?",opts:["GTA V","Minecraft","Fortnite","Tetris"],correct:3,cat:"🎮 Videojuegos",exp:"Tetris tiene más de 500 millones de descargas."},
+  {q:"¿Cuántos mundiales de fútbol tiene Argentina?",opts:["1","2","3","4"],correct:2,cat:"⚽ Deportes",exp:"Argentina ganó los Mundiales de 1978, 1986 y 2022."},
+  {q:"¿Qué festival de música se celebra en el desierto de California?",opts:["Glastonbury","Coachella","Lollapalooza","Burning Man"],correct:1,cat:"🎵 Música",exp:"Coachella se celebra en Indio, California."},
+  {q:"¿Cuál es la cadena de cafeterías más grande del mundo?",opts:["Costa","Dunkin'","Starbucks","Tim Hortons"],correct:2,cat:"🏷️ Marcas",exp:"Starbucks tiene más de 35.000 locales en el mundo."},
+  {q:"¿Qué país celebra el Oktoberfest?",opts:["Suiza","Austria","Alemania","Bélgica"],correct:2,cat:"🍔 Gastronomía",exp:"El Oktoberfest se celebra en Múnich, Alemania."},
+];
+</script>
+<script src="../../../compartido/motor.js"></script>
+</body>
+</html>
