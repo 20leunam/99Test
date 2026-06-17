@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0f0f11">
-<title>Test del Día · Pregunta diaria</title>
+<title>Test del Día — Preguntas diarias</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -33,39 +33,120 @@
     --radius: 16px;
     --radius-lg: 24px;
     --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --header-h: 64px;
   }
+
+  html, body { height: 100%; }
 
   body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     background: var(--bg);
     color: var(--text);
-    min-height: 100vh;
-    min-height: 100dvh;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
     background-image:
       radial-gradient(ellipse at 30% 20%, rgba(201,169,110,0.06) 0%, transparent 60%),
       radial-gradient(ellipse at 70% 80%, rgba(201,169,110,0.04) 0%, transparent 60%);
     -webkit-tap-highlight-color: transparent;
-    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   }
 
-  .screen { display: none; width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; }
-  .screen.active { display: block; animation: fadeSlideIn 0.4s ease; }
+  /* ─── HEADER ── */
+  .header {
+    position: sticky; top: 0; z-index: 100;
+    height: var(--header-h);
+    background: rgba(15,15,17,0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 20px;
+  }
+  .header-logo {
+    display: flex; align-items: center; gap: 10px; cursor: pointer;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.2rem; font-weight: 700;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    user-select: none;
+  }
+  .header-logo span { font-size: 1.4rem; -webkit-text-fill-color: initial; color: var(--accent); }
 
+  .hamburger {
+    width: 40px; height: 40px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 5px;
+    cursor: pointer; border-radius: 10px; border: 1px solid var(--border);
+    background: transparent; transition: all var(--transition);
+    position: relative; z-index: 110;
+  }
+  .hamburger:hover { background: var(--surface-raised); }
+  .hamburger span {
+    display: block; width: 20px; height: 2px; background: var(--text);
+    border-radius: 2px; transition: all var(--transition);
+    transform-origin: center;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* ─── OVERLAY ── */
+  .nav-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5); z-index: 98; display: none;
+  }
+  .nav-overlay.open { display: block; animation: fadeIn 0.2s ease; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  /* ─── SIDE MENU ── */
+  .side-menu {
+    position: fixed; top: 0; right: -300px; width: 280px; height: 100%;
+    background: var(--surface); border-left: 1px solid var(--border);
+    z-index: 99; transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: calc(var(--header-h) + 20px) 0 20px; overflow-y: auto;
+    display: flex; flex-direction: column;
+  }
+  .side-menu.open { right: 0; }
+
+  .side-menu .menu-section {
+    padding: 8px 16px; font-size: 0.7rem; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--text-secondary); font-weight: 600;
+    margin-top: 8px;
+  }
+  .side-menu .menu-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 20px; cursor: pointer; transition: all var(--transition);
+    font-size: 0.92rem; font-weight: 500; color: var(--text);
+    text-decoration: none; border: none; background: none; width: 100%; text-align: left;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .side-menu .menu-item:hover { background: var(--surface-raised); }
+  .side-menu .menu-item.active { color: var(--accent); background: rgba(201,169,110,0.06); }
+  .side-menu .menu-item .emoji { font-size: 1.1rem; }
+  .side-menu .menu-spacer { flex: 1; }
+  .side-menu .menu-footer {
+    padding: 16px 20px; border-top: 1px solid var(--border);
+    font-size: 0.78rem; color: var(--text-secondary); text-align: center;
+  }
+
+  /* ─── MAIN ── */
+  .main-wrap {
+    flex: 1; display: flex; align-items: flex-start; justify-content: center;
+    padding: 20px; padding-bottom: 100px;
+  }
+  .screen { display: none; width: 100%; max-width: 680px; margin: 0 auto; }
+  .screen.active { display: block; animation: fadeSlideIn 0.35s ease; }
   @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
   @keyframes confettiDrop { 0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(105vh) rotate(720deg); opacity: 0; } }
 
-  /* ─── CARD (reusable) ── */
+  /* ─── CARD ── */
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
-    padding: 40px 32px 32px;
+    padding: 36px 28px 28px;
     box-shadow: var(--shadow-lg);
-    position: relative;
-    overflow: hidden;
+    position: relative; overflow: hidden;
   }
   .card::before {
     content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
@@ -73,58 +154,94 @@
   }
 
   /* ─── HOME ── */
-  .top-bar {
-    display: flex; justify-content: space-between; align-items: flex-start;
-    margin-bottom: 28px; gap: 12px;
-  }
-  .date-badge {
-    font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em;
-    color: var(--text-secondary); font-weight: 600;
-  }
-  .date-badge strong { color: var(--text); font-size: 0.85rem; }
-  .top-right { display: flex; align-items: center; gap: 12px; }
-  .streak-badge {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 6px 14px; border-radius: 100px;
-    font-size: 0.8rem; font-weight: 600;
-    background: rgba(201,169,110,0.1); border: 1px solid rgba(201,169,110,0.2);
-    color: var(--accent); cursor: pointer; transition: all var(--transition);
-  }
-  .streak-badge:hover { background: rgba(201,169,110,0.18); }
-
+  .home-hero { text-align: center; margin-bottom: 28px; }
   .home-title {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 2rem; font-weight: 700; letter-spacing: -0.02em;
+    font-size: 2.2rem; font-weight: 700; letter-spacing: -0.02em;
     background: var(--gold-gradient); -webkit-background-clip: text;
     -webkit-text-fill-color: transparent; background-clip: text;
     margin-bottom: 4px;
   }
-  .home-subtitle { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 24px; }
+  .home-subtitle { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 6px; }
 
-  .already-answered-banner {
-    text-align: center; padding: 14px; border-radius: var(--radius);
+  .test-info {
+    display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;
+    margin-bottom: 6px;
+  }
+  .test-info-item {
+    font-size: 0.82rem; color: var(--text-secondary);
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .test-card {
     background: var(--surface-raised); border: 1px solid var(--border);
-    margin-bottom: 20px; font-size: 0.9rem;
+    border-radius: var(--radius); padding: 24px; margin-bottom: 20px;
+    cursor: pointer; transition: all var(--transition);
   }
-  .already-answered-banner .correct-text { color: var(--green); font-weight: 600; }
-  .already-answered-banner .incorrect-text { color: var(--red); font-weight: 600; }
-
-  .category-tag {
-    display: inline-block; padding: 6px 16px; border-radius: 100px;
-    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.04em;
-    background: rgba(201,169,110,0.1); border: 1px solid rgba(201,169,110,0.2);
-    color: var(--accent); margin-bottom: 20px;
+  .test-card:hover { border-color: #444; transform: translateY(-2px); }
+  .test-card .test-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.3rem; font-weight: 700; margin-bottom: 4px;
+  }
+  .test-card .test-meta {
+    font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 12px;
+  }
+  .test-card .test-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+  .test-card .badge {
+    font-size: 0.7rem; padding: 4px 12px; border-radius: 100px;
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+    background: rgba(201,169,110,0.1); color: var(--accent); border: 1px solid rgba(201,169,110,0.2);
   }
 
-  .question-text {
+  .done-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 16px; border-radius: 100px; font-size: 0.85rem; font-weight: 600;
+    background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border);
+    margin-bottom: 16px;
+  }
+
+  /* ─── QUIZ ── */
+  .quiz-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 20px; flex-wrap: wrap; gap: 10px;
+  }
+  .quiz-progress {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .quiz-counter {
+    font-size: 0.85rem; color: var(--text-secondary); font-weight: 500;
+  }
+  .quiz-counter strong { color: var(--text); }
+  .quiz-cat-badge {
+    font-size: 0.72rem; padding: 5px 12px; border-radius: 100px;
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
+    background: rgba(201,169,110,0.1); color: var(--accent); border: 1px solid rgba(201,169,110,0.2);
+  }
+  .quiz-score-live { font-size: 0.85rem; color: var(--text-secondary); }
+  .quiz-score-live strong { color: var(--accent); }
+
+  .progress-track {
+    width: 100%; height: 5px; background: var(--surface-raised);
+    border-radius: 100px; margin-bottom: 28px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; background: var(--gold-gradient);
+    border-radius: 100px; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .q-text {
     font-family: 'Playfair Display', Georgia, serif;
     font-size: 1.5rem; font-weight: 600; line-height: 1.4;
-    margin-bottom: 28px; color: var(--text);
+    margin-bottom: 24px; padding: 0 4px;
+  }
+  .q-number {
+    font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.07em;
+    color: var(--text-secondary); margin-bottom: 6px; font-weight: 600;
   }
 
-  .options-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+  .opts { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
 
-  .option-btn {
+  .opt-btn {
     display: flex; align-items: center; gap: 14px;
     padding: 14px 18px; background: var(--surface-raised);
     border: 1px solid var(--border); border-radius: var(--radius);
@@ -132,27 +249,41 @@
     text-align: left; font-family: 'Inter', system-ui, sans-serif;
     font-size: 0.92rem; color: var(--text); font-weight: 500;
     -webkit-appearance: none; -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation; position: relative;
+    touch-action: manipulation; min-height: 52px;
   }
-  .option-btn:hover:not(.locked) { border-color: #555; background: #26262e; transform: translateY(-1px); }
-  .option-btn.selected { border-color: var(--accent); background: rgba(201,169,110,0.08); box-shadow: 0 0 0 2px var(--accent-glow); }
-  .option-btn.correct { border-color: var(--green-border) !important; background: var(--green-bg) !important; box-shadow: 0 0 0 2px rgba(76,175,145,0.2) !important; }
-  .option-btn.incorrect { border-color: var(--red-border) !important; background: var(--red-bg) !important; box-shadow: 0 0 0 2px rgba(224,85,106,0.2) !important; }
-  .option-btn.locked { pointer-events: none; }
-  .option-letter {
+  .opt-btn:hover:not(.locked) { border-color: #555; background: #26262e; transform: translateY(-1px); }
+  .opt-btn.selected { border-color: var(--accent); background: rgba(201,169,110,0.08); box-shadow: 0 0 0 2px var(--accent-glow); }
+  .opt-btn.correct { border-color: var(--green-border) !important; background: var(--green-bg) !important; box-shadow: 0 0 0 2px rgba(76,175,145,0.2) !important; }
+  .opt-btn.incorrect { border-color: var(--red-border) !important; background: var(--red-bg) !important; box-shadow: 0 0 0 2px rgba(224,85,106,0.2) !important; }
+  .opt-btn.locked { pointer-events: none; }
+  .opt-letter {
     width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
     border-radius: 50%; font-weight: 700; font-size: 0.82rem;
     background: var(--surface); color: var(--text-secondary); flex-shrink: 0;
     transition: all var(--transition);
   }
-  .option-btn.selected .option-letter { background: var(--accent); color: #1a1a1f; }
-  .option-btn.correct .option-letter { background: var(--green); color: #fff; }
-  .option-btn.incorrect .option-letter { background: var(--red); color: #fff; }
+  .opt-btn.selected .opt-letter { background: var(--accent); color: #1a1a1f; }
+  .opt-btn.correct .opt-letter { background: var(--green); color: #fff; }
+  .opt-btn.incorrect .opt-letter { background: var(--red); color: #fff; }
 
+  .fb { text-align: center; margin-bottom: 16px; font-weight: 600; font-size: 0.95rem; min-height: 24px; }
+  .fb.correct { color: var(--green); }
+  .fb.incorrect { color: var(--red); }
+
+  .exp-box {
+    background: var(--surface-raised); border-radius: var(--radius);
+    padding: 14px 18px; margin-bottom: 20px; font-size: 0.88rem;
+    line-height: 1.6; color: var(--text-secondary); border: 1px solid var(--border);
+  }
+  .exp-box strong { color: var(--text); }
+
+  .btn-row { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+
+  /* ─── BUTTONS ── */
   .btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-    padding: 14px 36px; border-radius: 100px;
-    font-family: 'Inter', system-ui, sans-serif; font-size: 0.95rem;
+    padding: 14px 32px; border-radius: 100px;
+    font-family: 'Inter', system-ui, sans-serif; font-size: 0.9rem;
     font-weight: 600; letter-spacing: 0.02em; cursor: pointer; border: none;
     transition: all var(--transition); -webkit-appearance: none;
     -webkit-tap-highlight-color: transparent; touch-action: manipulation;
@@ -163,86 +294,113 @@
   }
   .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(201,169,110,0.4); }
   .btn-primary:active:not(:disabled) { transform: translateY(0); }
-  .btn-primary:disabled { opacity: 0.35; cursor: not-allowed; }
+  .btn-primary:disabled { opacity: 0.35; cursor: not-allowed; pointer-events: none; }
   .btn-secondary {
     background: transparent; color: var(--text); border: 1px solid var(--border);
   }
   .btn-secondary:hover { background: var(--surface-raised); border-color: #444; }
+  .btn-sm { padding: 10px 20px; font-size: 0.82rem; }
 
-  .feedback {
-    text-align: center; margin-bottom: 16px; font-weight: 600; font-size: 0.95rem;
-    min-height: 24px; transition: all var(--transition);
+  /* ─── RESULTS ── */
+  .results-hero { text-align: center; margin-bottom: 28px; }
+  .results-hero h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2rem; font-weight: 700; margin-bottom: 4px;
   }
-  .feedback.correct { color: var(--green); }
-  .feedback.incorrect { color: var(--red); }
+  .results-hero p { color: var(--text-secondary); font-size: 0.92rem; }
 
-  .explanation-box {
+  .score-ring {
+    display: flex; flex-direction: column; align-items: center; margin-bottom: 24px;
+  }
+  .score-ring .big-num {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 3rem; font-weight: 900;
+    background: var(--gold-gradient); -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .score-ring .label { font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px; }
+
+  .stats-row {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 24px;
+  }
+  @media (max-width: 500px) { .stats-row { grid-template-columns: repeat(2, 1fr); } }
+  .stat-box {
     background: var(--surface-raised); border-radius: var(--radius);
-    padding: 16px 20px; margin-bottom: 24px; font-size: 0.88rem;
-    line-height: 1.6; color: var(--text-secondary);
-    border: 1px solid var(--border);
+    padding: 16px 12px; text-align: center; border: 1px solid var(--border);
   }
-  .explanation-box strong { color: var(--text); }
+  .stat-box .num { font-size: 1.5rem; font-weight: 700; font-family: 'Playfair Display', Georgia, serif; }
+  .stat-box .lbl { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); margin-top: 3px; }
+  .num.green { color: var(--green); } .num.red { color: var(--red); } .num.gold { color: var(--accent); } .num.white { color: var(--text); }
 
-  .action-row { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+  .breakdown { margin-bottom: 24px; }
+  .breakdown h3 {
+    font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em;
+    color: var(--text-secondary); margin-bottom: 12px; font-weight: 600;
+  }
+  .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .bar-row .lbl { width: 80px; font-size: 0.78rem; font-weight: 600; text-align: right; flex-shrink: 0; }
+  .bar-row .track { flex: 1; height: 20px; background: var(--surface-raised); border-radius: 100px; overflow: hidden; }
+  .bar-row .fill {
+    height: 100%; border-radius: 100px; transition: width 1s ease;
+    display: flex; align-items: center; justify-content: flex-end; padding-right: 8px;
+  }
+  .bar-row .fill span { font-size: 0.68rem; font-weight: 700; color: #1a1a1f; }
 
-  .see-you-row {
-    text-align: center; padding: 20px 0 10px; border-top: 1px solid var(--border);
-    margin-top: 24px;
+  /* ─── ARCHIVE ── */
+  .archive-list { display: flex; flex-direction: column; gap: 10px; }
+  .archive-item {
+    display: flex; align-items: center; gap: 16px;
+    padding: 16px 20px; background: var(--surface-raised);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    cursor: pointer; transition: all var(--transition);
   }
-  .see-you-row .big-emoji { font-size: 2.4rem; display: block; margin-bottom: 8px; }
-  .see-you-row p { color: var(--text-secondary); font-size: 0.9rem; }
-  .see-you-row p strong { color: var(--accent); }
+  .archive-item:hover { border-color: #444; transform: translateY(-1px); }
+  .archive-item .ai-date { font-size: 0.78rem; color: var(--text-secondary); width: 44px; flex-shrink: 0; font-weight: 600; }
+  .archive-item .ai-title { flex: 1; font-weight: 600; }
+  .archive-item .ai-done { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
+  .archive-item .ai-done.y { background: var(--green-bg); color: var(--green); }
+  .archive-item .ai-done.n { background: var(--surface); color: var(--text-secondary); border: 1px solid var(--border); }
 
-  /* ─── CALENDAR ── */
-  .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
-  .cal-header h2 { font-family: 'Playfair Display', Georgia, serif; font-size: 1.4rem; }
-  .cal-nav { display: flex; gap: 8px; }
-  .cal-nav button {
-    width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border);
-    background: transparent; color: var(--text); font-size: 1.1rem;
-    cursor: pointer; transition: all var(--transition); display: flex;
-    align-items: center; justify-content: center;
+  /* ─── CATEGORIES ── */
+  .cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 500px) { .cat-grid { grid-template-columns: 1fr; } }
+  .cat-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 16px 18px; background: var(--surface-raised);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    cursor: pointer; transition: all var(--transition);
   }
-  .cal-nav button:hover { background: var(--surface-raised); border-color: #444; }
+  .cat-item:hover { border-color: #444; transform: translateY(-1px); }
+  .cat-item .ci-emoji { font-size: 1.4rem; }
+  .cat-item .ci-info { flex: 1; }
+  .cat-item .ci-name { font-weight: 600; font-size: 0.9rem; }
+  .cat-item .ci-count { font-size: 0.78rem; color: var(--text-secondary); }
 
-  .cal-stats {
-    display: flex; gap: 16px; justify-content: center; margin-bottom: 24px;
-    font-size: 0.85rem;
+  /* ─── FOOTER ── */
+  .footer {
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    padding: 28px 20px; text-align: center; margin-top: auto;
   }
-  .cal-stats span { display: flex; align-items: center; gap: 6px; }
-  .cal-stats .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
-  .dot.green { background: var(--green); }
-  .dot.red { background: var(--red); }
-  .dot.gray { background: var(--border); }
-
-  .cal-weekdays {
-    display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 4px;
-    text-align: center; font-size: 0.72rem; text-transform: uppercase;
-    letter-spacing: 0.06em; color: var(--text-secondary); font-weight: 600;
+  .footer-inner { max-width: 680px; margin: 0 auto; }
+  .footer .donate-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 24px; border-radius: 100px;
+    background: linear-gradient(135deg, #003087, #009cde);
+    color: #fff; font-weight: 600; font-size: 0.85rem;
+    text-decoration: none; transition: all var(--transition);
+    margin-bottom: 12px; border: none; cursor: pointer;
   }
-  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
-  .cal-day {
-    aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
-    border-radius: 50%; font-size: 0.85rem; font-weight: 500;
-    border: 1px solid transparent; position: relative;
+  .footer .donate-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,48,135,0.3); }
+  .footer .credit {
+    font-size: 0.8rem; color: var(--text-secondary);
   }
-  .cal-day.empty { border: none; }
-  .cal-day.today { border-color: var(--accent); font-weight: 700; }
-  .cal-day.correct { background: var(--green-bg); color: var(--green); border-color: var(--green-border); }
-  .cal-day.incorrect { background: var(--red-bg); color: var(--red); border-color: var(--red-border); }
-  .cal-day.future { color: #3a3a45; }
-  .cal-day.past-todo { color: var(--text-secondary); }
-
-  .cal-legend {
-    display: flex; gap: 20px; justify-content: center; margin-top: 20px; font-size: 0.8rem;
-  }
-  .cal-legend div { display: flex; align-items: center; gap: 6px; }
+  .footer .credit strong { color: var(--text); }
 
   /* ─── CONFETTI ── */
   .confetti-container {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    pointer-events: none; z-index: 9999; overflow: hidden;
+    pointer-events: none; z-index: 200; overflow: hidden;
   }
   .confetti-piece {
     position: absolute; width: 10px; height: 10px; border-radius: 2px;
@@ -251,514 +409,749 @@
 
   /* ─── RESPONSIVE ── */
   @media (max-width: 520px) {
-    .card { padding: 28px 18px 24px; }
+    .card { padding: 24px 16px 20px; }
     .home-title { font-size: 1.6rem; }
-    .question-text { font-size: 1.25rem; }
-    .top-bar { flex-direction: column; }
+    .q-text { font-size: 1.2rem; }
+    .results-hero h2 { font-size: 1.5rem; }
   }
 </style>
 </head>
 <body>
 
-<!-- ═══════ HOME SCREEN ═══════ -->
-<div class="screen active" id="homeScreen">
-  <div class="card">
-    <div class="top-bar">
-      <div>
-        <div class="date-badge" id="dateBadge">—</div>
+<!-- ═══════ HEADER ═══════ -->
+<header class="header">
+  <div class="header-logo" onclick="goHome()">
+    <span>📝</span> Test del Día
+  </div>
+  <button class="hamburger" id="hamburgerBtn" onclick="toggleMenu()" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- ═══════ OVERLAY ═══════ -->
+<div class="nav-overlay" id="navOverlay" onclick="closeMenu()"></div>
+
+<!-- ═══════ SIDE MENU ═══════ -->
+<nav class="side-menu" id="sideMenu">
+  <div class="menu-section">Navegación</div>
+  <button class="menu-item active" onclick="navigate('home')">
+    <span class="emoji">🏠</span> Inicio
+  </button>
+  <button class="menu-item" onclick="navigate('archive')">
+    <span class="emoji">📚</span> Tests anteriores
+  </button>
+  <button class="menu-item" onclick="navigate('categories')">
+    <span class="emoji">🏷️</span> Categorías
+  </button>
+  <button class="menu-item" onclick="navigate('specials')">
+    <span class="emoji">⭐</span> Tests especiales
+  </button>
+
+  <div class="menu-spacer"></div>
+
+  <div class="menu-footer">
+    <div style="margin-bottom:4px">🔥 Racha: <strong id="menuStreak">0</strong> días</div>
+    <div style="font-size:0.72rem;opacity:0.6">Tests completados: <span id="menuDone">0</span></div>
+  </div>
+</nav>
+
+<!-- ═══════ MAIN CONTENT ═══════ -->
+<div class="main-wrap">
+
+  <!-- ── HOME ── -->
+  <div class="screen active" id="screenHome">
+    <div class="card">
+      <div class="home-hero">
         <div class="home-title">Test del Día</div>
-        <div class="home-subtitle">Una pregunta nueva cada día</div>
-      </div>
-      <div class="top-right">
-        <div class="streak-badge" id="streakBadge" onclick="showCalendar()">🔥 <span id="streakNum">0</span></div>
-      </div>
-    </div>
-
-    <div id="answeredBanner" class="already-answered-banner" style="display:none"></div>
-
-    <div id="questionArea">
-      <div class="category-tag" id="categoryTag">🌍 Categoría</div>
-      <div class="question-text" id="questionText">—</div>
-
-      <div class="options-grid" id="optionsGrid"></div>
-
-      <div class="feedback" id="feedbackEl"></div>
-
-      <div id="explanationArea" style="display:none">
-        <div class="explanation-box" id="explanationText"></div>
+        <div class="home-subtitle" id="todayDateDisplay">—</div>
       </div>
 
-      <div class="action-row">
-        <button class="btn btn-primary" id="mainBtn" disabled onclick="handleMainAction()">Comprobar</button>
-        <button class="btn btn-secondary" id="calBtn" onclick="showCalendar()">📅</button>
+      <div id="todayDoneBanner" style="display:none">
+        <div class="done-badge" style="display:flex;justify-content:center">✅ Completado hoy</div>
       </div>
-    </div>
 
-    <div id="seeYouArea" style="display:none">
-      <div class="see-you-row">
-        <span class="big-emoji">🌟</span>
-        <p id="seeYouMsg">¡Hoy ya completaste tu test! <strong>Vuelve mañana</strong> para una nueva pregunta.</p>
+      <div class="test-card" onclick="startQuiz()" id="todayTestCard">
+        <div class="test-title" id="todayTestTitle">—</div>
+        <div class="test-meta" id="todayTestMeta">10 preguntas • Varias categorías</div>
+        <div class="test-test-badges">
+          <span class="badge" id="todayTestNum">Test #1</span>
+          <span class="badge" id="todayTestCats">🌍 📜 🔬</span>
+        </div>
       </div>
-      <div class="action-row" style="margin-top:12px">
-        <button class="btn btn-secondary" onclick="showCalendar()">📅 Ver mi calendario</button>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="startQuiz()">▶ Comenzar test</button>
+        <button class="btn btn-secondary btn-sm" onclick="navigate('archive')">📚 Tests</button>
       </div>
     </div>
   </div>
-</div>
 
-<!-- ═══════ CALENDAR SCREEN ═══════ -->
-<div class="screen" id="calScreen">
-  <div class="card">
-    <div class="cal-header">
-      <button class="btn btn-secondary" onclick="goHome()" style="padding:8px 16px;font-size:0.85rem">← Volver</button>
-      <h2 id="calTitle">—</h2>
-      <div class="cal-nav">
-        <button onclick="changeMonth(-1)">‹</button>
-        <button onclick="changeMonth(1)">›</button>
+  <!-- ── QUIZ ── -->
+  <div class="screen" id="screenQuiz">
+    <div class="card">
+      <div class="quiz-header">
+        <div class="quiz-progress">
+          <span class="quiz-cat-badge" id="quizCatBadge">🌍</span>
+          <span class="quiz-counter" id="quizCounter"><strong>1</strong> / <strong>10</strong></span>
+        </div>
+        <span class="quiz-score-live">🎯 <strong id="quizScore">0</strong></span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="quizProgress" style="width:0%"></div>
+      </div>
+
+      <div class="q-number" id="qNum">PREGUNTA 1</div>
+      <div class="q-text" id="qText">—</div>
+
+      <div class="opts" id="optsContainer"></div>
+
+      <div class="fb" id="fbEl"></div>
+      <div id="expBox" class="exp-box" style="display:none">
+        <strong id="expCat">🌍</strong> <span id="expText">—</span>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="quizMainBtn" disabled onclick="handleQuizAction()">Comprobar</button>
       </div>
     </div>
+  </div>
 
-    <div class="cal-stats" id="calStats">
-      <span><span class="dot green"></span> <span id="calCorrectCount">0</span></span>
-      <span><span class="dot red"></span> <span id="calWrongCount">0</span></span>
-      <span style="color:var(--accent)">🔥 <span id="calStreakCount">0</span></span>
-    </div>
-
-    <div class="cal-weekdays">
-      <span>L</span><span>M</span><span>X</span><span>J</span><span>V</span><span>S</span><span>D</span>
-    </div>
-    <div class="cal-grid" id="calGrid"></div>
-
-    <div class="cal-legend">
-      <div><span class="dot green"></span> Acertado</div>
-      <div><span class="dot red"></span> Fallado</div>
-      <div><span class="dot gray"></span> Pendiente</div>
+  <!-- ── RESULTS ── -->
+  <div class="screen" id="screenResults">
+    <div class="card">
+      <div class="results-hero">
+        <h2 id="resultsTitle">Resultados</h2>
+        <p id="resultsGrade">—</p>
+      </div>
+      <div class="score-ring">
+        <div class="big-num" id="resultsBigNum">0/10</div>
+        <div class="label">de 10 aciertos</div>
+      </div>
+      <div class="stats-row">
+        <div class="stat-box"><div class="num green" id="rCorrect">0</div><div class="lbl">Aciertos</div></div>
+        <div class="stat-box"><div class="num red" id="rWrong">0</div><div class="lbl">Fallos</div></div>
+        <div class="stat-box"><div class="num gold" id="rPct">0%</div><div class="lbl">Precisión</div></div>
+        <div class="stat-box"><div class="num white" id="rStreak">0</div><div class="lbl">Racha 🔥</div></div>
+      </div>
+      <div class="breakdown" id="breakdownSection">
+        <h3>📊 Por categoría</h3>
+        <div id="breakdownBars"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="startQuiz()">🔁 Repetir test</button>
+        <button class="btn btn-secondary" onclick="goHome()">🏠 Inicio</button>
+      </div>
     </div>
   </div>
+
+  <!-- ── ARCHIVE ── -->
+  <div class="screen" id="screenArchive">
+    <div class="card">
+      <h2 style="font-family:'Playfair Display';font-size:1.5rem;margin-bottom:4px">📚 Tests anteriores</h2>
+      <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:20px">Selecciona un test para replay.</p>
+      <div class="archive-list" id="archiveList"></div>
+    </div>
+  </div>
+
+  <!-- ── CATEGORIES ── -->
+  <div class="screen" id="screenCategories">
+    <div class="card">
+      <h2 style="font-family:'Playfair Display';font-size:1.5rem;margin-bottom:4px">🏷️ Categorías</h2>
+      <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:20px">Todas las preguntas agrupadas.</p>
+      <div class="cat-grid" id="catGrid"></div>
+    </div>
+  </div>
+
+  <!-- ── SPECIALS ── -->
+  <div class="screen" id="screenSpecials">
+    <div class="card">
+      <h2 style="font-family:'Playfair Display';font-size:1.5rem;margin-bottom:4px">⭐ Tests especiales</h2>
+      <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:20px">Próximamente — tests temáticos y colaboraciones.</p>
+      <div style="text-align:center;padding:40px 0;color:var(--text-secondary)">
+        <div style="font-size:3rem;margin-bottom:12px">🚧</div>
+        <p>Estamos preparando contenido especial para ti.</p>
+        <p style="font-size:0.85rem;margin-top:8px">¡Vuelve pronto!</p>
+      </div>
+    </div>
+  </div>
+
 </div>
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <a class="donate-btn" href="#" id="donateBtn" target="_blank" rel="noopener" onclick="this.href=getDonateUrl()">
+      <span>💛</span> Donar con PayPal
+    </a>
+    <div class="credit">
+      Desarrollado por <strong>20leunam</strong> © 2026
+    </div>
+  </div>
+</footer>
 
 <!-- ═══════ CONFETTI ═══════ -->
 <div class="confetti-container" id="confettiContainer"></div>
 
 <script>
-// ═══════════════════════════════════════════════
-//  BANCO DE PREGUNTAS (mixtas: cultura, ciencia,
-//  historia, lengua, geografía, curiosidades)
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
+//  TESTS: Cada test = 10 preguntas
+//  Se asignan por día con índice determinista.
+// ═══════════════════════════════════════════════════
 
-const QUESTIONS = [
-  // ── Geografía ──
-  { q: "¿Cuál es el río más largo del mundo?", opts: ["Amazonas", "Nilo", "Misisipi", "Yangtsé"], correct: 1, cat: "🌍 Geografía", exp: "El río Nilo mide unos 6.650 km, ligeramente más largo que el Amazonas (6.400 km)." },
-  { q: "¿Cuál es el país más pequeño del mundo?", opts: ["Mónaco", "Vaticano", "San Marino", "Liechtenstein"], correct: 1, cat: "🌍 Geografía", exp: "El Vaticano tiene solo 0,44 km². Es el país independiente más pequeño del mundo." },
-  { q: "¿Qué océano es el más profundo?", opts: ["Atlántico", "Índico", "Pacífico", "Ártico"], correct: 2, cat: "🌍 Geografía", exp: "El océano Pacífico alberga la fosa de las Marianas, con casi 11 km de profundidad." },
-  { q: "¿Cuántos países hay en África?", opts: ["44", "48", "54", "58"], correct: 2, cat: "🌍 Geografía", exp: "África tiene 54 países reconocidos por la ONU." },
-  { q: "¿Cuál es la capital de Australia?", opts: ["Sídney", "Melbourne", "Canberra", "Brisbane"], correct: 2, cat: "🌍 Geografía", exp: "Canberra fue elegida como capital en 1908 como compromiso entre Sídney y Melbourne." },
-  { q: "¿Qué estrecho separa Europa de África?", opts: ["Gibraltar", "Bósforo", "Dardanelos", "Mesina"], correct: 0, cat: "🌍 Geografía", exp: "El estrecho de Gibraltar separa España de Marruecos, conectando el Atlántico con el Mediterráneo." },
-  { q: "¿Cuál es el desierto más grande del mundo?", opts: ["Sáhara", "Gobi", "Antártida", "Kalahari"], correct: 2, cat: "🌍 Geografía", exp: "La Antártida es el desierto más grande: 14 millones de km² de hielo con muy poca precipitación." },
-  { q: "¿Qué país tiene más husos horarios?", opts: ["Rusia", "EE.UU.", "Francia", "China"], correct: 2, cat: "🌍 Geografía", exp: "Francia tiene 12 husos horarios gracias a sus territorios de ultramar repartidos por el mundo." },
+const TESTS = [
+  // ── TEST 0: Mezcla Explosiva ──
+  {
+    id: 0, title: "Mezcla Explosiva",
+    emojis: "🌍📜🔬📖🧠",
+    questions: [
+      { q: "¿Cuál es el río más largo del mundo?", opts: ["Amazonas", "Nilo", "Misisipi", "Yangtsé"], correct: 1, cat: "🌍 Geografía", exp: "El río Nilo mide unos 6.650 km, ligeramente más largo que el Amazonas." },
+      { q: "¿Cuál es el país más pequeño del mundo?", opts: ["Mónaco", "Ciudad del Vaticano", "San Marino", "Liechtenstein"], correct: 1, cat: "🌍 Geografía", exp: "El Vaticano tiene solo 0,44 km². Es el país independiente más pequeño." },
+      { q: "¿Qué significa 'efímero'?", opts: ["Muy grande", "Que dura poco", "Muy antiguo", "Que brilla"], correct: 1, cat: "📖 Lengua", exp: "Efímero significa que dura muy poco tiempo, pasajero." },
+      { q: "¿En qué año cayó el muro de Berlín?", opts: ["1987", "1989", "1991", "1985"], correct: 1, cat: "📜 Historia", exp: "El muro cayó el 9 de noviembre de 1989, marcando el fin de la Guerra Fría." },
+      { q: "¿Cuántos huesos tiene un adulto?", opts: ["106", "206", "306", "156"], correct: 1, cat: "🔬 Ciencia", exp: "Un adulto tiene 206 huesos. Los bebés nacen con ~270 que se fusionan." },
+      { q: "¿Cuál es el animal terrestre más rápido?", opts: ["León", "Guepardo", "Antílope", "Caballo"], correct: 1, cat: "🔬 Ciencia", exp: "El guepardo alcanza hasta 110 km/h en carreras cortas." },
+      { q: "¿Qué insecto puede vivir sin cabeza varios días?", opts: ["Hormiga", "Cucaracha", "Mosca", "Abeja"], correct: 1, cat: "🧠 Curiosidades", exp: "Una cucaracha vive hasta una semana sin cabeza, pues respira por espiráculos." },
+      { q: "¿Quién pintó 'La noche estrellada'?", opts: ["Picasso", "Van Gogh", "Dalí", "Monet"], correct: 1, cat: "🎨 Arte", exp: "Van Gogh la pintó en 1889 desde el asilo de Saint-Rémy." },
+      { q: "¿Qué gas respiramos principalmente del aire?", opts: ["Oxígeno", "Nitrógeno", "CO₂", "Argón"], correct: 1, cat: "🔬 Ciencia", exp: "El aire es ~78 % nitrógeno y solo ~21 % oxígeno." },
+      { q: "¿Cuál es un antónimo de 'benévolo'?", opts: ["Malévolo", "Amable", "Compasivo", "Gentil"], correct: 0, cat: "📖 Lengua", exp: "Malévolo significa malvado, lo opuesto a benévolo." },
+    ]
+  },
 
-  // ── Historia ──
-  { q: "¿En qué año cayó el muro de Berlín?", opts: ["1987", "1989", "1991", "1985"], correct: 1, cat: "📜 Historia", exp: "El muro de Berlín cayó el 9 de noviembre de 1989, marcando el fin de la Guerra Fría." },
-  { q: "¿Quién fue el primer presidente de Estados Unidos?", opts: ["John Adams", "Thomas Jefferson", "George Washington", "Benjamin Franklin"], correct: 2, cat: "📜 Historia", exp: "George Washington fue presidente de 1789 a 1797." },
-  { q: "¿Qué civilización construyó Machu Picchu?", opts: ["Azteca", "Maya", "Inca", "Olmeca"], correct: 2, cat: "📜 Historia", exp: "Machu Picchu fue construida por los incas en el siglo XV en lo alto de los Andes peruanos." },
-  { q: "¿En qué año empezó la II Guerra Mundial?", opts: ["1937", "1938", "1939", "1940"], correct: 2, cat: "📜 Historia", exp: "Comenzó el 1 de septiembre de 1939 con la invasión de Polonia por Alemania." },
-  { q: "¿Quién pintó la Capilla Sixtina?", opts: ["Leonardo da Vinci", "Rafael", "Miguel Ángel", "Donatello"], correct: 2, cat: "📜 Historia", exp: "Miguel Ángel pintó el techo de la Capilla Sixtina entre 1508 y 1512." },
-  { q: "¿Qué imperio construyó el Coliseo romano?", opts: ["Griego", "Romano", "Bizantino", "Egipcio"], correct: 1, cat: "📜 Historia", exp: "El Coliseo fue construido en el s. I d.C. durante el Imperio Romano, bajo los Flavios." },
-  { q: "¿Quién fue el primer humano en el espacio?", opts: ["Neil Armstrong", "Yuri Gagarin", "John Glenn", "Buzz Aldrin"], correct: 1, cat: "📜 Historia", exp: "Yuri Gagarin orbitó la Tierra el 12 de abril de 1961 a bordo del Vostok 1." },
+  // ── TEST 1: Ciencia y Curiosidades ──
+  {
+    id: 1, title: "Ciencia y Curiosidades",
+    emojis: "🔬🧠🌌",
+    questions: [
+      { q: "¿Qué planeta es conocido como 'el planeta rojo'?", opts: ["Venus", "Júpiter", "Marte", "Saturno"], correct: 2, cat: "🔬 Ciencia", exp: "Marte debe su color al óxido de hierro en su superficie." },
+      { q: "¿Cuál es la estrella más cercana a la Tierra?", opts: ["Próxima Centauri", "Sirio", "Alfa Centauri", "El Sol"], correct: 3, cat: "🔬 Ciencia", exp: "El Sol está a ~150 millones de km. La siguiente es Próxima Centauri." },
+      { q: "¿Qué órgano bombea sangre en el cuerpo?", opts: ["Pulmón", "Hígado", "Corazón", "Riñón"], correct: 2, cat: "🔬 Ciencia", exp: "El corazón late ~100.000 veces al día, bombeando ~7.500 litros de sangre." },
+      { q: "¿Cuántos dientes tiene un adulto completo?", opts: ["28", "30", "32", "34"], correct: 2, cat: "🔬 Ciencia", exp: "Un adulto tiene 32 dientes: 8 incisivos, 4 caninos, 8 premolares y 12 molares." },
+      { q: "¿Qué elemento químico tiene símbolo 'Fe'?", opts: ["Flúor", "Francio", "Hierro", "Fósforo"], correct: 2, cat: "🔬 Ciencia", exp: "Fe viene del latín 'ferrum'. Es el metal más abundante en la Tierra." },
+      { q: "¿Qué mide un año luz?", opts: ["Tiempo", "Distancia", "Velocidad", "Brillo"], correct: 1, cat: "🧠 Curiosidades", exp: "Un año luz es la distancia que recorre la luz en un año: ~9,46 billones de km." },
+      { q: "¿Qué color ven mejor los humanos al anochecer?", opts: ["Rojo", "Azul", "Verde", "Amarillo"], correct: 1, cat: "🧠 Curiosidades", exp: "Los conos azules son más sensibles con poca luz." },
+      { q: "¿Cuál es el único mamífero que vuela realmente?", opts: ["Murciélago", "Ardilla voladora", "Petauro", "Pájaro"], correct: 0, cat: "🧠 Curiosidades", exp: "Los murciélagos son los únicos mamíferos con vuelo propulsado real." },
+      { q: "¿Qué país tiene más vacas per cápita?", opts: ["Argentina", "India", "Nueva Zelanda", "Uruguay"], correct: 2, cat: "🧠 Curiosidades", exp: "Nueva Zelanda tiene ~10 vacas por persona." },
+      { q: "¿Cuál es la huella dactilar más común?", opts: ["Arco", "Presilla", "Verticilo", "Mixta"], correct: 1, cat: "🧠 Curiosidades", exp: "La presilla (lazo) es el patrón más común (~65% de personas)." },
+    ]
+  },
 
-  // ── Ciencia ──
-  { q: "¿Cuántos huesos tiene el cuerpo humano adulto?", opts: ["106", "206", "306", "156"], correct: 1, cat: "🔬 Ciencia", exp: "Un adulto tiene 206 huesos. Los bebés nacen con unos 270 que se fusionan al crecer." },
-  { q: "¿Qué planeta es conocido como 'el planeta rojo'?", opts: ["Venus", "Júpiter", "Marte", "Saturno"], correct: 2, cat: "🔬 Ciencia", exp: "Marte debe su color rojizo al óxido de hierro en su superficie." },
-  { q: "¿Cuál es el animal terrestre más rápido?", opts: ["León", "Guepardo", "Antílope", "Caballo"], correct: 1, cat: "🔬 Ciencia", exp: "El guepardo alcanza hasta 110 km/h en carreras cortas." },
-  { q: "¿Qué gas respiramos principalmente del aire?", opts: ["Oxígeno", "Nitrógeno", "Dióxido de carbono", "Argón"], correct: 1, cat: "🔬 Ciencia", exp: "El aire es ~78 % nitrógeno y solo ~21 % oxígeno." },
-  { q: "¿Cuál es la estrella más cercana a la Tierra?", opts: ["Próxima Centauri", "Sirio", "Alfa Centauri", "El Sol"], correct: 3, cat: "🔬 Ciencia", exp: "El Sol está a ~150 millones de km. La siguiente más cercana es Próxima Centauri." },
-  { q: "¿Qué órgano del cuerpo humano bombea sangre?", opts: ["Pulmón", "Hígado", "Corazón", "Riñón"], correct: 2, cat: "🔬 Ciencia", exp: "El corazón late unas 100.000 veces al día, bombeando ~7.500 litros de sangre." },
-  { q: "¿Cuántos dientes tiene un adulto completo?", opts: ["28", "30", "32", "34"], correct: 2, cat: "🔬 Ciencia", exp: "Un adulto tiene 32 dientes: 8 incisivos, 4 caninos, 8 premolares y 12 molares." },
-  { q: "¿Qué elemento químico tiene símbolo 'Fe'?", opts: ["Flúor", "Francio", "Hierro", "Fósforo"], correct: 2, cat: "🔬 Ciencia", exp: "Fe viene del latín 'ferrum'. El hierro es el metal más abundante en la Tierra." },
+  // ── TEST 2: Viaje por el Mundo ──
+  {
+    id: 2, title: "Viaje por el Mundo",
+    emojis: "🌍🗺️📜",
+    questions: [
+      { q: "¿Qué océano es el más profundo?", opts: ["Atlántico", "Índico", "Pacífico", "Ártico"], correct: 2, cat: "🌍 Geografía", exp: "El Pacífico alberga la fosa de las Marianas, con casi 11 km de profundidad." },
+      { q: "¿Cuántos países hay en África?", opts: ["44", "48", "54", "58"], correct: 2, cat: "🌍 Geografía", exp: "África tiene 54 países reconocidos por la ONU." },
+      { q: "¿Cuál es la capital de Australia?", opts: ["Sídney", "Melbourne", "Canberra", "Brisbane"], correct: 2, cat: "🌍 Geografía", exp: "Canberra fue elegida capital en 1908 como compromiso entre Sídney y Melbourne." },
+      { q: "¿Qué estrecho separa Europa de África?", opts: ["Gibraltar", "Bósforo", "Dardanelos", "Mesina"], correct: 0, cat: "🌍 Geografía", exp: "El estrecho de Gibraltar separa España de Marruecos." },
+      { q: "¿Cuál es el desierto más grande del mundo?", opts: ["Sáhara", "Gobi", "Antártida", "Kalahari"], correct: 2, cat: "🌍 Geografía", exp: "La Antártida es el mayor desierto: 14 millones de km² de hielo." },
+      { q: "¿Qué país tiene más husos horarios?", opts: ["Rusia", "EE.UU.", "Francia", "China"], correct: 2, cat: "🌍 Geografía", exp: "Francia tiene 12 husos horarios gracias a sus territorios de ultramar." },
+      { q: "¿Quién fue el primer presidente de EE.UU.?", opts: ["John Adams", "Jefferson", "George Washington", "Franklin"], correct: 2, cat: "📜 Historia", exp: "Washington fue presidente de 1789 a 1797." },
+      { q: "¿Qué civilización construyó Machu Picchu?", opts: ["Azteca", "Maya", "Inca", "Olmeca"], correct: 2, cat: "📜 Historia", exp: "Machu Picchu fue construida por los incas en el s. XV en los Andes peruanos." },
+      { q: "¿En qué año empezó la II Guerra Mundial?", opts: ["1937", "1938", "1939", "1940"], correct: 2, cat: "📜 Historia", exp: "Comenzó el 1 de septiembre de 1939 con la invasión de Polonia." },
+      { q: "¿Qué imperio construyó el Coliseo romano?", opts: ["Griego", "Romano", "Bizantino", "Egipcio"], correct: 1, cat: "📜 Historia", exp: "El Coliseo fue construido en el s. I d.C. durante el Imperio Romano." },
+    ]
+  },
 
-  // ── Lengua / Vocabulario ──
-  { q: "¿Qué significa 'efímero'?", opts: ["Muy grande", "Que dura poco", "Muy antiguo", "Que brilla"], correct: 1, cat: "📖 Lengua", exp: "Efímero significa que dura muy poco tiempo, pasajero." },
-  { q: "¿Qué significa 'ambiguo'?", opts: ["Que tiene varios significados", "Que no tiene significado", "Que es muy claro", "Que es dudoso"], correct: 0, cat: "📖 Lengua", exp: "Ambiguo es algo que puede entenderse de varios modos o admitir distintas interpretaciones." },
-  { q: "¿Cuál es el plural correcto de 'crisis'?", opts: ["Crisis", "Crisises", "Crises", "Crisisos"], correct: 0, cat: "📖 Lengua", exp: "Crisis es un sustantivo invariable: la crisis / las crisis." },
-  { q: "¿Qué palabra es un antónimo de 'benévolo'?", opts: ["Malévolo", "Amable", "Compasivo", "Gentil"], correct: 0, cat: "📖 Lengua", exp: "Malévolo significa malvado o que desea el mal, lo opuesto a benévolo." },
-  { q: "¿Qué figura retórica consiste en la exageración?", opts: ["Metáfora", "Hipérbole", "Ironía", "Símil"], correct: 1, cat: "📖 Lengua", exp: "La hipérbole es una exageración: 'te llamo un millón de veces'." },
-  { q: "¿Cuál es la palabra más larga del español según la RAE?", opts: ["Electroencefalografista", "Esternocleidomastoideo", "Anticonstitucionalmente", "Otorrinolaringólogo"], correct: 2, cat: "📖 Lengua", exp: "Anticonstitucionalmente tiene 23 letras." },
+  // ── TEST 3: Palabras y Arte ──
+  {
+    id: 3, title: "Palabras y Arte",
+    emojis: "📖🎨📜",
+    questions: [
+      { q: "¿Qué significa 'ambiguo'?", opts: ["Que tiene varios significados", "Que no tiene significado", "Que es muy claro", "Que es dudoso"], correct: 0, cat: "📖 Lengua", exp: "Ambiguo es algo que puede entenderse de varios modos." },
+      { q: "¿Cuál es el plural correcto de 'crisis'?", opts: ["Crisis", "Crisises", "Crises", "Crisisos"], correct: 0, cat: "📖 Lengua", exp: "'Crisis' es invariable: la crisis / las crisis." },
+      { q: "¿Qué figura retórica consiste en exagerar?", opts: ["Metáfora", "Hipérbole", "Ironía", "Símil"], correct: 1, cat: "📖 Lengua", exp: "La hipérbole exagera: 'te llamé un millón de veces'." },
+      { q: "¿Cuál es la palabra más larga del español RAE?", opts: ["Electroencefalografista", "Esternocleidomastoideo", "Anticonstitucionalmente", "Otorrinolaringólogo"], correct: 2, cat: "📖 Lengua", exp: "Anticonstitucionalmente tiene 23 letras." },
+      { q: "¿Quién fue el primer humano en el espacio?", opts: ["Neil Armstrong", "Yuri Gagarin", "John Glenn", "Buzz Aldrin"], correct: 1, cat: "📜 Historia", exp: "Gagarin orbitó la Tierra el 12 de abril de 1961." },
+      { q: "¿Quién pintó la Capilla Sixtina?", opts: ["Leonardo", "Rafael", "Miguel Ángel", "Donatello"], correct: 2, cat: "📜 Historia", exp: "Miguel Ángel pintó el techo de la Capilla Sixtina (1508-1512)." },
+      { q: "¿Cuál es la novela más vendida de la historia?", opts: ["El Quijote", "Historia de dos ciudades", "Cien años de soledad", "El Principito"], correct: 0, cat: "🎨 Arte", exp: "El Quijote ha vendido más de 500 millones de copias." },
+      { q: "¿Qué instrumento se toca con arco?", opts: ["Guitarra", "Violín", "Piano", "Arpa"], correct: 1, cat: "🎨 Arte", exp: "El violín se toca frotando sus cuerdas con un arco." },
+      { q: "¿En qué país nació el flamenco?", opts: ["Portugal", "Francia", "España", "Italia"], correct: 2, cat: "🎨 Arte", exp: "El flamenco nació en Andalucía (España) en el s. XVIII." },
+      { q: "¿Quién escribió 'Cien años de soledad'?", opts: ["Vargas Llosa", "Cortázar", "Gabriel García Márquez", "Borges"], correct: 2, cat: "🎨 Arte", exp: "García Márquez la publicó en 1967, obra cumbre del realismo mágico." },
+    ]
+  },
 
-  // ── Curiosidades / Variadas ──
-  { q: "¿Qué animal puede vivir sin cabeza más tiempo?", opts: ["Gusano", "Cucaracha", "Pez", "Rana"], correct: 1, cat: "🧠 Curiosidades", exp: "Una cucaracha puede vivir hasta una semana sin cabeza, pues respira por espiráculos." },
-  { q: "¿Cuántos días tarda la Tierra en orbitar el Sol?", opts: ["355", "360", "365", "370"], correct: 2, cat: "🧠 Curiosidades", exp: "Son ~365,25 días. Por eso añadimos un día extra cada 4 años (año bisiesto)." },
-  { q: "¿Qué dedo tiene la uña que crece más lento?", opts: ["Pulgar", "Índice", "Meñique", "Corazón"], correct: 2, cat: "🧠 Curiosidades", exp: "La uña del meñique crece más lenta. Las uñas de los dedos de la mano dominante crecen más rápido." },
-  { q: "¿Cuál es el único mamífero que puede volar realmente?", opts: ["Murciélago", "Ardilla voladora", "Petauro", "Pájaro"], correct: 0, cat: "🧠 Curiosidades", exp: "Los murciélagos son los únicos mamíferos con vuelo propulsado real." },
-  { q: "¿Qué país tiene más vacas per cápita?", opts: ["Argentina", "India", "Nueva Zelanda", "Uruguay"], correct: 2, cat: "🧠 Curiosidades", exp: "Nueva Zelanda tiene ~10 vacas por persona. En total unos 10 millones de bovinos." },
-  { q: "¿Qué color ven primero los humanos al anochecer?", opts: ["Rojo", "Azul", "Verde", "Amarillo"], correct: 1, cat: "🧠 Curiosidades", exp: "Los conos azules son más sensibles con poca luz, por eso el cielo se ve azul oscuro al atardecer." },
-  { q: "¿Cuál es la huella dactilar más común?", opts: ["Arco", "Presilla", "Verticilo", "Mixta"], correct: 1, cat: "🧠 Curiosidades", exp: "La presilla (lazo) es el patrón más común, presente en ~65 % de las personas." },
-  { q: "¿Qué mide un año luz?", opts: ["Tiempo", "Distancia", "Velocidad", "Brillo"], correct: 1, cat: "🧠 Curiosidades", exp: "Un año luz es la distancia que recorre la luz en un año: ~9,46 billones de km." },
+  // ── TEST 4: Piensa Rápido ──
+  {
+    id: 4, title: "Piensa Rápido",
+    emojis: "🧮🧠💡",
+    questions: [
+      { q: "¿Cuántos lados tiene un hexágono?", opts: ["4", "5", "6", "8"], correct: 2, cat: "🧮 Lógica", exp: "Hexágono viene del griego 'hex' (seis)." },
+      { q: "Si tienes 3 manzanas y regalas 1, ¿cuántas quedan?", opts: ["1", "2", "3", "4"], correct: 1, cat: "🧮 Lógica", exp: "3 - 1 = 2." },
+      { q: "Un edificio tiene 5 pisos. El 1º es planta baja. ¿Cómo se llama el 5º?", opts: ["5º piso", "4º piso", "Ático", "3º piso"], correct: 0, cat: "🧮 Lógica", exp: "El orden es: PB, 1º, 2º, 3º, 4º... luego el 5º es el 5º piso." },
+      { q: "¿Qué número falta? 2, 4, 6, ?, 10", opts: ["7", "8", "9", "12"], correct: 1, cat: "🧮 Lógica", exp: "Son números pares: 2, 4, 6, 8, 10." },
+      { q: "Si ayer era lunes, ¿qué día es pasado mañana?", opts: ["Miércoles", "Jueves", "Viernes", "Sábado"], correct: 1, cat: "🧮 Lógica", exp: "Ayer lunes → martes → mañana miércoles → pasado mañana jueves." },
+      { q: "¿Qué dedo tiene la uña que crece más lento?", opts: ["Pulgar", "Índice", "Meñique", "Anular"], correct: 2, cat: "🧠 Curiosidades", exp: "La uña del meñique crece más lento que las demás." },
+      { q: "¿Cuántos días tarda la Tierra en orbitar el Sol?", opts: ["355", "360", "365", "370"], correct: 2, cat: "🧠 Curiosidades", exp: "Son ~365,25 días. Por eso hay año bisiesto cada 4 años." },
+      { q: "¿Quién escribió la Odisea?", opts: ["Sófocles", "Homero", "Platón", "Aristóteles"], correct: 1, cat: "🎨 Arte", exp: "Homero escribió la Odisea y la Ilíada en la Antigua Grecia." },
+      { q: "¿Cuál es el metal más abundante en la corteza terrestre?", opts: ["Hierro", "Aluminio", "Cobre", "Oro"], correct: 1, cat: "🔬 Ciencia", exp: "El aluminio es el metal más abundante, constituyendo ~8% de la corteza." },
+      { q: "¿Qué país tiene forma de bota?", opts: ["Francia", "España", "Italia", "Grecia"], correct: 2, cat: "🌍 Geografía", exp: "Italia tiene la forma característica de una bota." },
+    ]
+  },
 
-  // ── Arte / Cultura ──
-  { q: "¿Quién pintó 'La noche estrellada'?", opts: ["Van Gogh", "Picasso", "Dalí", "Monet"], correct: 0, cat: "🎨 Arte", exp: "Van Gogh pintó 'La noche estrellada' en 1889 desde el asilo de Saint-Rémy." },
-  { q: "¿Cuál es la novela más vendida de la historia?", opts: ["El Quijote", "Don Quijote", "Historia de dos ciudades", "Cien años de soledad"], correct: 1, cat: "🎨 Arte", exp: "El Quijote ha vendido más de 500 millones de copias." },
-  { q: "¿Qué instrumento musical tiene cuerdas y se toca con arco?", opts: ["Guitarra", "Violín", "Piano", "Arpa"], correct: 1, cat: "🎨 Arte", exp: "El violín se toca frotando las cuerdas con un arco de madera y crin de caballo." },
-  { q: "¿En qué país se originó el flamenco?", opts: ["Portugal", "Francia", "España", "Italia"], correct: 2, cat: "🎨 Arte", exp: "El flamenco nació en Andalucía (España) en el siglo XVIII." },
-  { q: "¿Quién escribió 'Cien años de soledad'?", opts: ["Mario Vargas Llosa", "Julio Cortázar", "Gabriel García Márquez", "Jorge Luis Borges"], correct: 2, cat: "🎨 Arte", exp: "García Márquez publicó 'Cien años de soledad' en 1967, obra cumbre del realismo mágico." },
-
-  // ── Lógica / Matemáticas ──
-  { q: "Si tienes 3 manzanas y regalas 1, ¿cuántas te quedan?", opts: ["1", "2", "3", "4"], correct: 1, cat: "🧮 Lógica", exp: "3 - 1 = 2. ¡Sencillo pero siempre hay que leer bien!" },
-  { q: "¿Cuántos lados tiene un hexágono?", opts: ["4", "5", "6", "8"], correct: 2, cat: "🧮 Lógica", exp: "Hexágono viene del griego 'hex' (seis) y 'gonia' (ángulo)." },
-  { q: "Un edificio tiene 5 pisos. El 1º se llama 'planta baja'. ¿Cómo se llama el 5º?", opts: ["5º piso", "Cuarto piso", "Ático", "Tercer piso"], correct: 0, cat: "🧮 Lógica", exp: "Si el primero es planta baja, el 2º es 1º, luego 2º, 3º, 4º... el 5º piso es el 5º." },
-  { q: "¿Qué número falta? 2, 4, 6, ?, 10", opts: ["7", "8", "9", "12"], correct: 1, cat: "🧮 Lógica", exp: "Son números pares consecutivos: 2, 4, 6, 8, 10." },
-  { q: "Si ayer era lunes, ¿qué día será pasado mañana?", opts: ["Miércoles", "Jueves", "Viernes", "Sábado"], correct: 1, cat: "🧮 Lógica", exp: "Ayer lunes → hoy martes → mañana miércoles → pasado mañana jueves." },
+  // ── TEST 5: Variado ──
+  {
+    id: 5, title: "Variado Selecto",
+    emojis: "🌟🌍🔬📖",
+    questions: [
+      { q: "¿Cuál es el río más caudaloso del mundo?", opts: ["Nilo", "Amazonas", "Yangtsé", "Misisipi"], correct: 1, cat: "🌍 Geografía", exp: "El Amazonas es el río más caudaloso, con un caudal de ~209.000 m³/s." },
+      { q: "¿En qué año comenzó la Revolución Francesa?", opts: ["1776", "1789", "1799", "1804"], correct: 1, cat: "📜 Historia", exp: "La Revolución Francesa comenzó en 1789 con la toma de la Bastilla." },
+      { q: "¿Cuántos cromosomas tiene el ser humano?", opts: ["23", "44", "46", "48"], correct: 2, cat: "🔬 Ciencia", exp: "Los humanos tenemos 46 cromosomas (23 pares)." },
+      { q: "¿Qué instrumento tiene 88 teclas?", opts: ["Órgano", "Piano", "Clavicémbalo", "Acordeón"], correct: 1, cat: "🎨 Arte", exp: "Un piano estándar tiene 88 teclas: 52 blancas y 36 negras." },
+      { q: "¿Cuál es el animal más longevo conocido?", opts: ["Tortuga gigante", "Ballena de Groenlandia", "Medusa inmortal", "Elefante"], correct: 1, cat: "🧠 Curiosidades", exp: "La ballena de Groenlandia puede vivir más de 200 años." },
+      { q: "¿Cuántos idiomas se hablan en el mundo aprox.?", opts: ["1500", "3500", "7000", "10000"], correct: 2, cat: "🧠 Curiosidades", exp: "Se estima que hay ~7.000 idiomas en el mundo." },
+      { q: "¿Qué pesa más: 1 kg de plomo o 1 kg de plumas?", opts: ["Plomo", "Plumas", "Pesan igual", "Depende"], correct: 2, cat: "🧮 Lógica", exp: "Ambos pesan 1 kg exactamente. El volumen es lo que cambia." },
+      { q: "¿Qué siglo es el año 1492?", opts: ["XIV", "XV", "XVI", "XIII"], correct: 1, cat: "📜 Historia", exp: "1492 pertenece al siglo XV (los años 1401-1500)." },
+      { q: "¿Qué parte del cuerpo no deja de crecer?", opts: ["Pies", "Orejas y nariz", "Cabello", "Uñas"], correct: 1, cat: "🧠 Curiosidades", exp: "Las orejas y la nariz siguen creciendo lentamente toda la vida." },
+      { q: "¿Cuántos minutos tiene una semana?", opts: ["7200", "10080", "14400", "5040"], correct: 1, cat: "🧮 Lógica", exp: "7 días × 24 h × 60 min = 10.080 minutos." },
+    ]
+  },
 ];
 
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 //  STATE
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 
-const STORAGE_KEY = 'dailytest_results';
-const EPOCH = new Date(2026, 5, 17);
+const STORAGE_KEY = 'dailytest10';
+const EPOCH = new Date(2026, 5, 17); // June 17, 2026
 
-let selectedOption = null;
-let revealed = false;
-let currentQuestion = null;
-let todayStr = '';
-let calMonth = new Date();
+let state = {
+  currentTestId: null,    // today's test id
+  questions: [],          // shuffled questions for current session
+  currentIdx: 0,
+  score: 0,
+  wrong: 0,
+  selectedOpt: null,
+  revealed: false,
+  selectedTestId: null,   // which test is being played (today or archive)
+  quizHistory: [],        // [{cat, correct}] per answered question
+};
 
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 //  HELPERS
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 
 function dateStr(d) {
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  return `${y}-${m}-${day}`;
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
 
-function getTodaysQuestionIndex() {
-  const today = new Date();
-  today.setHours(0,0,0,0);
-  const epoch = new Date(EPOCH);
-  epoch.setHours(0,0,0,0);
-  const diff = Math.floor((today - epoch) / (1000 * 60 * 60 * 24));
-  return diff % QUESTIONS.length;
+function getTodaysTestId() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const epoch = new Date(EPOCH); epoch.setHours(0,0,0,0);
+  const diff = Math.floor((today - epoch) / (1000*60*60*24));
+  return diff % TESTS.length;
+}
+
+function formatDate(d) {
+  const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const dias = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  return `${dias[d.getDay()]}, ${d.getDate()} de ${meses[d.getMonth()]} de ${d.getFullYear()}`;
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length-1; i>0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 }
 
 function getResults() {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch { return {}; }
 }
 
-function saveResult(date, data) {
+function save(testId, data) {
   const r = getResults();
-  r[date] = data;
+  r[testId] = data;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(r));
 }
 
-function calcStreak(results) {
+function calcStreak() {
+  const r = getResults();
   let streak = 0;
-  const d = new Date();
-  d.setHours(0,0,0,0);
-  // Check today first
-  const todayS = dateStr(d);
-  if (results[todayS]) {
-    streak++;
-    // Go backwards
-    for (let i = 1; i < 365; i++) {
-      const prev = new Date(d);
-      prev.setDate(prev.getDate() - i);
-      const key = dateStr(prev);
-      if (results[key]) streak++;
-      else break;
-    }
+  const d = new Date(); d.setHours(0,0,0,0);
+  const todayKey = dateStr(d);
+  // Check today
+  if (r[todayKey]) streak++;
+  else return 0; // if not done today, streak is 0
+
+  for (let i=1; i<366; i++) {
+    const prev = new Date(d); prev.setDate(prev.getDate()-i);
+    const k = dateStr(prev);
+    if (r[k] && r[k].pct >= 50) streak++;
+    else break; // streak broken
   }
   return streak;
 }
 
-function calcBestStreak(results) {
-  const sorted = Object.keys(results)
-    .filter(k => results[k].correct !== undefined)
-    .sort();
-  if (!sorted.length) return 0;
-  let best = 0, current = 0;
-  for (let i = 0; i < sorted.length; i++) {
-    const curr = new Date(sorted[i] + 'T12:00:00');
-    const prev = i > 0 ? new Date(sorted[i-1] + 'T12:00:00') : null;
-    const diff = prev ? Math.round((curr - prev) / (1000*60*60*24)) : 1;
-    if (diff === 1 && results[sorted[i]].correct) {
-      current++;
-    } else if (results[sorted[i]].correct) {
-      current = 1;
-    } else {
-      current = 0;
-    }
-    best = Math.max(best, current);
-  }
-  return best;
+function countDone() {
+  const r = getResults();
+  return Object.keys(r).length;
 }
 
-function shuffle(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
-// ═══════════════════════════════════════════════
-//  SCREENS
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
+//  NAV
+// ═══════════════════════════════════════════════════
 
 function switchScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
 
-function goHome() { switchScreen('homeScreen'); renderHome(); }
-
-function formatDateSpanish(d) {
-  const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-  const dias = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
-  return `${dias[d.getDay()]}, ${d.getDate()} de ${meses[d.getMonth()]} de ${d.getFullYear()}`;
+function closeMenu() {
+  document.getElementById('sideMenu').classList.remove('open');
+  document.getElementById('navOverlay').classList.remove('open');
+  document.getElementById('hamburgerBtn').classList.remove('open');
 }
 
-// ═══════════════════════════════════════════════
+function toggleMenu() {
+  const m = document.getElementById('sideMenu');
+  const o = document.getElementById('navOverlay');
+  const h = document.getElementById('hamburgerBtn');
+  const op = m.classList.contains('open');
+  m.classList.toggle('open');
+  o.classList.toggle('open');
+  h.classList.toggle('open');
+}
+
+function navigate(screen) {
+  closeMenu();
+  // Update menu active state
+  document.querySelectorAll('.side-menu .menu-item').forEach(item => item.classList.remove('active'));
+  const idx = { home:0, archive:1, categories:2, specials:3 };
+  document.querySelectorAll('.side-menu .menu-item')[idx[screen]]?.classList.add('active');
+
+  switch(screen) {
+    case 'home': goHome(); break;
+    case 'archive': renderArchive(); break;
+    case 'categories': renderCategories(); break;
+    case 'specials': switchScreen('screenSpecials'); break;
+  }
+}
+
+function goHome() {
+  switchScreen('screenHome');
+  renderHome();
+}
+
+// ═══════════════════════════════════════════════════
 //  HOME
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 
 function renderHome() {
-  const now = new Date();
-  todayStr = dateStr(now);
-  document.getElementById('dateBadge').innerHTML = `📅 <strong>${formatDateSpanish(now)}</strong>`;
-
-  const idx = getTodaysQuestionIndex();
-  currentQuestion = QUESTIONS[idx];
+  const todayId = getTodaysTestId();
+  const test = TESTS[todayId];
+  const todayKey = dateStr(new Date());
   const results = getResults();
 
-  // Streak
-  const streak = calcStreak(results);
-  document.getElementById('streakNum').textContent = streak;
+  document.getElementById('todayDateDisplay').textContent = '📅 ' + formatDate(new Date());
+  document.getElementById('todayTestTitle').textContent = test.title;
+  document.getElementById('todayTestMeta').textContent = '10 preguntas • Test #' + (todayId+1);
+  document.getElementById('todayTestNum').textContent = 'Test #' + (todayId+1);
+  document.getElementById('todayTestCats').textContent = test.emojis;
 
-  // Today's answer?
-  const todaysResult = results[todayStr];
-
-  const questionArea = document.getElementById('questionArea');
-  const seeYouArea = document.getElementById('seeYouArea');
-  const answeredBanner = document.getElementById('answeredBanner');
-
-  if (todaysResult) {
-    // Already answered
-    questionArea.style.display = 'none';
-    seeYouArea.style.display = 'block';
-    answeredBanner.style.display = 'block';
-    const verdict = todaysResult.correct ? '✅ ¡Acertaste!' : '❌ Fallaste';
-    const cls = todaysResult.correct ? 'correct-text' : 'incorrect-text';
-    answeredBanner.innerHTML =
-      `<span class="${cls}">${verdict}</span> — ${
-        todaysResult.correct
-          ? 'Hoy ya has completado tu test.'
-          : `La respuesta correcta era: <strong>${currentQuestion.opts[currentQuestion.correct]}</strong>`
-      }`;
-    document.getElementById('seeYouMsg').innerHTML =
-      `🌟 ¡Hoy ya completaste tu test! <strong>Vuelve mañana</strong> para una nueva pregunta.`;
-    return;
+  const todayDone = results[todayKey];
+  document.getElementById('todayDoneBanner').style.display = todayDone ? 'block' : 'none';
+  if (todayDone) {
+    document.getElementById('todayDoneBanner').innerHTML =
+      '<div class="done-badge" style="display:flex;justify-content:center">✅ Completado · ' +
+      todayDone.correct + '/10 (' + todayDone.pct + '%)</div>';
   }
 
-  // New question
-  questionArea.style.display = 'block';
-  seeYouArea.style.display = 'none';
-  answeredBanner.style.display = 'none';
+  // Update menu stats
+  document.getElementById('menuStreak').textContent = calcStreak();
+  document.getElementById('menuDone').textContent = countDone();
+}
 
-  document.getElementById('categoryTag').textContent = currentQuestion.cat;
-  document.getElementById('questionText').textContent = currentQuestion.q;
+// ═══════════════════════════════════════════════════
+//  QUIZ
+// ═══════════════════════════════════════════════════
 
-  // Build options (shuffle)
-  const indices = [0, 1, 2, 3];
-  const shuffled = shuffle(indices);
-  const letters = ['A', 'B', 'C', 'D'];
-  const grid = document.getElementById('optionsGrid');
-  grid.innerHTML = shuffled.map((origIdx, i) => `
-    <button class="option-btn" data-idx="${origIdx}">
-      <span class="option-letter">${letters[i]}</span>
-      <span>${currentQuestion.opts[origIdx]}</span>
+function startQuiz(testId) {
+  const id = testId !== undefined ? testId : getTodaysTestId();
+  const test = TESTS[id];
+  if (!test) return;
+
+  state.currentTestId = id;
+  state.selectedTestId = id;
+  state.questions = shuffle(test.questions.map((q,i) => ({...q, origIdx: i})));
+  state.currentIdx = 0;
+  state.score = 0;
+  state.wrong = 0;
+  state.selectedOpt = null;
+  state.revealed = false;
+  state.quizHistory = [];
+
+  switchScreen('screenQuiz');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const qs = state.questions;
+  if (state.currentIdx >= qs.length) { showResults(); return; }
+
+  const q = qs[state.currentIdx];
+  state.revealed = false;
+  state.selectedOpt = null;
+
+  document.getElementById('quizCatBadge').textContent = q.cat;
+  document.getElementById('quizCounter').innerHTML = `<strong>${state.currentIdx+1}</strong> / <strong>${qs.length}</strong>`;
+  document.getElementById('quizScore').textContent = state.score;
+  document.getElementById('quizProgress').style.width = ((state.currentIdx / qs.length) * 100) + '%';
+  document.getElementById('qNum').textContent = 'PREGUNTA ' + (state.currentIdx+1);
+  document.getElementById('qText').textContent = q.q;
+  document.getElementById('fbEl').textContent = '';
+  document.getElementById('fbEl').className = 'fb';
+  document.getElementById('expBox').style.display = 'none';
+
+  const letters = ['A','B','C','D'];
+  const order = shuffle([0,1,2,3]);
+  const container = document.getElementById('optsContainer');
+  container.innerHTML = order.map((oi, i) => `
+    <button class="opt-btn" data-idx="${oi}">
+      <span class="opt-letter">${letters[i]}</span>
+      <span>${q.opts[oi]}</span>
     </button>
   `).join('');
 
-  grid.querySelectorAll('.option-btn').forEach(btn => {
+  container.querySelectorAll('.opt-btn').forEach(btn => {
     btn.addEventListener('click', function() {
-      if (revealed) return;
-      grid.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+      if (state.revealed) return;
+      container.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
       this.classList.add('selected');
-      selectedOption = parseInt(this.dataset.idx);
-      document.getElementById('mainBtn').disabled = false;
+      state.selectedOpt = parseInt(this.dataset.idx);
+      document.getElementById('quizMainBtn').disabled = false;
     });
   });
 
-  // Reset state
-  revealed = false;
-  selectedOption = null;
-  document.getElementById('mainBtn').textContent = 'Comprobar';
-  document.getElementById('mainBtn').disabled = true;
-  document.getElementById('mainBtn').onclick = handleMainAction;
-  document.getElementById('feedbackEl').textContent = '';
-  document.getElementById('feedbackEl').className = 'feedback';
-  document.getElementById('explanationArea').style.display = 'none';
+  const mainBtn = document.getElementById('quizMainBtn');
+  mainBtn.textContent = 'Comprobar';
+  mainBtn.disabled = true;
+  mainBtn.onclick = handleQuizAction;
 }
 
-function handleMainAction() {
-  if (!revealed) {
-    checkAnswer();
-  } else {
-    // After revealing, show "see you" screen
-    document.getElementById('questionArea').style.display = 'none';
-    document.getElementById('seeYouArea').style.display = 'block';
-    document.getElementById('answeredBanner').style.display = 'none';
-  }
+function handleQuizAction() {
+  if (!state.revealed) { checkQuizAnswer(); return; }
+  // Next question
+  state.currentIdx++;
+  if (state.currentIdx >= state.questions.length) { showResults(); return; }
+  renderQuestion();
 }
 
-function checkAnswer() {
-  if (selectedOption === null) return;
-  const q = currentQuestion;
-  const isCorrect = (selectedOption === q.correct);
-  revealed = true;
+function checkQuizAnswer() {
+  if (state.selectedOpt === null) return;
+  const q = state.questions[state.currentIdx];
+  const isCorrect = (state.selectedOpt === q.correct);
+  state.revealed = true;
 
-  // Save result
-  const results = getResults();
-  results[todayStr] = { correct: isCorrect, selected: selectedOption };
-  saveResult(todayStr, results[todayStr]);
-
-  // Update streak
-  const streak = calcStreak(results);
-  document.getElementById('streakNum').textContent = streak;
+  if (isCorrect) state.score++;
+  else state.wrong++;
+  state.quizHistory.push({ cat: q.cat, correct: isCorrect });
 
   // Highlight options
-  document.querySelectorAll('.option-btn').forEach(btn => {
+  document.querySelectorAll('.opt-btn').forEach(btn => {
     btn.classList.add('locked');
     const idx = parseInt(btn.dataset.idx);
     if (idx === q.correct) btn.classList.add('correct');
-    else if (idx === selectedOption && !isCorrect) btn.classList.add('incorrect');
+    else if (idx === state.selectedOpt && !isCorrect) btn.classList.add('incorrect');
   });
 
   // Feedback
-  const fb = document.getElementById('feedbackEl');
+  const fb = document.getElementById('fbEl');
   if (isCorrect) {
     fb.textContent = '✅ ¡Correcto!';
-    fb.className = 'feedback correct';
+    fb.className = 'fb correct';
   } else {
-    fb.textContent = `❌ Incorrecto — La respuesta era: "${q.opts[q.correct]}"`;
-    fb.className = 'feedback incorrect';
+    fb.textContent = '❌ La respuesta era: ' + q.opts[q.correct];
+    fb.className = 'fb incorrect';
   }
 
   // Explanation
-  const expArea = document.getElementById('explanationArea');
-  document.getElementById('explanationText').innerHTML = `<strong>${q.cat}</strong> — ${q.exp}`;
-  expArea.style.display = 'block';
+  document.getElementById('expCat').textContent = q.cat;
+  document.getElementById('expText').textContent = q.exp;
+  document.getElementById('expBox').style.display = 'block';
 
-  // Change button
-  const btn = document.getElementById('mainBtn');
-  btn.textContent = 'Siguiente →';
+  document.getElementById('quizScore').textContent = state.score;
+
+  const btn = document.getElementById('quizMainBtn');
+  const isLast = state.currentIdx >= state.questions.length - 1;
+  btn.textContent = isLast ? 'Ver resultados →' : 'Siguiente  →';
   btn.disabled = false;
-
-  // Confetti if correct
-  if (isCorrect) spawnConfetti();
 }
 
-// ═══════════════════════════════════════════════
-//  CALENDAR
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
+//  RESULTS
+// ═══════════════════════════════════════════════════
 
-function showCalendar() {
-  switchScreen('calScreen');
-  renderCalendar();
-}
+function showResults() {
+  switchScreen('screenResults');
+  const total = state.questions.length;
+  const pct = Math.round((state.score / total) * 100);
 
-function changeMonth(delta) {
-  calMonth = new Date(calMonth.getFullYear(), calMonth.getMonth() + delta, 1);
-  renderCalendar();
-}
+  const todayKey = dateStr(new Date());
+  const testId = state.currentTestId;
+  const isToday = (testId === getTodaysTestId());
 
-function renderCalendar() {
-  const results = getResults();
-  const year = calMonth.getFullYear();
-  const month = calMonth.getMonth();
+  // Save if it's today's test
+  if (isToday) {
+    save(todayKey, { correct: state.score, total, pct, testId });
+    // Update streak
+    document.getElementById('menuStreak').textContent = calcStreak();
+    document.getElementById('menuDone').textContent = countDone();
+  }
 
-  const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-  document.getElementById('calTitle').textContent = `${meses[month]} ${year}`;
+  // Grade
+  let grade, color;
+  if (pct >= 90) { grade = '🏆 ¡Excelente! Dominas el tema.'; color = '#c9a96e'; }
+  else if (pct >= 70) { grade = '🥇 Muy bien. Sólido conocimiento.'; color = '#4caf91'; }
+  else if (pct >= 50) { grade = '🥈 Bien. Un poco más de práctica.'; color = '#8b9dc3'; }
+  else if (pct >= 30) { grade = '🥉 Hay que repasar. ¡Ánimo!'; color = '#d4856b'; }
+  else { grade = '📚 Toca estudiar. ¡Vuelve a intentarlo!'; color = '#e0556a'; }
 
-  // Stats
-  let correct = 0, wrong = 0;
-  Object.entries(results).forEach(([k, v]) => {
-    if (k.startsWith(`${year}-${String(month+1).padStart(2,'0')}`)) {
-      if (v.correct) correct++; else wrong++;
-    }
+  document.getElementById('resultsTitle').textContent = (isToday ? '📅 Test del Día' : '📝 ' + (TESTS[testId]?.title || 'Resultados'));
+  document.getElementById('resultsGrade').textContent = grade;
+  document.getElementById('resultsGrade').style.color = color;
+  document.getElementById('resultsBigNum').textContent = state.score + '/' + total;
+  document.getElementById('rCorrect').textContent = state.score;
+  document.getElementById('rWrong').textContent = state.wrong;
+  document.getElementById('rPct').textContent = pct + '%';
+  document.getElementById('rStreak').textContent = calcStreak();
+
+  // Make "Repetir" button replay the same test
+  document.querySelector('#screenResults .btn-primary').onclick = () => startQuiz(state.selectedTestId);
+
+  // Per-category breakdown from quiz history
+  const breakdown = {};
+  state.quizHistory.forEach(h => {
+    if (!breakdown[h.cat]) breakdown[h.cat] = { cat: h.cat, correct: 0, total: 0, emoji: h.cat.split(' ')[0] };
+    breakdown[h.cat].total++;
+    if (h.correct) breakdown[h.cat].correct++;
   });
-  document.getElementById('calCorrectCount').textContent = correct;
-  document.getElementById('calWrongCount').textContent = wrong;
-  document.getElementById('calStreakCount').textContent = calcStreak(results);
 
-  // Build grid
-  const firstDay = new Date(year, month, 1);
-  const lastDay = new Date(year, month + 1, 0);
-  // Monday-based (0 = Monday)
-  let startDow = firstDay.getDay(); // 0=Sun
-  startDow = startDow === 0 ? 6 : startDow - 1; // Convert to Mon=0
+  const barColors = {
+    '🌍 Geografía': '#5ba0b9', '📜 Historia': '#8b9dc3', '🔬 Ciencia': '#4caf91',
+    '📖 Lengua': '#b491c8', '🧠 Curiosidades': '#d4856b', '🎨 Arte': '#c9a96e',
+    '🧮 Lógica': '#e2c88a'
+  };
 
-  const today = new Date();
-  const todayS = dateStr(today);
-
-  let html = '';
-  // Empty cells
-  for (let i = 0; i < startDow; i++) {
-    html += '<div class="cal-day empty"></div>';
+  const barsContainer = document.getElementById('breakdownBars');
+  const catEntries = Object.values(breakdown);
+  if (catEntries.length) {
+    barsContainer.innerHTML = catEntries.map(c => {
+      const color = barColors[c.cat] || '#c9a96e';
+      const pctW = c.total > 0 ? (c.correct / c.total) * 100 : 0;
+      return `
+        <div class="bar-row">
+          <span class="lbl" style="font-size:0.72rem">${c.emoji}</span>
+          <div class="track">
+            <div class="fill" style="width:${pctW}%;background:${color}"><span>${c.correct}/${c.total}</span></div>
+          </div>
+        </div>`;
+    }).join('');
+  } else {
+    barsContainer.innerHTML = '<div style="color:var(--text-secondary);font-size:0.85rem">Completa el test para ver el desglose.</div>';
   }
 
-  for (let d = 1; d <= lastDay.getDate(); d++) {
-    const date = new Date(year, month, d);
-    const key = dateStr(date);
-    const isToday = key === todayS;
-    const isFuture = date > today;
-    const result = results[key];
+  // Confetti if good score
+  if (pct >= 70) spawnConfetti();
 
-    let cls = 'cal-day';
-    if (isToday) cls += ' today';
-    if (isFuture) cls += ' future';
-    else if (result) cls += result.correct ? ' correct' : ' incorrect';
-    else if (!isFuture) cls += ' past-todo';
-
-    html += `<div class="${cls}">${d}</div>`;
-  }
-
-  document.getElementById('calGrid').innerHTML = html;
+  // Update home
+  renderHome();
 }
 
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
+//  ARCHIVE
+// ═══════════════════════════════════════════════════
+
+function renderArchive() {
+  switchScreen('screenArchive');
+  const results = getResults();
+
+  const list = document.getElementById('archiveList');
+  list.innerHTML = TESTS.map((test, i) => {
+    // Check if this test was completed (on its assigned day)
+    const assignedDate = new Date(EPOCH);
+    assignedDate.setDate(assignedDate.getDate() + i);
+    const key = dateStr(assignedDate);
+    const done = results[key];
+
+    return `
+      <div class="archive-item" onclick="startQuiz(${i})">
+        <div class="ai-date">#${i+1}</div>
+        <div class="ai-title">${test.title} <span style="font-size:0.78rem;color:var(--text-secondary)">${test.emojis}</span></div>
+        <div class="ai-done ${done ? 'y' : 'n'}">${done ? '✓' : '?'}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════
+//  CATEGORIES
+// ═══════════════════════════════════════════════════
+
+function renderCategories() {
+  switchScreen('screenCategories');
+  const cats = {};
+  const emojis = {};
+  TESTS.forEach(test => {
+    test.questions.forEach(q => {
+      if (!cats[q.cat]) { cats[q.cat] = 0; emojis[q.cat] = q.cat.split(' ')[0]; }
+      cats[q.cat]++;
+    });
+  });
+
+  const grid = document.getElementById('catGrid');
+  grid.innerHTML = Object.entries(cats).map(([cat, count]) => `
+    <div class="cat-item">
+      <div class="ci-emoji">${emojis[cat]}</div>
+      <div class="ci-info">
+        <div class="ci-name">${cat}</div>
+        <div class="ci-count">${count} preguntas</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════
 //  CONFETTI
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 
 function spawnConfetti() {
   const container = document.getElementById('confettiContainer');
   const colors = ['#c9a96e','#e2c88a','#4caf91','#8b9dc3','#b491c8','#d4856b','#5ba0b9','#e0556a'];
   const pieces = [];
-  for (let i = 0; i < 60; i++) {
+  for (let i=0;i<60;i++) {
     const el = document.createElement('div');
     el.className = 'confetti-piece';
-    el.style.left = Math.random() * 100 + '%';
-    el.style.top = -(Math.random() * 40 + 10) + 'px';
-    el.style.width = (Math.random() * 8 + 4) + 'px';
-    el.style.height = (Math.random() * 8 + 4) + 'px';
-    el.style.background = colors[Math.floor(Math.random() * colors.length)];
-    el.style.animationDuration = (Math.random() * 2 + 2) + 's';
-    el.style.animationDelay = Math.random() * 1.5 + 's';
-    el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    el.style.left = Math.random()*100+'%';
+    el.style.top = -(Math.random()*40+10)+'px';
+    el.style.width = (Math.random()*8+4)+'px';
+    el.style.height = (Math.random()*8+4)+'px';
+    el.style.background = colors[Math.floor(Math.random()*colors.length)];
+    el.style.animationDuration = (Math.random()*2+2)+'s';
+    el.style.animationDelay = Math.random()*1.5+'s';
+    el.style.borderRadius = Math.random()>0.5?'50%':'2px';
     container.appendChild(el);
     pieces.push(el);
   }
-  setTimeout(() => { pieces.forEach(el => el.remove()); }, 4500);
+  setTimeout(() => pieces.forEach(el => el.remove()), 4500);
 }
 
-// ═══════════════════════════════════════════════
-//  GO
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════
 
-document.addEventListener('DOMContentLoaded', renderHome);
+function getDonateUrl() {
+  // Replace YOUR_PAYPAL_BUTTON_ID with your real PayPal button ID
+  // Create one at: https://www.paypal.com/donate/buttons
+  const YOUR_BUTTON_ID = "YOUR_BUTTON_ID";
+  return "https://www.paypal.com/donate/?hosted_button_id=" + YOUR_BUTTON_ID;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderHome();
+});
 </script>
 </body>
 </html>
