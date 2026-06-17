@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f0f11">
+<title>Test del Día · Pregunta diaria</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f0f11;
+    --surface: #1a1a1f;
+    --surface-raised: #22222a;
+    --border: #2a2a35;
+    --text: #e4e4ec;
+    --text-secondary: #9090a8;
+    --accent: #c9a96e;
+    --accent-glow: rgba(201, 169, 110, 0.25);
+    --green: #4caf91;
+    --green-bg: rgba(76, 175, 145, 0.12);
+    --green-border: rgba(76, 175, 145, 0.35);
+    --red: #e0556a;
+    --red-bg: rgba(224, 85, 106, 0.12);
+    --red-border: rgba(224, 85, 106, 0.35);
+    --gold-gradient: linear-gradient(135deg, #c9a96e, #e2c88a, #c9a96e);
+    --shadow-lg: 0 25px 60px rgba(0,0,0,0.5);
+    --radius-sm: 10px;
+    --radius: 16px;
+    --radius-lg: 24px;
+    --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image:
+      radial-gradient(ellipse at 30% 20%, rgba(201,169,110,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 80%, rgba(201,169,110,0.04) 0%, transparent 60%);
+    -webkit-tap-highlight-color: transparent;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+
+  .screen { display: none; width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; }
+  .screen.active { display: block; animation: fadeSlideIn 0.4s ease; }
+
+  @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes confettiDrop { 0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(105vh) rotate(720deg); opacity: 0; } }
+
+  /* ─── CARD (reusable) ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 40px 32px 32px;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--gold-gradient);
+  }
+
+  /* ─── HOME ── */
+  .top-bar {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 28px; gap: 12px;
+  }
+  .date-badge {
+    font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--text-secondary); font-weight: 600;
+  }
+  .date-badge strong { color: var(--text); font-size: 0.85rem; }
+  .top-right { display: flex; align-items: center; gap: 12px; }
+  .streak-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px; border-radius: 100px;
+    font-size: 0.8rem; font-weight: 600;
+    background: rgba(201,169,110,0.1); border: 1px solid rgba(201,169,110,0.2);
+    color: var(--accent); cursor: pointer; transition: all var(--transition);
+  }
+  .streak-badge:hover { background: rgba(201,169,110,0.18); }
+
+  .home-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2rem; font-weight: 700; letter-spacing: -0.02em;
+    background: var(--gold-gradient); -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; background-clip: text;
+    margin-bottom: 4px;
+  }
+  .home-subtitle { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 24px; }
+
+  .already-answered-banner {
+    text-align: center; padding: 14px; border-radius: var(--radius);
+    background: var(--surface-raised); border: 1px solid var(--border);
+    margin-bottom: 20px; font-size: 0.9rem;
+  }
+  .already-answered-banner .correct-text { color: var(--green); font-weight: 600; }
+  .already-answered-banner .incorrect-text { color: var(--red); font-weight: 600; }
+
+  .category-tag {
+    display: inline-block; padding: 6px 16px; border-radius: 100px;
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.04em;
+    background: rgba(201,169,110,0.1); border: 1px solid rgba(201,169,110,0.2);
+    color: var(--accent); margin-bottom: 20px;
+  }
+
+  .question-text {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.5rem; font-weight: 600; line-height: 1.4;
+    margin-bottom: 28px; color: var(--text);
+  }
+
+  .options-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+
+  .option-btn {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 18px; background: var(--surface-raised);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    cursor: pointer; transition: all var(--transition);
+    text-align: left; font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.92rem; color: var(--text); font-weight: 500;
+    -webkit-appearance: none; -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation; position: relative;
+  }
+  .option-btn:hover:not(.locked) { border-color: #555; background: #26262e; transform: translateY(-1px); }
+  .option-btn.selected { border-color: var(--accent); background: rgba(201,169,110,0.08); box-shadow: 0 0 0 2px var(--accent-glow); }
+  .option-btn.correct { border-color: var(--green-border) !important; background: var(--green-bg) !important; box-shadow: 0 0 0 2px rgba(76,175,145,0.2) !important; }
+  .option-btn.incorrect { border-color: var(--red-border) !important; background: var(--red-bg) !important; box-shadow: 0 0 0 2px rgba(224,85,106,0.2) !important; }
+  .option-btn.locked { pointer-events: none; }
+  .option-letter {
+    width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; font-weight: 700; font-size: 0.82rem;
+    background: var(--surface); color: var(--text-secondary); flex-shrink: 0;
+    transition: all var(--transition);
+  }
+  .option-btn.selected .option-letter { background: var(--accent); color: #1a1a1f; }
+  .option-btn.correct .option-letter { background: var(--green); color: #fff; }
+  .option-btn.incorrect .option-letter { background: var(--red); color: #fff; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 14px 36px; border-radius: 100px;
+    font-family: 'Inter', system-ui, sans-serif; font-size: 0.95rem;
+    font-weight: 600; letter-spacing: 0.02em; cursor: pointer; border: none;
+    transition: all var(--transition); -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+  }
+  .btn-primary {
+    background: var(--gold-gradient); color: #1a1a1f;
+    box-shadow: 0 8px 30px rgba(201,169,110,0.3);
+  }
+  .btn-primary:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(201,169,110,0.4); }
+  .btn-primary:active:not(:disabled) { transform: translateY(0); }
+  .btn-primary:disabled { opacity: 0.35; cursor: not-allowed; }
+  .btn-secondary {
+    background: transparent; color: var(--text); border: 1px solid var(--border);
+  }
+  .btn-secondary:hover { background: var(--surface-raised); border-color: #444; }
+
+  .feedback {
+    text-align: center; margin-bottom: 16px; font-weight: 600; font-size: 0.95rem;
+    min-height: 24px; transition: all var(--transition);
+  }
+  .feedback.correct { color: var(--green); }
+  .feedback.incorrect { color: var(--red); }
+
+  .explanation-box {
+    background: var(--surface-raised); border-radius: var(--radius);
+    padding: 16px 20px; margin-bottom: 24px; font-size: 0.88rem;
+    line-height: 1.6; color: var(--text-secondary);
+    border: 1px solid var(--border);
+  }
+  .explanation-box strong { color: var(--text); }
+
+  .action-row { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+
+  .see-you-row {
+    text-align: center; padding: 20px 0 10px; border-top: 1px solid var(--border);
+    margin-top: 24px;
+  }
+  .see-you-row .big-emoji { font-size: 2.4rem; display: block; margin-bottom: 8px; }
+  .see-you-row p { color: var(--text-secondary); font-size: 0.9rem; }
+  .see-you-row p strong { color: var(--accent); }
+
+  /* ─── CALENDAR ── */
+  .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+  .cal-header h2 { font-family: 'Playfair Display', Georgia, serif; font-size: 1.4rem; }
+  .cal-nav { display: flex; gap: 8px; }
+  .cal-nav button {
+    width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border);
+    background: transparent; color: var(--text); font-size: 1.1rem;
+    cursor: pointer; transition: all var(--transition); display: flex;
+    align-items: center; justify-content: center;
+  }
+  .cal-nav button:hover { background: var(--surface-raised); border-color: #444; }
+
+  .cal-stats {
+    display: flex; gap: 16px; justify-content: center; margin-bottom: 24px;
+    font-size: 0.85rem;
+  }
+  .cal-stats span { display: flex; align-items: center; gap: 6px; }
+  .cal-stats .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .dot.green { background: var(--green); }
+  .dot.red { background: var(--red); }
+  .dot.gray { background: var(--border); }
+
+  .cal-weekdays {
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 4px;
+    text-align: center; font-size: 0.72rem; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--text-secondary); font-weight: 600;
+  }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .cal-day {
+    aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; font-size: 0.85rem; font-weight: 500;
+    border: 1px solid transparent; position: relative;
+  }
+  .cal-day.empty { border: none; }
+  .cal-day.today { border-color: var(--accent); font-weight: 700; }
+  .cal-day.correct { background: var(--green-bg); color: var(--green); border-color: var(--green-border); }
+  .cal-day.incorrect { background: var(--red-bg); color: var(--red); border-color: var(--red-border); }
+  .cal-day.future { color: #3a3a45; }
+  .cal-day.past-todo { color: var(--text-secondary); }
+
+  .cal-legend {
+    display: flex; gap: 20px; justify-content: center; margin-top: 20px; font-size: 0.8rem;
+  }
+  .cal-legend div { display: flex; align-items: center; gap: 6px; }
+
+  /* ─── CONFETTI ── */
+  .confetti-container {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 9999; overflow: hidden;
+  }
+  .confetti-piece {
+    position: absolute; width: 10px; height: 10px; border-radius: 2px;
+    animation: confettiDrop linear forwards; will-change: transform, opacity;
+  }
+
+  /* ─── RESPONSIVE ── */
+  @media (max-width: 520px) {
+    .card { padding: 28px 18px 24px; }
+    .home-title { font-size: 1.6rem; }
+    .question-text { font-size: 1.25rem; }
+    .top-bar { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════ HOME SCREEN ═══════ -->
+<div class="screen active" id="homeScreen">
+  <div class="card">
+    <div class="top-bar">
+      <div>
+        <div class="date-badge" id="dateBadge">—</div>
+        <div class="home-title">Test del Día</div>
+        <div class="home-subtitle">Una pregunta nueva cada día</div>
+      </div>
+      <div class="top-right">
+        <div class="streak-badge" id="streakBadge" onclick="showCalendar()">🔥 <span id="streakNum">0</span></div>
+      </div>
+    </div>
+
+    <div id="answeredBanner" class="already-answered-banner" style="display:none"></div>
+
+    <div id="questionArea">
+      <div class="category-tag" id="categoryTag">🌍 Categoría</div>
+      <div class="question-text" id="questionText">—</div>
+
+      <div class="options-grid" id="optionsGrid"></div>
+
+      <div class="feedback" id="feedbackEl"></div>
+
+      <div id="explanationArea" style="display:none">
+        <div class="explanation-box" id="explanationText"></div>
+      </div>
+
+      <div class="action-row">
+        <button class="btn btn-primary" id="mainBtn" disabled onclick="handleMainAction()">Comprobar</button>
+        <button class="btn btn-secondary" id="calBtn" onclick="showCalendar()">📅</button>
+      </div>
+    </div>
+
+    <div id="seeYouArea" style="display:none">
+      <div class="see-you-row">
+        <span class="big-emoji">🌟</span>
+        <p id="seeYouMsg">¡Hoy ya completaste tu test! <strong>Vuelve mañana</strong> para una nueva pregunta.</p>
+      </div>
+      <div class="action-row" style="margin-top:12px">
+        <button class="btn btn-secondary" onclick="showCalendar()">📅 Ver mi calendario</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ CALENDAR SCREEN ═══════ -->
+<div class="screen" id="calScreen">
+  <div class="card">
+    <div class="cal-header">
+      <button class="btn btn-secondary" onclick="goHome()" style="padding:8px 16px;font-size:0.85rem">← Volver</button>
+      <h2 id="calTitle">—</h2>
+      <div class="cal-nav">
+        <button onclick="changeMonth(-1)">‹</button>
+        <button onclick="changeMonth(1)">›</button>
+      </div>
+    </div>
+
+    <div class="cal-stats" id="calStats">
+      <span><span class="dot green"></span> <span id="calCorrectCount">0</span></span>
+      <span><span class="dot red"></span> <span id="calWrongCount">0</span></span>
+      <span style="color:var(--accent)">🔥 <span id="calStreakCount">0</span></span>
+    </div>
+
+    <div class="cal-weekdays">
+      <span>L</span><span>M</span><span>X</span><span>J</span><span>V</span><span>S</span><span>D</span>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+
+    <div class="cal-legend">
+      <div><span class="dot green"></span> Acertado</div>
+      <div><span class="dot red"></span> Fallado</div>
+      <div><span class="dot gray"></span> Pendiente</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ CONFETTI ═══════ -->
+<div class="confetti-container" id="confettiContainer"></div>
+
+<script>
+// ═══════════════════════════════════════════════
+//  BANCO DE PREGUNTAS (mixtas: cultura, ciencia,
+//  historia, lengua, geografía, curiosidades)
+// ═══════════════════════════════════════════════
+
+const QUESTIONS = [
+  // ── Geografía ──
+  { q: "¿Cuál es el río más largo del mundo?", opts: ["Amazonas", "Nilo", "Misisipi", "Yangtsé"], correct: 1, cat: "🌍 Geografía", exp: "El río Nilo mide unos 6.650 km, ligeramente más largo que el Amazonas (6.400 km)." },
+  { q: "¿Cuál es el país más pequeño del mundo?", opts: ["Mónaco", "Vaticano", "San Marino", "Liechtenstein"], correct: 1, cat: "🌍 Geografía", exp: "El Vaticano tiene solo 0,44 km². Es el país independiente más pequeño del mundo." },
+  { q: "¿Qué océano es el más profundo?", opts: ["Atlántico", "Índico", "Pacífico", "Ártico"], correct: 2, cat: "🌍 Geografía", exp: "El océano Pacífico alberga la fosa de las Marianas, con casi 11 km de profundidad." },
+  { q: "¿Cuántos países hay en África?", opts: ["44", "48", "54", "58"], correct: 2, cat: "🌍 Geografía", exp: "África tiene 54 países reconocidos por la ONU." },
+  { q: "¿Cuál es la capital de Australia?", opts: ["Sídney", "Melbourne", "Canberra", "Brisbane"], correct: 2, cat: "🌍 Geografía", exp: "Canberra fue elegida como capital en 1908 como compromiso entre Sídney y Melbourne." },
+  { q: "¿Qué estrecho separa Europa de África?", opts: ["Gibraltar", "Bósforo", "Dardanelos", "Mesina"], correct: 0, cat: "🌍 Geografía", exp: "El estrecho de Gibraltar separa España de Marruecos, conectando el Atlántico con el Mediterráneo." },
+  { q: "¿Cuál es el desierto más grande del mundo?", opts: ["Sáhara", "Gobi", "Antártida", "Kalahari"], correct: 2, cat: "🌍 Geografía", exp: "La Antártida es el desierto más grande: 14 millones de km² de hielo con muy poca precipitación." },
+  { q: "¿Qué país tiene más husos horarios?", opts: ["Rusia", "EE.UU.", "Francia", "China"], correct: 2, cat: "🌍 Geografía", exp: "Francia tiene 12 husos horarios gracias a sus territorios de ultramar repartidos por el mundo." },
+
+  // ── Historia ──
+  { q: "¿En qué año cayó el muro de Berlín?", opts: ["1987", "1989", "1991", "1985"], correct: 1, cat: "📜 Historia", exp: "El muro de Berlín cayó el 9 de noviembre de 1989, marcando el fin de la Guerra Fría." },
+  { q: "¿Quién fue el primer presidente de Estados Unidos?", opts: ["John Adams", "Thomas Jefferson", "George Washington", "Benjamin Franklin"], correct: 2, cat: "📜 Historia", exp: "George Washington fue presidente de 1789 a 1797." },
+  { q: "¿Qué civilización construyó Machu Picchu?", opts: ["Azteca", "Maya", "Inca", "Olmeca"], correct: 2, cat: "📜 Historia", exp: "Machu Picchu fue construida por los incas en el siglo XV en lo alto de los Andes peruanos." },
+  { q: "¿En qué año empezó la II Guerra Mundial?", opts: ["1937", "1938", "1939", "1940"], correct: 2, cat: "📜 Historia", exp: "Comenzó el 1 de septiembre de 1939 con la invasión de Polonia por Alemania." },
+  { q: "¿Quién pintó la Capilla Sixtina?", opts: ["Leonardo da Vinci", "Rafael", "Miguel Ángel", "Donatello"], correct: 2, cat: "📜 Historia", exp: "Miguel Ángel pintó el techo de la Capilla Sixtina entre 1508 y 1512." },
+  { q: "¿Qué imperio construyó el Coliseo romano?", opts: ["Griego", "Romano", "Bizantino", "Egipcio"], correct: 1, cat: "📜 Historia", exp: "El Coliseo fue construido en el s. I d.C. durante el Imperio Romano, bajo los Flavios." },
+  { q: "¿Quién fue el primer humano en el espacio?", opts: ["Neil Armstrong", "Yuri Gagarin", "John Glenn", "Buzz Aldrin"], correct: 1, cat: "📜 Historia", exp: "Yuri Gagarin orbitó la Tierra el 12 de abril de 1961 a bordo del Vostok 1." },
+
+  // ── Ciencia ──
+  { q: "¿Cuántos huesos tiene el cuerpo humano adulto?", opts: ["106", "206", "306", "156"], correct: 1, cat: "🔬 Ciencia", exp: "Un adulto tiene 206 huesos. Los bebés nacen con unos 270 que se fusionan al crecer." },
+  { q: "¿Qué planeta es conocido como 'el planeta rojo'?", opts: ["Venus", "Júpiter", "Marte", "Saturno"], correct: 2, cat: "🔬 Ciencia", exp: "Marte debe su color rojizo al óxido de hierro en su superficie." },
+  { q: "¿Cuál es el animal terrestre más rápido?", opts: ["León", "Guepardo", "Antílope", "Caballo"], correct: 1, cat: "🔬 Ciencia", exp: "El guepardo alcanza hasta 110 km/h en carreras cortas." },
+  { q: "¿Qué gas respiramos principalmente del aire?", opts: ["Oxígeno", "Nitrógeno", "Dióxido de carbono", "Argón"], correct: 1, cat: "🔬 Ciencia", exp: "El aire es ~78 % nitrógeno y solo ~21 % oxígeno." },
+  { q: "¿Cuál es la estrella más cercana a la Tierra?", opts: ["Próxima Centauri", "Sirio", "Alfa Centauri", "El Sol"], correct: 3, cat: "🔬 Ciencia", exp: "El Sol está a ~150 millones de km. La siguiente más cercana es Próxima Centauri." },
+  { q: "¿Qué órgano del cuerpo humano bombea sangre?", opts: ["Pulmón", "Hígado", "Corazón", "Riñón"], correct: 2, cat: "🔬 Ciencia", exp: "El corazón late unas 100.000 veces al día, bombeando ~7.500 litros de sangre." },
+  { q: "¿Cuántos dientes tiene un adulto completo?", opts: ["28", "30", "32", "34"], correct: 2, cat: "🔬 Ciencia", exp: "Un adulto tiene 32 dientes: 8 incisivos, 4 caninos, 8 premolares y 12 molares." },
+  { q: "¿Qué elemento químico tiene símbolo 'Fe'?", opts: ["Flúor", "Francio", "Hierro", "Fósforo"], correct: 2, cat: "🔬 Ciencia", exp: "Fe viene del latín 'ferrum'. El hierro es el metal más abundante en la Tierra." },
+
+  // ── Lengua / Vocabulario ──
+  { q: "¿Qué significa 'efímero'?", opts: ["Muy grande", "Que dura poco", "Muy antiguo", "Que brilla"], correct: 1, cat: "📖 Lengua", exp: "Efímero significa que dura muy poco tiempo, pasajero." },
+  { q: "¿Qué significa 'ambiguo'?", opts: ["Que tiene varios significados", "Que no tiene significado", "Que es muy claro", "Que es dudoso"], correct: 0, cat: "📖 Lengua", exp: "Ambiguo es algo que puede entenderse de varios modos o admitir distintas interpretaciones." },
+  { q: "¿Cuál es el plural correcto de 'crisis'?", opts: ["Crisis", "Crisises", "Crises", "Crisisos"], correct: 0, cat: "📖 Lengua", exp: "Crisis es un sustantivo invariable: la crisis / las crisis." },
+  { q: "¿Qué palabra es un antónimo de 'benévolo'?", opts: ["Malévolo", "Amable", "Compasivo", "Gentil"], correct: 0, cat: "📖 Lengua", exp: "Malévolo significa malvado o que desea el mal, lo opuesto a benévolo." },
+  { q: "¿Qué figura retórica consiste en la exageración?", opts: ["Metáfora", "Hipérbole", "Ironía", "Símil"], correct: 1, cat: "📖 Lengua", exp: "La hipérbole es una exageración: 'te llamo un millón de veces'." },
+  { q: "¿Cuál es la palabra más larga del español según la RAE?", opts: ["Electroencefalografista", "Esternocleidomastoideo", "Anticonstitucionalmente", "Otorrinolaringólogo"], correct: 2, cat: "📖 Lengua", exp: "Anticonstitucionalmente tiene 23 letras." },
+
+  // ── Curiosidades / Variadas ──
+  { q: "¿Qué animal puede vivir sin cabeza más tiempo?", opts: ["Gusano", "Cucaracha", "Pez", "Rana"], correct: 1, cat: "🧠 Curiosidades", exp: "Una cucaracha puede vivir hasta una semana sin cabeza, pues respira por espiráculos." },
+  { q: "¿Cuántos días tarda la Tierra en orbitar el Sol?", opts: ["355", "360", "365", "370"], correct: 2, cat: "🧠 Curiosidades", exp: "Son ~365,25 días. Por eso añadimos un día extra cada 4 años (año bisiesto)." },
+  { q: "¿Qué dedo tiene la uña que crece más lento?", opts: ["Pulgar", "Índice", "Meñique", "Corazón"], correct: 2, cat: "🧠 Curiosidades", exp: "La uña del meñique crece más lenta. Las uñas de los dedos de la mano dominante crecen más rápido." },
+  { q: "¿Cuál es el único mamífero que puede volar realmente?", opts: ["Murciélago", "Ardilla voladora", "Petauro", "Pájaro"], correct: 0, cat: "🧠 Curiosidades", exp: "Los murciélagos son los únicos mamíferos con vuelo propulsado real." },
+  { q: "¿Qué país tiene más vacas per cápita?", opts: ["Argentina", "India", "Nueva Zelanda", "Uruguay"], correct: 2, cat: "🧠 Curiosidades", exp: "Nueva Zelanda tiene ~10 vacas por persona. En total unos 10 millones de bovinos." },
+  { q: "¿Qué color ven primero los humanos al anochecer?", opts: ["Rojo", "Azul", "Verde", "Amarillo"], correct: 1, cat: "🧠 Curiosidades", exp: "Los conos azules son más sensibles con poca luz, por eso el cielo se ve azul oscuro al atardecer." },
+  { q: "¿Cuál es la huella dactilar más común?", opts: ["Arco", "Presilla", "Verticilo", "Mixta"], correct: 1, cat: "🧠 Curiosidades", exp: "La presilla (lazo) es el patrón más común, presente en ~65 % de las personas." },
+  { q: "¿Qué mide un año luz?", opts: ["Tiempo", "Distancia", "Velocidad", "Brillo"], correct: 1, cat: "🧠 Curiosidades", exp: "Un año luz es la distancia que recorre la luz en un año: ~9,46 billones de km." },
+
+  // ── Arte / Cultura ──
+  { q: "¿Quién pintó 'La noche estrellada'?", opts: ["Van Gogh", "Picasso", "Dalí", "Monet"], correct: 0, cat: "🎨 Arte", exp: "Van Gogh pintó 'La noche estrellada' en 1889 desde el asilo de Saint-Rémy." },
+  { q: "¿Cuál es la novela más vendida de la historia?", opts: ["El Quijote", "Don Quijote", "Historia de dos ciudades", "Cien años de soledad"], correct: 1, cat: "🎨 Arte", exp: "El Quijote ha vendido más de 500 millones de copias." },
+  { q: "¿Qué instrumento musical tiene cuerdas y se toca con arco?", opts: ["Guitarra", "Violín", "Piano", "Arpa"], correct: 1, cat: "🎨 Arte", exp: "El violín se toca frotando las cuerdas con un arco de madera y crin de caballo." },
+  { q: "¿En qué país se originó el flamenco?", opts: ["Portugal", "Francia", "España", "Italia"], correct: 2, cat: "🎨 Arte", exp: "El flamenco nació en Andalucía (España) en el siglo XVIII." },
+  { q: "¿Quién escribió 'Cien años de soledad'?", opts: ["Mario Vargas Llosa", "Julio Cortázar", "Gabriel García Márquez", "Jorge Luis Borges"], correct: 2, cat: "🎨 Arte", exp: "García Márquez publicó 'Cien años de soledad' en 1967, obra cumbre del realismo mágico." },
+
+  // ── Lógica / Matemáticas ──
+  { q: "Si tienes 3 manzanas y regalas 1, ¿cuántas te quedan?", opts: ["1", "2", "3", "4"], correct: 1, cat: "🧮 Lógica", exp: "3 - 1 = 2. ¡Sencillo pero siempre hay que leer bien!" },
+  { q: "¿Cuántos lados tiene un hexágono?", opts: ["4", "5", "6", "8"], correct: 2, cat: "🧮 Lógica", exp: "Hexágono viene del griego 'hex' (seis) y 'gonia' (ángulo)." },
+  { q: "Un edificio tiene 5 pisos. El 1º se llama 'planta baja'. ¿Cómo se llama el 5º?", opts: ["5º piso", "Cuarto piso", "Ático", "Tercer piso"], correct: 0, cat: "🧮 Lógica", exp: "Si el primero es planta baja, el 2º es 1º, luego 2º, 3º, 4º... el 5º piso es el 5º." },
+  { q: "¿Qué número falta? 2, 4, 6, ?, 10", opts: ["7", "8", "9", "12"], correct: 1, cat: "🧮 Lógica", exp: "Son números pares consecutivos: 2, 4, 6, 8, 10." },
+  { q: "Si ayer era lunes, ¿qué día será pasado mañana?", opts: ["Miércoles", "Jueves", "Viernes", "Sábado"], correct: 1, cat: "🧮 Lógica", exp: "Ayer lunes → hoy martes → mañana miércoles → pasado mañana jueves." },
+];
+
+// ═══════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════
+
+const STORAGE_KEY = 'dailytest_results';
+const EPOCH = new Date(2026, 5, 17);
+
+let selectedOption = null;
+let revealed = false;
+let currentQuestion = null;
+let todayStr = '';
+let calMonth = new Date();
+
+// ═══════════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════════
+
+function dateStr(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
+function getTodaysQuestionIndex() {
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const epoch = new Date(EPOCH);
+  epoch.setHours(0,0,0,0);
+  const diff = Math.floor((today - epoch) / (1000 * 60 * 60 * 24));
+  return diff % QUESTIONS.length;
+}
+
+function getResults() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch { return {}; }
+}
+
+function saveResult(date, data) {
+  const r = getResults();
+  r[date] = data;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(r));
+}
+
+function calcStreak(results) {
+  let streak = 0;
+  const d = new Date();
+  d.setHours(0,0,0,0);
+  // Check today first
+  const todayS = dateStr(d);
+  if (results[todayS]) {
+    streak++;
+    // Go backwards
+    for (let i = 1; i < 365; i++) {
+      const prev = new Date(d);
+      prev.setDate(prev.getDate() - i);
+      const key = dateStr(prev);
+      if (results[key]) streak++;
+      else break;
+    }
+  }
+  return streak;
+}
+
+function calcBestStreak(results) {
+  const sorted = Object.keys(results)
+    .filter(k => results[k].correct !== undefined)
+    .sort();
+  if (!sorted.length) return 0;
+  let best = 0, current = 0;
+  for (let i = 0; i < sorted.length; i++) {
+    const curr = new Date(sorted[i] + 'T12:00:00');
+    const prev = i > 0 ? new Date(sorted[i-1] + 'T12:00:00') : null;
+    const diff = prev ? Math.round((curr - prev) / (1000*60*60*24)) : 1;
+    if (diff === 1 && results[sorted[i]].correct) {
+      current++;
+    } else if (results[sorted[i]].correct) {
+      current = 1;
+    } else {
+      current = 0;
+    }
+    best = Math.max(best, current);
+  }
+  return best;
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// ═══════════════════════════════════════════════
+//  SCREENS
+// ═══════════════════════════════════════════════
+
+function switchScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function goHome() { switchScreen('homeScreen'); renderHome(); }
+
+function formatDateSpanish(d) {
+  const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const dias = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  return `${dias[d.getDay()]}, ${d.getDate()} de ${meses[d.getMonth()]} de ${d.getFullYear()}`;
+}
+
+// ═══════════════════════════════════════════════
+//  HOME
+// ═══════════════════════════════════════════════
+
+function renderHome() {
+  const now = new Date();
+  todayStr = dateStr(now);
+  document.getElementById('dateBadge').innerHTML = `📅 <strong>${formatDateSpanish(now)}</strong>`;
+
+  const idx = getTodaysQuestionIndex();
+  currentQuestion = QUESTIONS[idx];
+  const results = getResults();
+
+  // Streak
+  const streak = calcStreak(results);
+  document.getElementById('streakNum').textContent = streak;
+
+  // Today's answer?
+  const todaysResult = results[todayStr];
+
+  const questionArea = document.getElementById('questionArea');
+  const seeYouArea = document.getElementById('seeYouArea');
+  const answeredBanner = document.getElementById('answeredBanner');
+
+  if (todaysResult) {
+    // Already answered
+    questionArea.style.display = 'none';
+    seeYouArea.style.display = 'block';
+    answeredBanner.style.display = 'block';
+    const verdict = todaysResult.correct ? '✅ ¡Acertaste!' : '❌ Fallaste';
+    const cls = todaysResult.correct ? 'correct-text' : 'incorrect-text';
+    answeredBanner.innerHTML =
+      `<span class="${cls}">${verdict}</span> — ${
+        todaysResult.correct
+          ? 'Hoy ya has completado tu test.'
+          : `La respuesta correcta era: <strong>${currentQuestion.opts[currentQuestion.correct]}</strong>`
+      }`;
+    document.getElementById('seeYouMsg').innerHTML =
+      `🌟 ¡Hoy ya completaste tu test! <strong>Vuelve mañana</strong> para una nueva pregunta.`;
+    return;
+  }
+
+  // New question
+  questionArea.style.display = 'block';
+  seeYouArea.style.display = 'none';
+  answeredBanner.style.display = 'none';
+
+  document.getElementById('categoryTag').textContent = currentQuestion.cat;
+  document.getElementById('questionText').textContent = currentQuestion.q;
+
+  // Build options (shuffle)
+  const indices = [0, 1, 2, 3];
+  const shuffled = shuffle(indices);
+  const letters = ['A', 'B', 'C', 'D'];
+  const grid = document.getElementById('optionsGrid');
+  grid.innerHTML = shuffled.map((origIdx, i) => `
+    <button class="option-btn" data-idx="${origIdx}">
+      <span class="option-letter">${letters[i]}</span>
+      <span>${currentQuestion.opts[origIdx]}</span>
+    </button>
+  `).join('');
+
+  grid.querySelectorAll('.option-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      if (revealed) return;
+      grid.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+      this.classList.add('selected');
+      selectedOption = parseInt(this.dataset.idx);
+      document.getElementById('mainBtn').disabled = false;
+    });
+  });
+
+  // Reset state
+  revealed = false;
+  selectedOption = null;
+  document.getElementById('mainBtn').textContent = 'Comprobar';
+  document.getElementById('mainBtn').disabled = true;
+  document.getElementById('mainBtn').onclick = handleMainAction;
+  document.getElementById('feedbackEl').textContent = '';
+  document.getElementById('feedbackEl').className = 'feedback';
+  document.getElementById('explanationArea').style.display = 'none';
+}
+
+function handleMainAction() {
+  if (!revealed) {
+    checkAnswer();
+  } else {
+    // After revealing, show "see you" screen
+    document.getElementById('questionArea').style.display = 'none';
+    document.getElementById('seeYouArea').style.display = 'block';
+    document.getElementById('answeredBanner').style.display = 'none';
+  }
+}
+
+function checkAnswer() {
+  if (selectedOption === null) return;
+  const q = currentQuestion;
+  const isCorrect = (selectedOption === q.correct);
+  revealed = true;
+
+  // Save result
+  const results = getResults();
+  results[todayStr] = { correct: isCorrect, selected: selectedOption };
+  saveResult(todayStr, results[todayStr]);
+
+  // Update streak
+  const streak = calcStreak(results);
+  document.getElementById('streakNum').textContent = streak;
+
+  // Highlight options
+  document.querySelectorAll('.option-btn').forEach(btn => {
+    btn.classList.add('locked');
+    const idx = parseInt(btn.dataset.idx);
+    if (idx === q.correct) btn.classList.add('correct');
+    else if (idx === selectedOption && !isCorrect) btn.classList.add('incorrect');
+  });
+
+  // Feedback
+  const fb = document.getElementById('feedbackEl');
+  if (isCorrect) {
+    fb.textContent = '✅ ¡Correcto!';
+    fb.className = 'feedback correct';
+  } else {
+    fb.textContent = `❌ Incorrecto — La respuesta era: "${q.opts[q.correct]}"`;
+    fb.className = 'feedback incorrect';
+  }
+
+  // Explanation
+  const expArea = document.getElementById('explanationArea');
+  document.getElementById('explanationText').innerHTML = `<strong>${q.cat}</strong> — ${q.exp}`;
+  expArea.style.display = 'block';
+
+  // Change button
+  const btn = document.getElementById('mainBtn');
+  btn.textContent = 'Siguiente →';
+  btn.disabled = false;
+
+  // Confetti if correct
+  if (isCorrect) spawnConfetti();
+}
+
+// ═══════════════════════════════════════════════
+//  CALENDAR
+// ═══════════════════════════════════════════════
+
+function showCalendar() {
+  switchScreen('calScreen');
+  renderCalendar();
+}
+
+function changeMonth(delta) {
+  calMonth = new Date(calMonth.getFullYear(), calMonth.getMonth() + delta, 1);
+  renderCalendar();
+}
+
+function renderCalendar() {
+  const results = getResults();
+  const year = calMonth.getFullYear();
+  const month = calMonth.getMonth();
+
+  const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  document.getElementById('calTitle').textContent = `${meses[month]} ${year}`;
+
+  // Stats
+  let correct = 0, wrong = 0;
+  Object.entries(results).forEach(([k, v]) => {
+    if (k.startsWith(`${year}-${String(month+1).padStart(2,'0')}`)) {
+      if (v.correct) correct++; else wrong++;
+    }
+  });
+  document.getElementById('calCorrectCount').textContent = correct;
+  document.getElementById('calWrongCount').textContent = wrong;
+  document.getElementById('calStreakCount').textContent = calcStreak(results);
+
+  // Build grid
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month + 1, 0);
+  // Monday-based (0 = Monday)
+  let startDow = firstDay.getDay(); // 0=Sun
+  startDow = startDow === 0 ? 6 : startDow - 1; // Convert to Mon=0
+
+  const today = new Date();
+  const todayS = dateStr(today);
+
+  let html = '';
+  // Empty cells
+  for (let i = 0; i < startDow; i++) {
+    html += '<div class="cal-day empty"></div>';
+  }
+
+  for (let d = 1; d <= lastDay.getDate(); d++) {
+    const date = new Date(year, month, d);
+    const key = dateStr(date);
+    const isToday = key === todayS;
+    const isFuture = date > today;
+    const result = results[key];
+
+    let cls = 'cal-day';
+    if (isToday) cls += ' today';
+    if (isFuture) cls += ' future';
+    else if (result) cls += result.correct ? ' correct' : ' incorrect';
+    else if (!isFuture) cls += ' past-todo';
+
+    html += `<div class="${cls}">${d}</div>`;
+  }
+
+  document.getElementById('calGrid').innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════
+//  CONFETTI
+// ═══════════════════════════════════════════════
+
+function spawnConfetti() {
+  const container = document.getElementById('confettiContainer');
+  const colors = ['#c9a96e','#e2c88a','#4caf91','#8b9dc3','#b491c8','#d4856b','#5ba0b9','#e0556a'];
+  const pieces = [];
+  for (let i = 0; i < 60; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.left = Math.random() * 100 + '%';
+    el.style.top = -(Math.random() * 40 + 10) + 'px';
+    el.style.width = (Math.random() * 8 + 4) + 'px';
+    el.style.height = (Math.random() * 8 + 4) + 'px';
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+    el.style.animationDuration = (Math.random() * 2 + 2) + 's';
+    el.style.animationDelay = Math.random() * 1.5 + 's';
+    el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    container.appendChild(el);
+    pieces.push(el);
+  }
+  setTimeout(() => { pieces.forEach(el => el.remove()); }, 4500);
+}
+
+// ═══════════════════════════════════════════════
+//  GO
+// ═══════════════════════════════════════════════
+
+document.addEventListener('DOMContentLoaded', renderHome);
+</script>
+</body>
+</html>

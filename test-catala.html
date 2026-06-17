@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f0f11">
+<title>Test de Paraules Rares en Català — Banc de 100 · 50 per Partida · 5 Nivells</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f0f11;
+    --surface: #1a1a1f;
+    --surface-raised: #22222a;
+    --border: #2a2a35;
+    --text: #e4e4ec;
+    --text-secondary: #9090a8;
+    --accent: #c9a96e;
+    --accent-glow: rgba(201, 169, 110, 0.25);
+    --green: #4caf91;
+    --green-bg: rgba(76, 175, 145, 0.12);
+    --green-border: rgba(76, 175, 145, 0.35);
+    --red: #e0556a;
+    --red-bg: rgba(224, 85, 106, 0.12);
+    --red-border: rgba(224, 85, 106, 0.35);
+    --gold-gradient: linear-gradient(135deg, #c9a96e, #e2c88a, #c9a96e);
+    --shadow-lg: 0 25px 60px rgba(0,0,0,0.5);
+    --radius-sm: 10px;
+    --radius: 16px;
+    --radius-lg: 24px;
+    --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image:
+      radial-gradient(ellipse at 30% 20%, rgba(201,169,110,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 80%, rgba(201,169,110,0.04) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 50%, rgba(120,100,180,0.03) 0%, transparent 70%);
+    -webkit-tap-highlight-color: transparent;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+
+  /* ─── SCREENS ─────────────────────────── */
+  .screen {
+    display: none;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 24px;
+    padding: max(24px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
+  }
+  .screen.active { display: block; animation: fadeSlideIn 0.5s ease; }
+
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); }
+    50%      { box-shadow: 0 0 0 14px transparent; }
+  }
+  @keyframes confettiDrop {
+    0%   { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(105vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* ─── START SCREEN ────────────────────── */
+  .start-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 56px 48px 48px;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+  }
+  .start-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--gold-gradient);
+  }
+  .start-icon { font-size: 64px; margin-bottom: 20px; display: block; }
+  .start-card h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 8px;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .start-card .subtitle {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    font-weight: 400;
+    margin-bottom: 40px;
+  }
+  .level-pills { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 36px; }
+  .level-pill {
+    padding: 8px 18px;
+    border-radius: 100px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    background: transparent;
+  }
+  .level-pill:nth-child(1) { border-color: #5ba0b9; color: #5ba0b9; }
+  .level-pill:nth-child(2) { border-color: #8b9dc3; color: #8b9dc3; }
+  .level-pill:nth-child(3) { border-color: #b491c8; color: #b491c8; }
+  .level-pill:nth-child(4) { border-color: #d4856b; color: #d4856b; }
+  .level-pill:nth-child(5) { border-color: #c9a96e; color: #c9a96e; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 36px;
+    border-radius: 100px;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    border: none;
+    transition: all var(--transition);
+    position: relative;
+    overflow: hidden;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  .btn-primary {
+    background: var(--gold-gradient);
+    color: #1a1a1f;
+    box-shadow: 0 8px 30px rgba(201,169,110,0.3);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(201,169,110,0.4); }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover { background: var(--surface-raised); border-color: #444; }
+
+  /* ─── QUIZ SCREEN ─────────────────────── */
+  .quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .progress-info { display: flex; align-items: center; gap: 12px; }
+  .progress-badge {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 6px 14px;
+    border-radius: 100px;
+  }
+  .difficulty-1 { background: rgba(91,160,185,0.15); color: #5ba0b9; }
+  .difficulty-2 { background: rgba(139,157,195,0.15); color: #8b9dc3; }
+  .difficulty-3 { background: rgba(180,145,200,0.15); color: #b491c8; }
+  .difficulty-4 { background: rgba(212,133,107,0.15); color: #d4856b; }
+  .difficulty-5 { background: rgba(201,169,110,0.15); color: #c9a96e; }
+
+  .counter-text {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+  .counter-text strong { color: var(--text); font-size: 1.1rem; }
+
+  .progress-bar-wrap {
+    width: 100%;
+    height: 6px;
+    background: var(--surface-raised);
+    border-radius: 100px;
+    margin-bottom: 40px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--gold-gradient);
+    border-radius: 100px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .word-display {
+    text-align: center;
+    padding: 40px 24px 36px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    margin-bottom: 32px;
+    position: relative;
+  }
+  .word-display .hint {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+  }
+  .word-display .word {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    word-break: break-word;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  @media (max-width: 520px) { .options-grid { grid-template-columns: 1fr; } }
+
+  .option-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all var(--transition);
+    text-align: left;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.92rem;
+    color: var(--text);
+    font-weight: 500;
+    position: relative;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    min-height: 56px;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  .option-btn:hover:not(.locked) {
+    border-color: #555;
+    background: var(--surface-raised);
+    transform: translateY(-1px);
+  }
+  .option-btn.selected {
+    border-color: var(--accent);
+    background: rgba(201,169,110,0.08);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+  }
+  .option-btn.correct {
+    border-color: var(--green-border) !important;
+    background: var(--green-bg) !important;
+    box-shadow: 0 0 0 3px rgba(76,175,145,0.2) !important;
+  }
+  .option-btn.incorrect {
+    border-color: var(--red-border) !important;
+    background: var(--red-bg) !important;
+    box-shadow: 0 0 0 3px rgba(224,85,106,0.2) !important;
+  }
+  .option-btn.locked { pointer-events: none; }
+  .option-letter {
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 0.85rem;
+    background: var(--surface-raised);
+    color: var(--text-secondary);
+    flex-shrink: 0;
+    transition: all var(--transition);
+  }
+  .option-btn.selected .option-letter { background: var(--accent); color: #1a1a1f; }
+  .option-btn.correct .option-letter { background: var(--green); color: #fff; }
+  .option-btn.incorrect .option-letter { background: var(--red); color: #fff; }
+
+  .check-btn-wrap { text-align: center; }
+  .btn-check {
+    padding: 16px 48px;
+    font-size: 1rem;
+  }
+  .btn-check:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* feedback toast */
+  .feedback-toast {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    min-height: 28px;
+    transition: all var(--transition);
+  }
+  .feedback-toast.correct-fb { color: var(--green); }
+  .feedback-toast.incorrect-fb { color: var(--red); }
+
+  /* ─── RESULTS SCREEN ──────────────────── */
+  .results-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 48px 40px 40px;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+  }
+  .results-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--gold-gradient);
+  }
+  .results-card h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 6px;
+  }
+  .results-subtitle {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 40px;
+    font-size: 0.95rem;
+  }
+
+  .big-score {
+    text-align: center;
+    margin-bottom: 36px;
+  }
+  .score-ring {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    position: relative;
+  }
+  .score-ring svg { position: absolute; top: 0; left: 0; transform: rotate(-90deg); }
+  .score-value {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 3.2rem;
+    font-weight: 900;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .score-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
+    margin-top: 12px;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+  @media (max-width: 560px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+  .stat-box {
+    background: var(--surface-raised);
+    border-radius: var(--radius);
+    padding: 18px 14px;
+    text-align: center;
+    border: 1px solid var(--border);
+  }
+  .stat-box .stat-num {
+    font-size: 1.6rem;
+    font-weight: 700;
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+  .stat-box .stat-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    margin-top: 4px;
+  }
+  .stat-num.green  { color: var(--green); }
+  .stat-num.red    { color: var(--red); }
+  .stat-num.gold   { color: var(--accent); }
+  .stat-num.white  { color: var(--text); }
+
+  .chart-section { margin-bottom: 28px; }
+  .chart-section h3 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+
+  .per-level-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  @media (max-width: 560px) { .per-level-grid { grid-template-columns: repeat(3, 1fr); } }
+  .level-bar-item {
+    text-align: center;
+  }
+  .level-bar-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .level-bar-label.l1 { color: #5ba0b9; }
+  .level-bar-label.l2 { color: #8b9dc3; }
+  .level-bar-label.l3 { color: #b491c8; }
+  .level-bar-label.l4 { color: #d4856b; }
+  .level-bar-label.l5 { color: #c9a96e; }
+
+  .level-bar-track {
+    width: 100%;
+    height: 120px;
+    background: var(--surface-raised);
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 6px;
+  }
+  .level-bar-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 8px 8px 0 0;
+    transition: height 1s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .level-bar-fill.l1 { background: linear-gradient(to top, #5ba0b9, #7cc4dd); }
+  .level-bar-fill.l2 { background: linear-gradient(to top, #8b9dc3, #aabbe0); }
+  .level-bar-fill.l3 { background: linear-gradient(to top, #b491c8, #d4b0e8); }
+  .level-bar-fill.l4 { background: linear-gradient(to top, #d4856b, #f0a48a); }
+  .level-bar-fill.l5 { background: linear-gradient(to top, #c9a96e, #e2c88a); }
+  .level-bar-score {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .horizontal-bars { display: flex; flex-direction: column; gap: 10px; }
+  .h-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .h-bar-label {
+    width: 90px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .h-bar-track {
+    flex: 1;
+    height: 22px;
+    background: var(--surface-raised);
+    border-radius: 100px;
+    overflow: hidden;
+    position: relative;
+  }
+  .h-bar-fill {
+    height: 100%;
+    border-radius: 100px;
+    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+  }
+  .h-bar-fill-inner {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #1a1a1f;
+  }
+
+  .results-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 32px; }
+
+  /* ─── CONFETTI ────────────────────────── */
+  .confetti-container {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    overflow: hidden;
+  }
+  .confetti-piece {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    animation: confettiDrop linear forwards;
+    will-change: transform, opacity;
+  }
+
+  /* ─── RESPONSIVE ──────────────────────── */
+  @media (max-width: 600px) {
+    .start-card, .results-card { padding: 36px 20px 28px; }
+    .start-card h1 { font-size: 1.9rem; }
+    .word-display .word { font-size: 2.2rem; }
+    .results-card h2 { font-size: 1.7rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ START SCREEN ═══════════ -->
+<div class="screen active" id="startScreen">
+  <div class="start-card">
+    <span class="start-icon">📖</span>
+    <h1>Paraules Rares<br>del Català</h1>
+    <p class="subtitle">50 termes aleatoris d'un banc de 100 paraules cultes, arcàiques i en desús.<br>Cada partida és diferent. Quantes en coneixes?</p>
+    <div class="level-pills">
+      <span class="level-pill">Nivell 1 · Culte</span>
+      <span class="level-pill">Nivell 2 · Erudit</span>
+      <span class="level-pill">Nivell 3 · Arcà</span>
+      <span class="level-pill">Nivell 4 · Críptic</span>
+      <span class="level-pill">Nivell 5 · Inefable</span>
+    </div>
+    <button class="btn btn-primary" onclick="startQuiz()">Començar test  →</button>
+  </div>
+</div>
+
+<!-- ═══════════ QUIZ SCREEN ═══════════ -->
+<div class="screen" id="quizScreen">
+  <div class="quiz-header">
+    <div class="progress-info">
+      <span class="progress-badge difficulty-1" id="levelBadge">Nivell 1</span>
+      <span class="counter-text">Paraula <strong id="counterText">1</strong> de <strong id="totalText">50</strong></span>
+    </div>
+    <span class="counter-text" id="scoreLive">Encerts: <strong>0</strong></span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progressBar" style="width: 0%"></div>
+  </div>
+
+  <div class="word-display">
+    <div class="hint">Què significa?</div>
+    <div class="word" id="wordDisplay">—</div>
+  </div>
+
+  <div class="feedback-toast" id="feedbackToast"></div>
+
+  <div class="options-grid" id="optionsGrid"></div>
+
+  <div class="check-btn-wrap">
+    <button class="btn btn-primary btn-check" id="checkBtn" disabled onclick="handleCheck()">Comprovar</button>
+  </div>
+</div>
+
+<!-- ═══════════ RESULTS SCREEN ═══════════ -->
+<div class="screen" id="resultsScreen">
+  <div class="results-card">
+    <h2>Resultats</h2>
+    <p class="results-subtitle" id="resultsGrade"></p>
+
+    <div class="big-score">
+      <div class="score-ring">
+        <svg width="160" height="160" viewBox="0 0 160 160">
+          <circle cx="80" cy="80" r="72" fill="none" stroke="#2a2a35" stroke-width="10"/>
+          <circle cx="80" cy="80" r="72" fill="none" stroke="url(#scoreGrad)" stroke-width="10"
+                  stroke-linecap="round" stroke-dasharray="452.39" id="scoreCircle"
+                  stroke-dashoffset="452.39" />
+          <defs>
+            <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#c9a96e"/>
+              <stop offset="100%" stop-color="#e2c88a"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="score-value" id="scoreBig">0</span>
+      </div>
+      <div class="score-label" id="scoreDenom">de 50 encerts</div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-box"><div class="stat-num green" id="statCorrect">0</div><div class="stat-label">Encerts</div></div>
+      <div class="stat-box"><div class="stat-num red" id="statWrong">0</div><div class="stat-label">Fallades</div></div>
+      <div class="stat-box"><div class="stat-num gold" id="statPct">0%</div><div class="stat-label">Precisió</div></div>
+      <div class="stat-box"><div class="stat-num white" id="statStreak">0</div><div class="stat-label">Millor ratxa</div></div>
+    </div>
+
+    <div class="chart-section">
+      <h3>📊 Encerts per nivell</h3>
+      <div class="per-level-grid" id="perLevelChart"></div>
+    </div>
+
+    <div class="chart-section">
+      <h3>📈 Distribució de respostes</h3>
+      <div class="horizontal-bars" id="horizontalBars"></div>
+    </div>
+
+    <div class="results-actions">
+      <button class="btn btn-primary" onclick="restartQuiz()">Repetir test  ↻</button>
+      <button class="btn btn-secondary" onclick="shareResults()">📋 Copiar resultat</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ CONFETTI ═══════════ -->
+<div class="confetti-container" id="confettiContainer"></div>
+
+<script>
+// ════════════════════════════════════════
+//  BANC: 100 PARAULES (20 per nivell)
+//  Cada test usa 50 (10 aleatòries/nivell)
+//  TOTES les opcions semblen definicions reals
+// ════════════════════════════════════════
+const WORDS_POOL = [
+  // ══════ Nivell 1: Culte (20 paraules) ══════
+
+  // 0: R1 — correcta MÉS CURTA (correcte ~45, tots 3 distractors ~65-80)
+  { word:"Poruc",        correct:"Que té por fàcilment, temorenc i espantadís",       options:["Que té por fàcilment, temorenc i espantadís","Que camina amb pas insegur, arrossegant els peus lentament i amb molta vacil·lació","Relatiu al port de mar, als molls, a les drassanes i a les instal·lacions portuàries","Que cria porcs en una explotació ramadera intensiva, porquina i de bestiar porcí"] },
+  // 1: R2 — correcta 2a MÉS CURTA (1 curt ~35, correcte ~48, 2 llargs ~70)
+  { word:"Esbalaït",     correct:"Molt sorprès, estupefacte, bocabadat d'admiració",   options:["Molt sorprès, estupefacte, bocabadat d'admiració","Que trontolla, inestable, vacil·lant","Que bufa amb força, com el vent huracanat, la tramuntana i els temporals forts i sobtats","Relatiu a una badia gran, un golf o una entrada profunda del mar a la costa rocosa"] },
+  // 2: R3 — correcta 2a MÉS LLARGA (2 curts ~30-35, correcte ~48, 1 llarg ~65)
+  { word:"Atzucac",      correct:"Carreró sense sortida, cul-de-sac, via estreta i tancada",options:["Carreró sense sortida, cul-de-sac, via estreta i tancada","Carrer curt i estret, passatge","Eina de ferro amb mànec llarg, per cavar i remoure la terra del camp","Ocell rapinyaire nocturn, de plomatge fosc"] },
+  // 3: R4 — correcta MÉS LLARGA (correcte ~56, tots 3 distractors ~30-38)
+  { word:"Escarransit",  correct:"Poc desenvolupat, raquític, esquifit i de mida migrada",options:["Poc desenvolupat, raquític, esquifit i de mida migrada","Ple de cicatrius, marques i senyals","Que grinyola, cruix, xerrica en fregar","Cobert de ferides antigues, nafres ja tancades"] },
+  // 4: R1
+  { word:"Garbuix",      correct:"Desordre, barreja confusa, desgavell i embolic total",options:["Desordre, barreja confusa, desgavell i embolic total","Feix de blat, ordi o civada acabat de segar, lligat en garbes i gavelles al camp","Peix petit de riu, d'escates brillants, que neda en bancs, cardúmens molt nombrosos","Arbust espinós de flors blanques i baies vermelles, de branques punxants i enfiladisses"] },
+  // 5: R2
+  { word:"Xerinola",     correct:"Diversió sorollosa, gatzara, bullicia i festa alegre",  options:["Diversió sorollosa, gatzara, bullicia i festa alegre","Xarop medicinal, dolç i melós","Flauta petita de fusta, instrument de vent i canya, de so agut i molt melodiós","Lloc on es cria bestiar oví, amb corrals, pletes i tancats de pedra seca al camp"] },
+  // 6: R3
+  { word:"Lleponer",     correct:"Que busca complaure, afalagador, manyac i molt amable",  options:["Que busca complaure, afalagador, manyac i molt amable","Relatiu a la llebre, al pelatge","Que porta roba de lli, teixit fi, fresc, de fibres naturals","Que llegeix molt, àvid lector, amant dels llibres"] },
+  // 7: R4
+  { word:"Moix",         correct:"Trist, decaigut, sense ànim, abatut i amb posat apagat",  options:["Trist, decaigut, sense ànim, abatut i amb posat apagat","Felí domèstic, roncaire, àgil","Xop, completament amarat d'aigua","Moble antic de fusta noble, amb calaixos"] },
+  // 8: R1
+  { word:"Recança",      correct:"Penediment, pesar, remordiment i desplaer molt profund",  options:["Penediment, pesar, remordiment i desplaer molt profund","Vi dolç de panses, licor dens i fosc, molt aromàtic, de postres i de sobretaula","Peça de roba vella, esquinçada, apedacada i descosida que penja abandonada","Fruita seca de closca dura, com l'ametlla, l'avellana o la nou, torrada i ensucrada"] },
+  // 9: R2
+  { word:"Entabanar",    correct:"Enganyar amb bones paraules, seduir amb verb fàcil i convincent",options:["Enganyar amb bones paraules, seduir amb verb fàcil i convincent","Cobrir amb taulons, posts de fusta","Clavar estaques al terra, per marcar límits, tanques, propietats i partions","Entrar en una taverna, establiment de begudes, i prendre vi, cervesa o licors variats"] },
+  // 10: R3
+  { word:"Dèria",        correct:"Idea fixa, obsessió, fal·lera, curolla i capritx persistent",options:["Idea fixa, obsessió, fal·lera, curolla i capritx persistent","Erupció cutània, irritació, vermellor","Pasta dolça de farina i ous, fregida i ensucrada, típica de fires","Branca d'arbre, branquilló flexible i prim"] },
+  // 11: R4
+  { word:"Malmès",       correct:"Deteriorat, espatllat, fet malbé, gastat i en molt mal estat",options:["Deteriorat, espatllat, fet malbé, gastat i en molt mal estat","Relatiu a Mallorca, a l'illa Balear","De color porpra fosc, violaci, morat","Malalt de pesta negra, epidèmia medieval"] },
+  // 12: R1
+  { word:"Sorrut",       correct:"Aspre en el tracte, esquep, eixut i de paraula molt seca", options:["Aspre en el tracte, esquep, eixut i de paraula molt seca","Cobert de sorra fina, terreny arenós, platja de dunes, sediments i arena granulada","Que ronca amb soroll nasal fort, produint sons vibrants i aspres mentre dorm profundament","De color vermell terrós, rogenc, com l'argila cuita, l'òxid de ferro i els ocres naturals"] },
+  // 13: R2
+  { word:"Ploraner",     correct:"Que plora fàcilment, llagrimós, gemegaire i sentimental",   options:["Que plora fàcilment, llagrimós, gemegaire i sentimental","Planta enfiladissa, de flors vives","Que fa trenes de palla, fibres vegetals i cordills, cistelleria i artesania manual","Que plana sense batre les ales, a gran altura, com les àguiles, voltors i rapinyaires"] },
+  // 14: R3
+  { word:"Moixaina",     correct:"Carícia suau, manyaga, gest afectuós i tendresa en el tacte",options:["Carícia suau, manyaga, gest afectuós i tendresa en el tacte","Pasta de farina, aigua, sal i llevat","Eixam de mosques, insectes voladors, brunzit molest i vol de dípters","Xai petit, anyell tendre, cria d'ovella"] },
+  // 15: R4
+  { word:"Afalac",       correct:"Lloança interessada, adulació i complaença fingida",         options:["Lloança interessada, adulació i complaença fingida","Manca d'alè, asfíxia, ofec sobtat","Peça de cuir adobat, treballat i polit","Tall afilat de ganivet, navalla o destral"] },
+  // 16: R1
+  { word:"Manyac",       correct:"Dòcil, suau, de tracte amable i de caràcter molt plàcid",     options:["Dòcil, suau, de tracte amable i de caràcter molt plàcid","Relatiu a l'alba, a la matinada, a la primera llum del dia, l'aurora i el clarejar del cel","Que menja amb fam voraç, devorant i mastegant els aliments amb golafreria i avidesa","Taca petita, màcula o imperfecció subtil en una superfície de tela, paret o paper fi"] },
+  // 17: R2
+  { word:"Esma",         correct:"Seny, enteniment, capacitat de judici i orientació mental",    options:["Seny, enteniment, capacitat de judici i orientació mental","Pedra preciosa verda, maragda, gemma","Gibrell de metall o terrissa, per rentar plats i parament de cuina","Bava espessa i viscosa que regalima dels llavis, produïda per insectes, nadons o malalts"] },
+  // 18: R3
+  { word:"Tafaner",      correct:"Indiscret, curiós, ficaire que tot ho vol saber i es fica pertot",options:["Indiscret, curiós, ficaire que tot ho vol saber i es fica pertot","Qui teixeix tapissos, catifes, estores","Que fa soroll en mastegar, cruixint aliments entre les dents i la boca","Relatiu al tifó, tempesta tropical, huracà"] },
+  // 19: R4
+  { word:"Enze",         correct:"Persona curta d'enteniment, beneitó, ximple, babau i limitat", options:["Persona curta d'enteniment, beneitó, ximple, babau i limitat","Encenedor antic, de metxa, pedra foguera","Terreny erm, sense cultivar, abandonat","Enclusa petita de ferro colat, per forjar"] },
+
+  // ══════ Nivell 2: Erudit (20 paraules) ══════
+
+  // 20: R1
+  { word:"Atàvic",       correct:"Relatiu als avantpassats, hereditari, ancestral i primigeni",   options:["Relatiu als avantpassats, hereditari, ancestral i primigeni","Que pateix atacs sobtats de nervis, ansietat, pànic, ira descontrolada o crisis fortes","Relatiu al teatre, a l'escenografia, als decorats, a la dramatúrgia i l'art escènic clàssic","Pertanyent a l'àtic, al pis superior sota teulada, a la golfa, amb vistes i terrassa"] },
+  // 21: R2
+  { word:"Pletòric",     correct:"Que rebosa abundància, vitalitat, plenitud extrema i ufana",     options:["Que rebosa abundància, vitalitat, plenitud extrema i ufana","Relatiu a la plebs, al poble, al vulgus","Que té plecs, arrugues, doblecs o ondulacions al paper, la roba o la pell","Relatiu al plenari, a la sessió plenària, a l'assemblea de tots els membres i a l'ajuntament"] },
+  // 22: R3
+  { word:"Peremptori",   correct:"Urgent, que no admet dilació, ajornament, ni excusa ni retard",  options:["Urgent, que no admet dilació, ajornament, ni excusa ni retard","Relatiu al perímetre, al contorn","Que pertany a un període, etapa, fase, època o interval temporal","Que és previ, preliminar, antecedent"] },
+  // 23: R4
+  { word:"Obac",         correct:"Vessant on no toca el sol, ombria, obaga i lloc molt frescal",    options:["Vessant on no toca el sol, ombria, obaga i lloc molt frescal","Ganxo o garfi de ferro, corbat i fort","Pastís dolç, de pasta de full, farcit de crema","Forat profund, avenc, sima natural vertical"] },
+  // 24: R1
+  { word:"Lúgubre",      correct:"Fúnebre, trist, tètric, ombrívol, de dol i de desolació",        options:["Fúnebre, trist, tètric, ombrívol, de dol i de desolació","Que brilla amb llum pròpia, fosforescent i radiant en la foscor de la nit més negra","Joc infantil de tocar i parar, d'amagar-se, de córrer, de perseguir i de pillar al carrer","Relatiu a la lluna, al satèl·lit terrestre, a les fases lunars, als eclipsis i a la marea"] },
+  // 25: R2
+  { word:"Sol·lícit",    correct:"Cuidadosament diligent, atent, curós, prest i molt servicial",    options:["Cuidadosament diligent, atent, curós, prest i molt servicial","Pidolaire, captaire, que demana almoina","Que està sol, aïllat, sense companyia, incomunicat, ermità i retirat del món","Relatiu al sol, a l'astre rei, als raigs solars, a l'energia lumínica i a la radiació tèrmica"] },
+  // 26: R3
+  { word:"Venerable",    correct:"Digne de veneració, respecte profund, honor i molta reverència",  options:["Digne de veneració, respecte profund, honor i molta reverència","Relatiu al verí, a la metzina, al tòxic","Que es ven, comerciable, de venda fàcil, mercadejable i negociable","Que ha vingut de fora, estranger, foraster"] },
+  // 27: R4
+  { word:"Apocat",       correct:"Mancat d'ànim, pusil·lànime, tímid, retret, indecís i cohibit",   options:["Mancat d'ànim, pusil·lànime, tímid, retret, indecís i cohibit","Escàs de béns, de recursos i diners","A la vora, a tocar, frec a frec, ben a prop","Tassonet petit per beure a glops, xarrupar licors"] },
+  // 28: R1
+  { word:"Frugal",       correct:"Sobri en menjar i beure, parc, auster, moderat i temperat",      options:["Sobri en menjar i beure, parc, auster, moderat i temperat","Relatiu a la fruita, als fruiters, als pomerars, pereres, tarongers i a l'horta de regadiu","Que frega amb força, fricciona, poleix, neteja, raspa i deixa una superfície ben llisa i brunyida","Que fuig, s'escapa, deserta, abandona, marxa precipitadament, s'esquitlla i desapareix sense avís"] },
+  // 29: R2
+  { word:"Displicent",   correct:"Que mostra indiferència, desdeny, menyspreu i altivesa",          options:["Que mostra indiferència, desdeny, menyspreu i altivesa","Que desplega, estén, obra un mapa","Que trasllada o mou d'un lloc a un altre, canviant d'ubicació, lloc i posició","Relatiu al deixeble, a l'alumne, al seguidor, a l'aprenent que aprèn d'un mestre o guia"] },
+  // 30: R3
+  { word:"Crematístic",  correct:"Relatiu als diners, al lucre, a la riquesa i al benefici material",options:["Relatiu als diners, al lucre, a la riquesa i al benefici material","Del foc, de la cremada, de la flama","Que crema greixos, oxida lípids i accelera el metabolisme corporal i la termogènesi","Color daurat i torrat, entre groc i vermell"] },
+  // 31: R4
+  { word:"Somort",       correct:"Apagat, sense brillantor, esmorteït, descolorit i molt llangorós",options:["Apagat, sense brillantor, esmorteït, descolorit i molt llangorós","Relatiu al son, a la dormida, al descans","So apagat, sord, de volum baix, fluix","Que ha mort, difunt, finat, traspassat, cadàver"] },
+  // 32: R1
+  { word:"Insòlit",      correct:"Poc habitual, inusual, estrany i fora del que és comú",            options:["Poc habitual, inusual, estrany i fora del que és comú","Que insulta, ofèn, injuria i menysprea amb paraules grolleres, vexatòries i humiliants","Que està aïllat, separat, sense contacte amb l'exterior, solitari, incomunicat i remot","Que inspecciona, examina, revisa, verifica, controla, escruta i analitza amb tot detall"] },
+  // 33: R2
+  { word:"Rònec",        correct:"Roncaire, aspre, de veu aspra i de to greu i trencat",              options:["Roncaire, aspre, de veu aspra i de to greu i trencat","Relatiu al ruc, al burro, a l'ase, bèstia","Còdol de riu, pedra llisa i arrodonida per l'erosió de l'aigua i del corrent","Que rosega amb les dents, desgastant, mossegant i menjant a poc a poc, rosegaire pacient"] },
+  // 34: R3
+  { word:"Xerrac",       correct:"Serra de fulla ampla, de mà, per tallar fusta, podar i serrar",     options:["Serra de fulla ampla, de mà, per tallar fusta, podar i serrar","Conversa de cafè, tertúlia, xerrada","Rajola de ceràmica vidrada, de colors vius, per recobrir parets i cuines","Espina de peix, punxa d'eriçó, fibló"] },
+  // 35: R4
+  { word:"Eixorc",       correct:"Estèril, que no pot tenir fills, infecund, erm i sense descendència",options:["Estèril, que no pot tenir fills, infecund, erm i sense descendència","Que ix corrents, s'esquitlla, s'escapa","Vent huracanat, molt fort, torbonada sobtada","Que té set, assedegat, desitjós d'aigua fresca"] },
+  // 36: R1
+  { word:"Escatós",      correct:"Cobert d'escates, esquames dures superposades com la pell d'un peix",options:["Cobert d'escates, esquames dures superposades com la pell d'un peix","Relatiu als excrements, a la femta, als fems, a la brutícia i a la porqueria més fastigosa","Que provoca escassetat, penúria, misèria, manca de recursos, d'aliments i de diners","Que escampa, dissemina, dispersa i difon, com rumors, notícies o llavors al vent"] },
+  // 37: R2
+  { word:"Aüc",          correct:"Crit agut, udol prolongat, esgarip penetrant i veu molt estrident",  options:["Crit agut, udol prolongat, esgarip penetrant i veu molt estrident","Ocell passerell, petit pardal, moixó","Collita d'alls, cebes tendres, porros i verdures de la família de les liliàcies","Sort, casualitat favorable, bon averany, fortuna, ventura i destí benigne i propici"] },
+  // 38: R3
+  { word:"Fotesa",       correct:"Cosa de poca importància, bestiesa, fotesa, bagatel·la i ximpleria",options:["Cosa de poca importància, bestiesa, fotesa, bagatel·la i ximpleria","Clot, forat al terra, sot, esvoranc","Manera de fotografiar, d'enfocar la càmera, de captar la llum i el color","Dita enginyosa, acudit, frase graciosa"] },
+  // 39: R4
+  { word:"Tremp",        correct:"Vivor, energia, vitalitat, vigor, ànim i fortalesa de caràcter",     options:["Vivor, energia, vitalitat, vigor, ànim i fortalesa de caràcter","Pintura al tremp, tècnica pictòrica antiga","Trampa, parany, mecanisme enganyós, artifici","Terreny pantanós, moll, fangar, ple d'aigua"] },
+
+  // ══════ Nivell 3: Arcà (20 paraules) ══════
+
+  // 40: R1
+  { word:"Vergonyant",   correct:"Que sent vergonya íntima, retret, apocat i que procura amagar-se",   options:["Que sent vergonya íntima, retret, apocat i que procura amagar-se","Que fa posar vermells als altres, ridiculitzant, avergonyint i incomodant en públic","Relatiu a la virginitat, a la castedat, al celibat, a la puresa moral i a la santedat","Que camina per la vora, resseguint el marge del riu, de la costa, del penya-segat i de l'abisme"] },
+  // 41: R2
+  { word:"Atermenat",    correct:"Delimitat amb fites, mollons i marques entre propietats",            options:["Delimitat amb fites, mollons i marques entre propietats","Que ha perdut la por, valent, agosarat","Relatiu al final, al terme, a la terminació, a la cloenda, al concloure i a l'acabament","Cobert de terra, pols i runa, enterrat sota sediments, fang, despulles i enderrocs"] },
+  // 42: R3
+  { word:"Vetustat",     correct:"Qualitat d'antic, vell, envellit i deteriorat per l'edat i el pas del temps",options:["Qualitat d'antic, vell, envellit i deteriorat per l'edat i el pas del temps","Relatiu a la roba, al vestit, a la moda","Que veta, prohibeix, censura, impedeix, desautoritza i no permet","Que vetlla tota la nit, no dorm, roman despert, en vetlla permanent i vigilant"] },
+  // 43: R4
+  { word:"Escarceller",  correct:"Oficial encarregat de la presó, carceller i guardià de la garjola",   options:["Oficial encarregat de la presó, carceller i guardià de la garjola","Qui esquartera, talla a trossos, parteix","Menjador de cargols, aficionat, heliòfag","Qui es mofa, fa burla cruel, ridiculitza i escarneix"] },
+  // 44: R1
+  { word:"Nefand",       correct:"Indigne, abominable, execrable i de què no s'ha de parlar mai",       options:["Indigne, abominable, execrable i de què no s'ha de parlar mai","Relatiu al nebot, al nét, al fill del germà, al descendent, a l'hereu i al parentiu","Que neda, nedador, sura, flota i es belluga dins l'aigua, al mar, al riu o a la piscina","Que nega amb el cap, fa que no, desmenteix, rebutja, denega i refusa amb un gest"] },
+  // 45: R2
+  { word:"Sibil·lí",     correct:"Oscur, misteriós, difícil de desxifrar, interpretar o comprendre",    options:["Oscur, misteriós, difícil de desxifrar, interpretar o comprendre","Que xiula, emet un so agut, sibilant","Relatiu a la selva, a la jungla, a la vegetació densa, espessa i tropical","Parent d'una sibil·la, descendent d'una profetessa antiga, d'una pitonissa i d'una endevinadora"] },
+  // 46: R3
+  { word:"Tabalot",      correct:"Persona de pocs enteniments, curt de gambals, beneitot i estaquirot", options:["Persona de pocs enteniments, curt de gambals, beneitot i estaquirot","Músic que toca el tambor, el timbal","Tauló de fusta plana, post o llistó per construir mobles, bastides i bigues","Establiment, botiga, comerç, negoci"] },
+  // 47: R4
+  { word:"Desnonar",     correct:"Expulsar legalment d'un habitatge, desallotjar per ordre judicial",    options:["Expulsar legalment d'un habitatge, desallotjar per ordre judicial","Desenganxar la fruita d'un arbre, collir","Cridar molt fort, amb totes les forces, clamar","Desenterrar un cadàver, exhumar les restes mortals"] },
+  // 48: R1
+  { word:"Fiblada",      correct:"Ferida de fibló, picada d'insecte verinós, punxada verinosa",         options:["Ferida de fibló, picada d'insecte verinós, punxada verinosa","Teixit fi, transparent, gasa de seda lleugera, de fils molt prims, teixida a mà o al teler","Punxó, agulla prima, clau petit, punta metàl·lica esmolada i molt fina, d'acer o ferro","Full de paper, làmina prima i fina, un sol full d'un llibre, d'un quadern o d'un document"] },
+  // 49: R2
+  { word:"Aürtar",       correct:"Topar violentament, xocar de front, impactar amb força i embestir",   options:["Topar violentament, xocar de front, impactar amb força i embestir","Relatiu a l'art, al món artístic, creatiu","Portar amb urgència, apressadament, atropelladament, amb presses i veloçment","Omplir d'aigua, inundar, submergir, regar, amarar i negar completament un terreny o un cultiu"] },
+  // 50: R3
+  { word:"Ganfarró",     correct:"Home mandrós, gandul, dropo, malfeiner que esquiva tota feina",       options:["Home mandrós, gandul, dropo, malfeiner que esquiva tota feina","Trompeta petita, instrument de metall","Peix de riu petit, semblant a la truita però més menut i amb taques","Ganxo gran, gafa de ferro per subjectar"] },
+  // 51: R4
+  { word:"Oïble",        correct:"Que es pot sentir, audible, perceptible per l'orella humana",           options:["Que es pot sentir, audible, perceptible per l'orella humana","Que es pot odiar, detestar, avorrir","Fruita que es pot collir, agafar, prendre","Que es pot amagar, ocultar, dissimular, encobrir"] },
+  // 52: R1
+  { word:"Plaguívol",    correct:"Agradable, dòcil, suau, complaent, amable, benigne i afable",          options:["Agradable, dòcil, suau, complaent, amable, benigne i afable","Que pateix la plaga, la pesta, l'epidèmia, el contagi de malalties i la pandèmia","Que plora sovint, ploraner, llagrimós i fàcilment commogut, emotiu i sentimental","Relatiu a la platja, a l'arena, a la riba del mar, al litoral sorrenc, a la badia i a la cala"] },
+  // 53: R2
+  { word:"Xerracaire",   correct:"Serrador, treballador de la serra, del tall i de la fusta",            options:["Serrador, treballador de la serra, del tall i de la fusta","Xerraire, parlador incansable, enraonador","Porter, bidell, guarda, vigilant o conserge a l'entrada d'un edifici","Mestre d'obres, paleta, que posa rajoles, ceràmica, terratzo, gres i paviments"] },
+  // 54: R3
+  { word:"Batzegada",    correct:"Sacsejada forta, sotragada, sotrac, moviment brusc i violent",         options:["Sacsejada forta, sotragada, sotrac, moviment brusc i violent","Barca de fons pla, de rems o vela","Cop sec, patac, caiguda a terra, accident, trompada i contusió","Màquina agrícola per batre cereals"] },
+  // 55: R4
+  { word:"Tudar",        correct:"Fer l'acte sexual, acoblar-se, copular, aparellar-se i procrear",     options:["Fer l'acte sexual, acoblar-se, copular, aparellar-se i procrear","Tancar una porta, barrar el pas, obstruir","Trucar amb els nusos dels dits, tustar","Trinxar, tallar a trossos, a daus, esbocinar"] },
+  // 56: R1
+  { word:"Escarnir",     correct:"Fer burla cruel, mofar-se amb acarnissament, sarcasme i ridiculitzant",options:["Fer burla cruel, mofar-se amb acarnissament, sarcasme i ridiculitzant","Separar la carn de l'os, esquarterar, tallar i trossejar una canal, un cos o un cadàver","Tacar amb tinta, carbó o pintura, embrutar, deixar una marca fosca o una taca bruta","Escriure en un pergamí, en un paper o en un document, amb ploma, bolígraf o llapis"] },
+  // 57: R2
+  { word:"Xarxó",        correct:"Ximple, babau, gamarús, estaquirot, idiota i persona de poca substància",options:["Ximple, babau, gamarús, estaquirot, idiota i persona de poca substància","Xarxa de pescar, filat, malla fina","Xarrup petit, glop curt, beure a glops, glopada curta i beure amb moderació","Color safrà, entre groc i taronja, daurat, de la cúrcuma, de les postes de sol i dels ocres"] },
+  // 58: R3
+  { word:"Malfacte",     correct:"Acció malvada, crim, delicte, quelcom mal fet, il·lícit i punible",    options:["Acció malvada, crim, delicte, quelcom mal fet, il·lícit i punible","Mala olor, fetor, pudor, tuf, pestilència","Malaltia dels ulls del bestiar, infecció ocular, lleganyes i ceguesa","Mal de cap intens, migranya, cefalea"] },
+  // 59: R4
+  { word:"Embenar",      correct:"Cobrir amb benes i apòsits, amb gases, per guarir una ferida oberta",   options:["Cobrir amb benes i apòsits, amb gases, per guarir una ferida oberta","Omplir de béns, de riquesa, propietats, fortuna","Embrutar amb bava, saliva, mucositat espessa","Embarcar, pujar a bord d'un vaixell, un ferri o una nau"] },
+
+  // ══════ Nivell 4: Críptic (20 paraules) ══════
+
+  // 60: R1
+  { word:"Axiplà",       correct:"Capdamunt, tossa, cim, part més alta i elevada d'un turó",             options:["Capdamunt, tossa, cim, part més alta i elevada d'un turó","Arbre tropical de fulles grosses, que fa fruita dolça, groga, sucosa i de polpa carnosa","Aigua plana, tranquil·la, sense ones, llisa com un mirall, estancada, quieta i immòbil","Aixeta, clau de pas, vàlvula o canella que regula el flux d'aigua o de gas"] },
+  // 61: R2
+  { word:"Enutjós",      correct:"Que causa enuig, irritació, fastigueig, molèstia i fort empipament",    options:["Que causa enuig, irritació, fastigueig, molèstia i fort empipament","Del joc de cartes o de daus, de l'atzar","Que té nusos, nuat, embolicat amb corda, amb fil o amb cinta, difícil de desfer","Fill únic, sense germans, primogènit, hereu solitari, descendent exclusiu d'una nissaga"] },
+  // 62: R3
+  { word:"Cabdell",      correct:"Pilota de fil, madeixa, troca, rotlle de llana, cabdellada de cordill", options:["Pilota de fil, madeixa, troca, rotlle de llana, cabdellada de cordill","Bou, vedell, animal boví de banya","Cap d'una comunitat, cabdill, líder, capatàs, guia i dirigent","Capital, diners, fortuna, principal econòmic, suma de diners, actiu financer i patrimoni"] },
+  // 63: R4
+  { word:"Xaloc",        correct:"Vent càlid del sud-est, eixaloc, vent de mar, humit i molt temperat",   options:["Vent càlid del sud-est, eixaloc, vent de mar, humit i molt temperat","Xalet petit, caseta de fusta, torreta","Blau cel pàl·lid, blau clar, turquesa, celeste","Sopa de peix i marisc, amb arròs, patates i safrà"] },
+  // 64: R1
+  { word:"Llefiscós",    correct:"Enganxós, viscós, que s'adhereix als dits, als llavis i a la pell",     options:["Enganxós, viscós, que s'adhereix als dits, als llavis i a la pell","Vent de garbí, de ponent, temperat, humit, suau, del sud-oest, vent de pluja i de mar","Que llegeix molt, lletraferit, devorador de llibres, novel·les i literatura de tota mena","Que té llémenes al cap, paràsits dels cabells, ous de poll, picor intensa i rasca"] },
+  // 65: R2
+  { word:"Fal·lera",     correct:"Idea fixa, dèria, obsessió, capritx persistent i deler irrefrenable",   options:["Idea fixa, dèria, obsessió, capritx persistent i deler irrefrenable","Que no hi és, absent, desaparegut, mancant","Falca de fusta prima, tascó, per ajustar mobles, portes, finestres i per anivellar","Peu de la muntanya, falda de la serra, contraforts muntanyosos i vessant inferior"] },
+  // 66: R3
+  { word:"Llambroix",    correct:"Golafre, golut, golós, de gana insaciable que tot ho vol menjar",       options:["Golafre, golut, golós, de gana insaciable que tot ho vol menjar","Que veu de lluny, bona vista, ull de linx","Que lluita amb braó, força, energia, empenta, vigor, ànim i coratge","Que brilla, relluu, llampegueja"] },
+  // 67: R4
+  { word:"Torniolar",    correct:"Giravoltar, fer voltes i giravolts, fer moviments circulars",           options:["Giravoltar, fer voltes i giravolts, fer moviments circulars","Tornar a la infància, rejovenir, renéixer","Fer peces de terrissa, ceràmica al torn","Fer de torner de fusta i ferro, operari de màquina"] },
+  // 68: R1
+  { word:"Empostissar",  correct:"Cobrir amb posts de fusta, entarimar un trespol de taulons",            options:["Cobrir amb posts de fusta, entarimar un trespol de taulons","Posar-se de puntetes, dret sobre les puntes dels peus, per arribar més amunt del que es pot","Enviar per correu postal, carta, paquet, correspondència, missiva o tramesa certificada","Prendre possessió d'un càrrec, investir i instal·lar una persona al poder i a l'autoritat"] },
+  // 69: R2
+  { word:"Espellucar",   correct:"Obrir els ulls desmesuradament, esbatanar les parpelles amb astorament",options:["Obrir els ulls desmesuradament, esbatanar les parpelles amb astorament","Treure la closca, la pellofa, la pela","Espolsar la pols, desempolsar un moble, una superfície, sacsar i netejar","Esquilar una ovella, tondre, tondosar, rapar el bestiar oví i deixar-lo ben pelat"] },
+  // 70: R3
+  { word:"Eixorellat",   correct:"Que té les orelles grosses, orellut i de pavelló auditiu prominent",     options:["Que té les orelles grosses, orellut i de pavelló auditiu prominent","Que ix del corral, del tancat, del clos","Marcat amb ferro roent, amb una marca, un senyal a la pell o al cuir","Cansat d'escoltar, fart de sentir"] },
+  // 71: R4
+  { word:"Baciu",        correct:"Gibrell gran, recipient de terrissa o de fusta per rentar i fer bugada", options:["Gibrell gran, recipient de terrissa o de fusta per rentar i fer bugada","Que està borratxo, èbri, embriac, alcoholitzat","Vall petita, clotada, fondalada, foia, conca","Bou, vaca, brau, vedell, bestiar boví de granja"] },
+  // 72: R1
+  { word:"Enxubat",      correct:"Xop, completament moll, amarat d'aigua, sucat i ple d'humitat",          options:["Xop, completament moll, amarat d'aigua, sucat i ple d'humitat","Tancat amb clau, forrellat, baldó i pestell, amb la porta ben closa i segellada","Enviat a la presó, al calabós, a la garjola, a la tancada i a la reclusió forçosa","Pujat dalt d'un arbre, enfilat a la branca, a la copa de l'alzina, del pi o del xiprer"] },
+  // 73: R2
+  { word:"Talòs",        correct:"Beneit, ximple, curt de gambals, poca-solta, dropo i inútil",            options:["Beneit, ximple, curt de gambals, poca-solta, dropo i inútil","Moneda d'or antiga, tàler, valor, canvi","Bloc de pedra, marbre o granit tallat, per fer escultures, monuments i làpides","Làmina de paper, metall o fusta, tallada amb serra, de dimensions i gruixos precisos"] },
+  // 74: R3
+  { word:"Aiguafort",    correct:"Gravat amb àcid sobre planxa metàl·lica, tècnica d'estampació artística",options:["Gravat amb àcid sobre planxa metàl·lica, tècnica d'estampació artística","Aigua amb vinagre, líquid àcid, refrescant","Corrent d'aigua molt forta, cascada, torrent impetuós de muntanya, riuada","Aiguardent, alcohol destil·lat, licor fort"] },
+  // 75: R4
+  { word:"Camatrenc",    correct:"Que té les cames tortes, garrell, establornit i de passes desmanyotades",options:["Que té les cames tortes, garrell, establornit i de passes desmanyotades","Intercanvi, bescanvi, barata, permuta, tracte","Bressol de nadó, llitet d'infant, cuneta","De la càmera fosca, de l'aparell fotogràfic, del fotògraf"] },
+  // 76: R1
+  { word:"Cepell",       correct:"Pa de terra i arrels adherit a la base d'una planta en trasplantar",     options:["Pa de terra i arrels adherit a la base d'una planta en trasplantar","Soca de cep jove, sarment tendre, brot de vinya acabat de plantar al camp de conreu","Persona de poc cabell, mig calb, de cabellera minsa i escassa densitat capil·lar","Bony al cap, inflor, contusió, nyanyo, blau a la pell, hematoma i traumatisme"] },
+  // 77: R2
+  { word:"Llosc",        correct:"Que hi veu poc, curt de vista, cegall, miop i de visió feble i borrosa",  options:["Que hi veu poc, curt de vista, cegall, miop i de visió feble i borrosa","Que brilla, llueix, relluu, radiant, lluminós","Racó petit, amagatall, indret estret, cantonada, lloc íntim, xic, menut i apartat","Peix de mar, de roca, d'escata fosca i carn blanca, que neda entre els fons marins"] },
+  // 78: R3
+  { word:"Titella",      correct:"Ninot mogut amb fils, putxinel·li, fantotxe, marioneta i figura articulada",options:["Ninot mogut amb fils, putxinel·li, fantotxe, marioneta i figura articulada","Onada molt suau, marejol, calma, bonança","Semidéu, fill d'un tità i una nimfa, personatge mitològic menor","Tasseta per beure licors, cafè sol, xocolata desfeta i infusions, molt petita"] },
+  // 79: R4
+  { word:"Gínjol",       correct:"Fruit del ginjoler, dolç, vermell, semblant a una cirera petita i aspra", options:["Fruit del ginjoler, dolç, vermell, semblant a una cirera petita i aspra","Plor, gemec, sanglot, lament feble, plany","Color groc intens, groc viu, groc canari, safrà","Joc de mans, màgia, il·lusionisme, truc de circ"] },
+
+  // ══════ Nivell 5: Inefable (20 paraules) ══════
+
+  // 80: R1
+  { word:"Albadà",       correct:"Calaix sota la teulada per guardar-hi grans, golfa i porxo",            options:["Calaix sota la teulada per guardar-hi grans, golfa i porxo","Alba molt bella, clara i radiant, de color rosat i daurat, espectacle matutí i cel d'aurora","Persona de raça blanca, caucàsica, de pell clara, cabells rossos i ulls blaus o verds","Gran riuada, allau d'aigua, torrentada, inundació, desbordament i crescuda sobtada"] },
+  // 81: R2
+  { word:"Atzembla",     correct:"Bèstia de càrrega, ruc, matxo, mul, ase i animal de bast i transport",  options:["Bèstia de càrrega, ruc, matxo, mul, ase i animal de bast i transport","Arbre molt alt, pi, avet o cedre, dret","Conjunt d'atzavares, plantes crasses de fulles punxants, del gènere Agave, de climes àrids","Almoina als pobres, caritat, acte de donar als necessitats, als captaires i als pidolaires"] },
+  // 82: R3
+  { word:"Badoquí",      correct:"Qualitat de badoc, de qui bada, de qui es distreu mirant, badada",      options:["Qualitat de badoc, de qui bada, de qui es distreu mirant, badada","Relatiu a Badalona, la ciutat, la vila","Pell de bou adobada i cosida, cuir gruixut d'animals grans, tractat i assaonat","Maldat, dolenteria, perversitat"] },
+  // 83: R4
+  { word:"Corcoll",      correct:"Gran aflicció, pena intensa, desfici, desassossec i neguit que rosega",  options:["Gran aflicció, pena intensa, desfici, desassossec i neguit que rosega","Coll llarg i prim, esvelt, de cigne, gràcil","Insecte petit de closca dura, que rosega fusta","Collaret de corall vermell, amb perles i gemmes"] },
+  // 84: R1
+  { word:"Desmanyotat",  correct:"Maldestre, sapastre, barroer, que no sap fer anar les mans, inútil",     options:["Maldestre, sapastre, barroer, que no sap fer anar les mans, inútil","Que ha perdut la por, alliberat de les pors, ja no té por de res, despreocupat i tranquil","Que s'ha tret les manyoples, els guants, que porta les mans nues i sense protecció","Que ha desmuntat una màquina, un motor o un artefacte, desballestat completament"] },
+  // 85: R2
+  { word:"Engonal",      correct:"Regió de l'entrecuix, de la zona inguinal i dels genitals",              options:["Regió de l'entrecuix, de la zona inguinal i dels genitals","Angle interior, racó de la paret, cantonada","Que engreixa, calòric, que fa augmentar de pes corporal i acumular greix","Fons de la vall, congost, gorja, part més baixa de la muntanya i de l'engonal"] },
+  // 86: R3
+  { word:"Escarnufar",   correct:"Arronçar el nas, fer ganyotes de fàstic, expressar desgrat amb la cara",  options:["Arronçar el nas, fer ganyotes de fàstic, expressar desgrat amb la cara","Fer burla cruel, escarni, sarcasme, mofa","Escampar la farina, empolvorar, empolsar, enfarinar una superfície","Escapar corrents, fugir ràpid, esmunyir-se, escapolir-se i desaparèixer"] },
+  // 87: R4
+  { word:"Falconada",    correct:"Cop donat amb un falcó, arma antiga semblant a una dalla o un podall",    options:["Cop donat amb un falcó, arma antiga semblant a una dalla o un podall","Vol en picat del falcó, atac aeri, caça","Mentida grossa, bola, engany, falòrnia, faula","Conjunt de falcons de falconeria, aus ensinistrades"] },
+  // 88: R1
+  { word:"Papissot",     correct:"Qui camina amb els peus cap endins, de passa girada i molt maldestra",    options:["Qui camina amb els peus cap endins, de passa girada i molt maldestra","Relatiu al Papa, al Papat, a la Santa Seu, a Roma, al Vaticà i a la jerarquia eclesiàstica","Paperassa, munió de papers, documents, formularis, burocràcia i tràmits administratius","Figura modelada de pasta de paper, cartó pedra, escultura tosca, material d'artesania"] },
+  // 89: R2
+  { word:"Llobarro",     correct:"Peix de mar de carn blanca, de ratlles platejades als flancs, llobina",   options:["Peix de mar de carn blanca, de ratlles platejades als flancs, llobina","Gos pastor, ca de bestiar, gris, guardià","Barri marginal, suburbial, de cases barates, carrers estrets i gent pobra","Llop petit, llobató, cadell de llop, cria jove que encara no ha marxat del cau"] },
+  // 90: R3
+  { word:"Manyopla",     correct:"Guant sense separació per als dits, manopla que cobreix tots els dits junts",options:["Guant sense separació per als dits, manopla que cobreix tots els dits junts","Manxa petita, per bufar, avivar el foc","Màniga molt ampla i folgada de roba, de vestit, de camisa, de jaqueta","Taca de greix, pintura, vi o suc al teixit, a la tela, al paper o al moble de fusta"] },
+  // 91: R4
+  { word:"Marrà",        correct:"Mascle de l'ovella, be, moltó, corder adult de banyes ben caragolades", options:["Mascle de l'ovella, be, moltó, corder adult de banyes ben caragolades","Que s'equivoca, comet una errada, un error","Color marró fosc, terrós, de terra mullada, humus","Mal de cap molt fort, migranya, cefalea punyent i dolorosa"] },
+  // 92: R1
+  { word:"Oreig",        correct:"Vent suau, brisa fresca, ventijol, oreig i corrent d'aire molt lleuger",  options:["Vent suau, brisa fresca, ventijol, oreig i corrent d'aire molt lleuger","Petita obertura, forat, orifici, finestreta, badall, escletxa o esquerda per on passa l'aire","Moneda d'or petita, de poc valor, poc pes, poc preu i minsa quantitat de metall","Relatiu a l'orella, al pavelló auditiu, a l'òrgan de l'oïda i al sentit auditiu"] },
+  // 93: R2
+  { word:"Remei",        correct:"Medicina, guariment, cura, tractament o solució per a una malaltia",      options:["Medicina, guariment, cura, tractament o solució per a una malaltia","Que remena, agita, belluga, mou, trasteja","Rem de fusta per impulsar barques, bots, canoes i embarcacions a força de braços","Remor, xiuxiueig, murmuri, brunzit, brogit, soroll de fons, rumor i run run"] },
+  // 94: R3
+  { word:"Soll",         correct:"Lloc on els porcs s'ajeuen, jaç de porcs, fanguer, bassal, toll i llot", options:["Lloc on els porcs s'ajeuen, jaç de porcs, fanguer, bassal, toll i llot","Sol molt intens, sol que crema, canícula","Que sona, dring, dringadera, campaneta, esquella","Que sua, suat, xop de suor, amarat i mullat per la suor intensa i l'esforç físic prolongat"] },
+  // 95: R4
+  { word:"Tabustol",     correct:"Cop violent al cap, batzacada, topada forta i xoc cranial",               options:["Cop violent al cap, batzacada, topada forta i xoc cranial","Tamboret petit, banquet, escambell, seient baix","Timbal gros, bombo, percussió de so greu i profund","Tempesta amb trons, llamps i pluja intensa, calamarsa"] },
+  // 96: R1
+  { word:"Vedrí",        correct:"Glaç, aigua congelada, gebre, gel, vidre format per congelació natural",    options:["Glaç, aigua congelada, gebre, gel, vidre format per congelació natural","Que hi veu molt, vident, de vista aguda, perspicaç, clarivident i amb bona visió","Relatiu a la veda, a la prohibició de caçar i pescar, període de restricció i protecció","Color verd intens, verd fosc, verd maragda, verd molsa, verdet, de les fulles i de la gespa"] },
+  // 97: R2
+  { word:"Xarxapà",      correct:"Ximple, babau, xitxarel·lo, estaquirot, gamarús i persona de poca volada",options:["Ximple, babau, xitxarel·lo, estaquirot, gamarús i persona de poca volada","Xarxa de pesca fina, filat, malla, art","Planta d'aiguamoll, canya, canyís, jonc, balca, boga i vegetació de ribera","Xerrac petit, serra de mà de fulla estreta, per fer talls fins i precisos"] },
+  // 98: R3
+  { word:"Esllavissada", correct:"Despreniment de terres i roca muntanya avall, esllavissament",            options:["Despreniment de terres i roca muntanya avall, esllavissament","Que parla fluix, xiuxiueja, murmura, balboteja","Que ha relliscat i caigut en terreny moll, estabornit per la caiguda","Que es lleva molt d'hora, matiner"] },
+  // 99: R4
+  { word:"Furga",        correct:"Instrument de ferro per atiar el foc, furga, burxa, tisoner i atiador",   options:["Instrument de ferro per atiar el foc, furga, burxa, tisoner i atiador","Que fuig, s'escapa, deserta, marxa corrents","Camioneta, furgoneta de càrrega i transport ràpid","Sot, clot al terra, rasa excavada per la pluja intensa"] },
+];
+// ── PARAULES SELECCIONADES PER A AQUESTA PARTIDA ──
+let TEST_WORDS = [];
+
+// ── STATE ──
+const WORDS_PER_LEVEL = 10;
+const LEVELS = 5;
+let currentIndex = 0;
+let score = 0;
+let wrong = 0;
+let selectedOption = null;
+let revealed = false;
+let streak = 0;
+let bestStreak = 0;
+let perLevelCorrect = [0, 0, 0, 0, 0];
+let perLevelTotal = [0, 0, 0, 0, 0];
+
+// ── HELPERS ──
+function getLevel(idx) { return Math.min(LEVELS, Math.floor(idx / WORDS_PER_LEVEL) + 1); }
+function getLevelClass(lvl) { return 'difficulty-' + lvl; }
+
+// ── SELECCIÓ ALEATÒRIA ──
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function selectTestWords() {
+  TEST_WORDS = [];
+  for (let lvl = 0; lvl < LEVELS; lvl++) {
+    const pool = WORDS_POOL.slice(lvl * 20, (lvl + 1) * 20);
+    const selected = shuffle(pool).slice(0, WORDS_PER_LEVEL);
+    TEST_WORDS.push(...selected);
+  }
+}
+
+// ── START ──
+function startQuiz() {
+  selectTestWords();
+  currentIndex = 0;
+  score = 0;
+  wrong = 0;
+  streak = 0;
+  bestStreak = 0;
+  perLevelCorrect = [0,0,0,0,0];
+  perLevelTotal = [0,0,0,0,0];
+  switchScreen('quizScreen');
+  renderQuestion();
+}
+
+// ── RENDER ──
+function renderQuestion() {
+  if (currentIndex >= TEST_WORDS.length) { return showResults(); }
+  const q = TEST_WORDS[currentIndex];
+  const lvl = getLevel(currentIndex);
+  const lvlClass = getLevelClass(lvl);
+
+  revealed = false;
+  selectedOption = null;
+
+  document.getElementById('levelBadge').textContent = 'Nivell ' + lvl;
+  document.getElementById('levelBadge').className = 'progress-badge ' + lvlClass;
+  document.getElementById('counterText').textContent = (currentIndex + 1);
+  document.getElementById('totalText').textContent = TEST_WORDS.length;
+  document.getElementById('scoreLive').innerHTML = 'Encerts: <strong>' + score + '</strong>';
+  document.getElementById('progressBar').style.width = ((currentIndex / TEST_WORDS.length) * 100) + '%';
+  document.getElementById('wordDisplay').textContent = q.word;
+  document.getElementById('feedbackToast').textContent = '';
+  document.getElementById('feedbackToast').className = 'feedback-toast';
+
+  const opts = [...q.options];
+  for (let i = opts.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [opts[i], opts[j]] = [opts[j], opts[i]];
+  }
+
+  const letters = ['A', 'B', 'C', 'D'];
+  const grid = document.getElementById('optionsGrid');
+  grid.innerHTML = opts.map((opt, i) => `
+    <button class="option-btn" data-answer="${opt.replace(/"/g, '&quot;')}">
+      <span class="option-letter">${letters[i]}</span>
+      <span>${opt}</span>
+    </button>
+  `).join('');
+
+  grid.querySelectorAll('.option-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      if (revealed) return;
+      grid.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+      this.classList.add('selected');
+      selectedOption = this.dataset.answer;
+      document.getElementById('checkBtn').disabled = false;
+    });
+  });
+
+  const checkBtn = document.getElementById('checkBtn');
+  checkBtn.textContent = 'Comprovar';
+  checkBtn.disabled = true;
+  checkBtn.onclick = handleCheck;
+}
+
+// ── CHECK / CONTINUE ──
+function handleCheck() {
+  if (!revealed) {
+    checkAnswer();
+  } else {
+    currentIndex++;
+    renderQuestion();
+  }
+}
+
+function checkAnswer() {
+  if (!selectedOption) return;
+  const q = TEST_WORDS[currentIndex];
+  const lvl = getLevel(currentIndex) - 1;
+  const isCorrect = (selectedOption === q.correct);
+  revealed = true;
+
+  perLevelTotal[lvl]++;
+
+  if (isCorrect) {
+    score++;
+    streak++;
+    if (streak > bestStreak) bestStreak = streak;
+    perLevelCorrect[lvl]++;
+  } else {
+    wrong++;
+    streak = 0;
+  }
+
+  document.querySelectorAll('.option-btn').forEach(btn => {
+    btn.classList.add('locked');
+    const ans = btn.dataset.answer;
+    if (ans === q.correct) {
+      btn.classList.add('correct');
+    } else if (ans === selectedOption && !isCorrect) {
+      btn.classList.add('incorrect');
+    }
+  });
+
+  const fb = document.getElementById('feedbackToast');
+  if (isCorrect) {
+    fb.textContent = '✓ Correcte!';
+    fb.className = 'feedback-toast correct-fb';
+  } else {
+    fb.textContent = '✗ Incorrecte — La resposta correcta era: «' + q.correct + '»';
+    fb.className = 'feedback-toast incorrect-fb';
+  }
+
+  document.getElementById('scoreLive').innerHTML = 'Encerts: <strong>' + score + '</strong>';
+
+  const btn = document.getElementById('checkBtn');
+  btn.textContent = (currentIndex < TEST_WORDS.length - 1) ? 'Continuar  →' : 'Veure resultats';
+  btn.disabled = false;
+}
+
+// ── RESULTS ──
+function showResults() {
+  switchScreen('resultsScreen');
+  const total = TEST_WORDS.length;
+  const pct = Math.round((score / total) * 100);
+
+  let gradeText, gradeColor;
+  if (pct >= 90) { gradeText = '🏆 Excel·lència lèxica! Ets un veritable erudit.'; gradeColor = '#c9a96e'; }
+  else if (pct >= 70) { gradeText = '🥇 Molt bon nivell. Dòmines el lèxic culte.'; gradeColor = '#4caf91'; }
+  else if (pct >= 50) { gradeText = '🥈 Bon intent. Tens una base sòlida.'; gradeColor = '#8b9dc3'; }
+  else if (pct >= 30) { gradeText = '🥉 Hi ha marge de millora. Continua aprenent!'; gradeColor = '#d4856b'; }
+  else { gradeText = '📚 Tot camí comença amb una paraula. A estudiar!'; gradeColor = '#e0556a'; }
+  document.getElementById('resultsGrade').textContent = gradeText;
+  document.getElementById('resultsGrade').style.color = gradeColor;
+
+  document.getElementById('scoreBig').textContent = score;
+  document.getElementById('scoreDenom').textContent = 'de ' + total + ' encerts (de 100 al banc)';
+  const circumference = 2 * Math.PI * 72;
+  const offset = circumference - (pct / 100) * circumference;
+  const circle = document.getElementById('scoreCircle');
+  circle.style.strokeDasharray = circumference;
+  setTimeout(() => { circle.style.strokeDashoffset = offset; }, 200);
+
+  document.getElementById('statCorrect').textContent = score;
+  document.getElementById('statWrong').textContent = wrong;
+  document.getElementById('statPct').textContent = pct + '%';
+  document.getElementById('statStreak').textContent = bestStreak;
+
+  const levelNames = ['Culte','Erudit','Arcà','Críptic','Inefable'];
+  const lvlClasses = ['l1','l2','l3','l4','l5'];
+  const perLevelDiv = document.getElementById('perLevelChart');
+  perLevelDiv.innerHTML = perLevelCorrect.map((correct, i) => {
+    const lvlPct = perLevelTotal[i] > 0 ? Math.round((correct / perLevelTotal[i]) * 100) : 0;
+    return `
+      <div class="level-bar-item">
+        <div class="level-bar-label ${lvlClasses[i]}">${levelNames[i]}</div>
+        <div class="level-bar-track">
+          <div class="level-bar-fill ${lvlClasses[i]}" style="height: 0%" data-height="${lvlPct}%"></div>
+        </div>
+        <div class="level-bar-score">${correct}/${perLevelTotal[i]}</div>
+      </div>
+    `;
+  }).join('');
+
+  setTimeout(() => {
+    document.querySelectorAll('.level-bar-fill').forEach(el => {
+      el.style.height = el.dataset.height;
+    });
+  }, 400);
+
+  const hBars = document.getElementById('horizontalBars');
+  hBars.innerHTML = `
+    <div class="h-bar-row">
+      <span class="h-bar-label" style="color:var(--green)">Encerts</span>
+      <div class="h-bar-track"><div class="h-bar-fill" style="width:0%;background:linear-gradient(90deg,#4caf91,#6dd4b0)" data-width="${pct}%"><span class="h-bar-fill-inner">${score}</span></div></div>
+    </div>
+    <div class="h-bar-row">
+      <span class="h-bar-label" style="color:var(--red)">Fallades</span>
+      <div class="h-bar-track"><div class="h-bar-fill" style="width:0%;background:linear-gradient(90deg,#e0556a,#f08090)" data-width="${100-pct}%"><span class="h-bar-fill-inner">${wrong}</span></div></div>
+    </div>
+    <div class="h-bar-row">
+      <span class="h-bar-label" style="color:var(--accent)">Ratxa màx</span>
+      <div class="h-bar-track"><div class="h-bar-fill" style="width:0%;background:linear-gradient(90deg,#c9a96e,#e2c88a)" data-width="${Math.min(100, (bestStreak/total)*100)}%"><span class="h-bar-fill-inner">${bestStreak}</span></div></div>
+    </div>
+  `;
+  setTimeout(() => {
+    document.querySelectorAll('.h-bar-fill[data-width]').forEach(el => {
+      el.style.width = el.dataset.width;
+    });
+  }, 600);
+
+  if (pct >= 60) { spawnConfetti(); }
+}
+
+// ── CONFETTI ──
+function spawnConfetti() {
+  const container = document.getElementById('confettiContainer');
+  const colors = ['#c9a96e','#e2c88a','#4caf91','#8b9dc3','#b491c8','#d4856b','#5ba0b9','#e0556a','#f0c080','#fff'];
+  const pieces = [];
+  for (let i = 0; i < 120; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.left = Math.random() * 100 + '%';
+    el.style.top = -(Math.random() * 40 + 10) + 'px';
+    el.style.width = (Math.random() * 10 + 6) + 'px';
+    el.style.height = (Math.random() * 10 + 6) + 'px';
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+    el.style.animationDuration = (Math.random() * 2 + 2.5) + 's';
+    el.style.animationDelay = Math.random() * 1.5 + 's';
+    el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    container.appendChild(el);
+    pieces.push(el);
+  }
+  setTimeout(() => { pieces.forEach(el => el.remove()); }, 5000);
+}
+
+// ── RESTART ──
+function restartQuiz() {
+  document.getElementById('confettiContainer').innerHTML = '';
+  startQuiz();
+}
+
+// ── SHARE ──
+function shareResults() {
+  const pct = Math.round((score / TEST_WORDS.length) * 100);
+  const levelNames = ['Culte','Erudit','Arcà','Críptic','Inefable'];
+  let text = '📖 Test de Paraules Rares en Català\n';
+  text += '🎯 ' + score + '/' + TEST_WORDS.length + ' (' + pct + '%)\n';
+  text += '📊 Per nivell: ';
+  text += perLevelCorrect.map((c, i) => levelNames[i].substring(0,3) + ':' + c + '/' + perLevelTotal[i]).join(' | ');
+  text += '\n🏆 Millor ratxa: ' + bestStreak + '\n';
+  text += "T'atreveixes a superar-lo?";
+
+  const btn = document.querySelector('#resultsScreen .btn-secondary');
+  const original = btn.textContent;
+
+  function onSuccess() {
+    btn.textContent = '✓ Copiat!';
+    setTimeout(() => { btn.textContent = original; }, 2000);
+  }
+
+  if (navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(onSuccess).catch(() => fallbackCopy(text, onSuccess));
+  } else {
+    fallbackCopy(text, onSuccess);
+  }
+}
+
+function fallbackCopy(text, onSuccess) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.left = '-9999px';
+  ta.style.top = '-9999px';
+  ta.style.opacity = '0';
+  ta.style.fontSize = '16px';
+  ta.setAttribute('readonly', '');
+  document.body.appendChild(ta);
+
+  ta.focus();
+  ta.select();
+  ta.setSelectionRange(0, 999999);
+
+  try {
+    const ok = document.execCommand('copy');
+    if (ok && onSuccess) onSuccess();
+    else throw new Error('execCommand returned false');
+  } catch (e) {
+    const btn = document.querySelector('#resultsScreen .btn-secondary');
+    btn.textContent = "⚠ No s'ha pogut copiar";
+    setTimeout(() => { btn.textContent = '📋 Copiar resultat'; }, 2000);
+  }
+
+  document.body.removeChild(ta);
+}
+
+// ── SCREEN SWITCH ──
+function switchScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (id === 'resultsScreen') {
+    const card = document.querySelector('#resultsScreen .results-card');
+    card.style.animation = 'none';
+    card.offsetHeight;
+    card.style.animation = '';
+  }
+}
+</script>
+
+</body>
+</html>

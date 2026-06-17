@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f0f11">
+<title>Test de Palabras Raras en Español — Banco de 100 · 50 por Partida · 5 Niveles</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f0f11;
+    --surface: #1a1a1f;
+    --surface-raised: #22222a;
+    --border: #2a2a35;
+    --text: #e4e4ec;
+    --text-secondary: #9090a8;
+    --accent: #c9a96e;
+    --accent-glow: rgba(201, 169, 110, 0.25);
+    --green: #4caf91;
+    --green-bg: rgba(76, 175, 145, 0.12);
+    --green-border: rgba(76, 175, 145, 0.35);
+    --red: #e0556a;
+    --red-bg: rgba(224, 85, 106, 0.12);
+    --red-border: rgba(224, 85, 106, 0.35);
+    --gold-gradient: linear-gradient(135deg, #c9a96e, #e2c88a, #c9a96e);
+    --shadow-lg: 0 25px 60px rgba(0,0,0,0.5);
+    --radius-sm: 10px;
+    --radius: 16px;
+    --radius-lg: 24px;
+    --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    min-height: 100dvh; /* iOS Safari dynamic viewport height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image:
+      radial-gradient(ellipse at 30% 20%, rgba(201,169,110,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 80%, rgba(201,169,110,0.04) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 50%, rgba(120,100,180,0.03) 0%, transparent 70%);
+    -webkit-tap-highlight-color: transparent; /* quita el flash gris en iOS */
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+
+  /* ─── SCREENS ─────────────────────────── */
+  .screen {
+    display: none;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 24px;
+    padding: max(24px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
+  }
+  .screen.active { display: block; animation: fadeSlideIn 0.5s ease; }
+
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); }
+    50%      { box-shadow: 0 0 0 14px transparent; }
+  }
+  @keyframes confettiDrop {
+    0%   { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(105vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* ─── START SCREEN ────────────────────── */
+  .start-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 56px 48px 48px;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+  }
+  .start-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--gold-gradient);
+  }
+  .start-icon { font-size: 64px; margin-bottom: 20px; display: block; }
+  .start-card h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.6rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 8px;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .start-card .subtitle {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    font-weight: 400;
+    margin-bottom: 40px;
+  }
+  .level-pills { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 36px; }
+  .level-pill {
+    padding: 8px 18px;
+    border-radius: 100px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    background: transparent;
+  }
+  .level-pill:nth-child(1) { border-color: #5ba0b9; color: #5ba0b9; }
+  .level-pill:nth-child(2) { border-color: #8b9dc3; color: #8b9dc3; }
+  .level-pill:nth-child(3) { border-color: #b491c8; color: #b491c8; }
+  .level-pill:nth-child(4) { border-color: #d4856b; color: #d4856b; }
+  .level-pill:nth-child(5) { border-color: #c9a96e; color: #c9a96e; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 36px;
+    border-radius: 100px;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    border: none;
+    transition: all var(--transition);
+    position: relative;
+    overflow: hidden;
+    -webkit-appearance: none; /* quita estilos nativos de iOS */
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation; /* evita doble-tap zoom en iOS */
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  .btn-primary {
+    background: var(--gold-gradient);
+    color: #1a1a1f;
+    box-shadow: 0 8px 30px rgba(201,169,110,0.3);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(201,169,110,0.4); }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover { background: var(--surface-raised); border-color: #444; }
+
+  /* ─── QUIZ SCREEN ─────────────────────── */
+  .quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .progress-info { display: flex; align-items: center; gap: 12px; }
+  .progress-badge {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 6px 14px;
+    border-radius: 100px;
+  }
+  .difficulty-1 { background: rgba(91,160,185,0.15); color: #5ba0b9; }
+  .difficulty-2 { background: rgba(139,157,195,0.15); color: #8b9dc3; }
+  .difficulty-3 { background: rgba(180,145,200,0.15); color: #b491c8; }
+  .difficulty-4 { background: rgba(212,133,107,0.15); color: #d4856b; }
+  .difficulty-5 { background: rgba(201,169,110,0.15); color: #c9a96e; }
+
+  .counter-text {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+  .counter-text strong { color: var(--text); font-size: 1.1rem; }
+
+  .progress-bar-wrap {
+    width: 100%;
+    height: 6px;
+    background: var(--surface-raised);
+    border-radius: 100px;
+    margin-bottom: 40px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--gold-gradient);
+    border-radius: 100px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .word-display {
+    text-align: center;
+    padding: 40px 24px 36px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    margin-bottom: 32px;
+    position: relative;
+  }
+  .word-display .hint {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+  }
+  .word-display .word {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    word-break: break-word;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  @media (max-width: 520px) { .options-grid { grid-template-columns: 1fr; } }
+
+  .option-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all var(--transition);
+    text-align: left;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.92rem;
+    color: var(--text);
+    font-weight: 500;
+    position: relative;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    min-height: 56px; /* supera los 44px mínimos de Apple HIG */
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  .option-btn:hover:not(.locked) {
+    border-color: #555;
+    background: var(--surface-raised);
+    transform: translateY(-1px);
+  }
+  .option-btn.selected {
+    border-color: var(--accent);
+    background: rgba(201,169,110,0.08);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+  }
+  .option-btn.correct {
+    border-color: var(--green-border) !important;
+    background: var(--green-bg) !important;
+    box-shadow: 0 0 0 3px rgba(76,175,145,0.2) !important;
+  }
+  .option-btn.incorrect {
+    border-color: var(--red-border) !important;
+    background: var(--red-bg) !important;
+    box-shadow: 0 0 0 3px rgba(224,85,106,0.2) !important;
+  }
+  .option-btn.locked { pointer-events: none; }
+  .option-letter {
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 0.85rem;
+    background: var(--surface-raised);
+    color: var(--text-secondary);
+    flex-shrink: 0;
+    transition: all var(--transition);
+  }
+  .option-btn.selected .option-letter { background: var(--accent); color: #1a1a1f; }
+  .option-btn.correct .option-letter { background: var(--green); color: #fff; }
+  .option-btn.incorrect .option-letter { background: var(--red); color: #fff; }
+
+  .check-btn-wrap { text-align: center; }
+  .btn-check {
+    padding: 16px 48px;
+    font-size: 1rem;
+  }
+  .btn-check:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* feedback toast */
+  .feedback-toast {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    min-height: 28px;
+    transition: all var(--transition);
+  }
+  .feedback-toast.correct-fb { color: var(--green); }
+  .feedback-toast.incorrect-fb { color: var(--red); }
+
+  /* ─── RESULTS SCREEN ──────────────────── */
+  .results-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 48px 40px 40px;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+  }
+  .results-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--gold-gradient);
+  }
+  .results-card h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 6px;
+  }
+  .results-subtitle {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 40px;
+    font-size: 0.95rem;
+  }
+
+  .big-score {
+    text-align: center;
+    margin-bottom: 36px;
+  }
+  .score-ring {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    position: relative;
+  }
+  .score-ring svg { position: absolute; top: 0; left: 0; transform: rotate(-90deg); }
+  .score-value {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 3.2rem;
+    font-weight: 900;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .score-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
+    margin-top: 12px;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+  @media (max-width: 560px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+  .stat-box {
+    background: var(--surface-raised);
+    border-radius: var(--radius);
+    padding: 18px 14px;
+    text-align: center;
+    border: 1px solid var(--border);
+  }
+  .stat-box .stat-num {
+    font-size: 1.6rem;
+    font-weight: 700;
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+  .stat-box .stat-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    margin-top: 4px;
+  }
+  .stat-num.green  { color: var(--green); }
+  .stat-num.red    { color: var(--red); }
+  .stat-num.gold   { color: var(--accent); }
+  .stat-num.white  { color: var(--text); }
+
+  .chart-section { margin-bottom: 28px; }
+  .chart-section h3 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+
+  .per-level-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  @media (max-width: 560px) { .per-level-grid { grid-template-columns: repeat(3, 1fr); } }
+  .level-bar-item {
+    text-align: center;
+  }
+  .level-bar-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .level-bar-label.l1 { color: #5ba0b9; }
+  .level-bar-label.l2 { color: #8b9dc3; }
+  .level-bar-label.l3 { color: #b491c8; }
+  .level-bar-label.l4 { color: #d4856b; }
+  .level-bar-label.l5 { color: #c9a96e; }
+
+  .level-bar-track {
+    width: 100%;
+    height: 120px;
+    background: var(--surface-raised);
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 6px;
+  }
+  .level-bar-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 8px 8px 0 0;
+    transition: height 1s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .level-bar-fill.l1 { background: linear-gradient(to top, #5ba0b9, #7cc4dd); }
+  .level-bar-fill.l2 { background: linear-gradient(to top, #8b9dc3, #aabbe0); }
+  .level-bar-fill.l3 { background: linear-gradient(to top, #b491c8, #d4b0e8); }
+  .level-bar-fill.l4 { background: linear-gradient(to top, #d4856b, #f0a48a); }
+  .level-bar-fill.l5 { background: linear-gradient(to top, #c9a96e, #e2c88a); }
+  .level-bar-score {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .horizontal-bars { display: flex; flex-direction: column; gap: 10px; }
+  .h-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .h-bar-label {
+    width: 90px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .h-bar-track {
+    flex: 1;
+    height: 22px;
+    background: var(--surface-raised);
+    border-radius: 100px;
+    overflow: hidden;
+    position: relative;
+  }
+  .h-bar-fill {
+    height: 100%;
+    border-radius: 100px;
+    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+  }
+  .h-bar-fill-inner {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #1a1a1f;
+  }
+
+  .results-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 32px; }
+
+  /* ─── CONFETTI ────────────────────────── */
+  .confetti-container {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    overflow: hidden;
+  }
+  .confetti-piece {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    animation: confettiDrop linear forwards;
+    will-change: transform, opacity; /* GPU acceleration en Mobile Safari */
+  }
+
+  /* ─── RESPONSIVE ──────────────────────── */
+  @media (max-width: 600px) {
+    .start-card, .results-card { padding: 36px 20px 28px; }
+    .start-card h1 { font-size: 1.9rem; }
+    .word-display .word { font-size: 2.2rem; }
+    .results-card h2 { font-size: 1.7rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ START SCREEN ═══════════ -->
+<div class="screen active" id="startScreen">
+  <div class="start-card">
+    <span class="start-icon">📖</span>
+    <h1>Palabras Raras<br>del Español</h1>
+    <p class="subtitle">50 términos aleatorios de un banco de 100 palabras cultas, arcaicas y desusadas.<br>Cada partida es distinta. ¿Cuántos conoces?</p>
+    <div class="level-pills">
+      <span class="level-pill">Nivel 1 · Culto</span>
+      <span class="level-pill">Nivel 2 · Erudito</span>
+      <span class="level-pill">Nivel 3 · Arcano</span>
+      <span class="level-pill">Nivel 4 · Críptico</span>
+      <span class="level-pill">Nivel 5 · Inefable</span>
+    </div>
+    <button class="btn btn-primary" onclick="startQuiz()">Comenzar test  →</button>
+  </div>
+</div>
+
+<!-- ═══════════ QUIZ SCREEN ═══════════ -->
+<div class="screen" id="quizScreen">
+  <div class="quiz-header">
+    <div class="progress-info">
+      <span class="progress-badge difficulty-1" id="levelBadge">Nivel 1</span>
+      <span class="counter-text">Palabra <strong id="counterText">1</strong> de <strong id="totalText">50</strong></span>
+    </div>
+    <span class="counter-text" id="scoreLive">Aciertos: <strong>0</strong></span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progressBar" style="width: 0%"></div>
+  </div>
+
+  <div class="word-display">
+    <div class="hint">¿Qué significa?</div>
+    <div class="word" id="wordDisplay">—</div>
+  </div>
+
+  <div class="feedback-toast" id="feedbackToast"></div>
+
+  <div class="options-grid" id="optionsGrid"></div>
+
+  <div class="check-btn-wrap">
+    <button class="btn btn-primary btn-check" id="checkBtn" disabled onclick="handleCheck()">Comprobar</button>
+  </div>
+</div>
+
+<!-- ═══════════ RESULTS SCREEN ═══════════ -->
+<div class="screen" id="resultsScreen">
+  <div class="results-card">
+    <h2>Resultados</h2>
+    <p class="results-subtitle" id="resultsGrade"></p>
+
+    <div class="big-score">
+      <div class="score-ring">
+        <svg width="160" height="160" viewBox="0 0 160 160">
+          <circle cx="80" cy="80" r="72" fill="none" stroke="#2a2a35" stroke-width="10"/>
+          <circle cx="80" cy="80" r="72" fill="none" stroke="url(#scoreGrad)" stroke-width="10"
+                  stroke-linecap="round" stroke-dasharray="452.39" id="scoreCircle"
+                  stroke-dashoffset="452.39" />
+          <defs>
+            <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#c9a96e"/>
+              <stop offset="100%" stop-color="#e2c88a"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="score-value" id="scoreBig">0</span>
+      </div>
+      <div class="score-label" id="scoreDenom">de 50 aciertos</div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-box"><div class="stat-num green" id="statCorrect">0</div><div class="stat-label">Correctas</div></div>
+      <div class="stat-box"><div class="stat-num red" id="statWrong">0</div><div class="stat-label">Falladas</div></div>
+      <div class="stat-box"><div class="stat-num gold" id="statPct">0%</div><div class="stat-label">Precisión</div></div>
+      <div class="stat-box"><div class="stat-num white" id="statStreak">0</div><div class="stat-label">Mejor racha</div></div>
+    </div>
+
+    <div class="chart-section">
+      <h3>📊 Aciertos por nivel</h3>
+      <div class="per-level-grid" id="perLevelChart"></div>
+    </div>
+
+    <div class="chart-section">
+      <h3>📈 Distribución de respuestas</h3>
+      <div class="horizontal-bars" id="horizontalBars"></div>
+    </div>
+
+    <div class="results-actions">
+      <button class="btn btn-primary" onclick="restartQuiz()">Repetir test  ↻</button>
+      <button class="btn btn-secondary" onclick="shareResults()">📋 Copiar resultado</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ CONFETTI ═══════════ -->
+<div class="confetti-container" id="confettiContainer"></div>
+
+<script>
+// ════════════════════════════════════════
+//  50 PALABRAS RARAS EN ESPAÑOL
+//  Niveles: 1-5 (10 palabras cada uno)
+// ════════════════════════════════════════
+// ════════════════════════════════════════
+//  BANCO: 100 PALABRAS (20 por nivel)
+//  Cada test usa 50 (10 aleatorias/nivel)
+//  TODAS las opciones parecen definiciones reales
+// ════════════════════════════════════════
+const WORDS_POOL = [
+  // ══════ Nivel 1: Culto (20 palabras) ══════
+  { word:"Pernicioso",   correct:"Dañino o gravemente perjudicial",        options:["Dañino o gravemente perjudicial","Que provoca somnolencia profunda","Relativo a la destrucción ósea","De efecto lento pero inexorable"] },
+  { word:"Inmarcesible", correct:"Que no se puede marchitar ni ajarse",    options:["Que no se puede marchitar ni ajarse","Que carece de valor monetario","Inaccesible por vía marítima","Exento de toda culpa o castigo"] },
+  { word:"Sempiterno",   correct:"Que dura o durará para siempre",         options:["Que dura o durará para siempre","Que acontece cada siete años","Perteneciente a un ciclo semanal","Que tiene principio pero no fin"] },
+  { word:"Luctuoso",     correct:"Triste, fúnebre o digno de lamento",     options:["Triste, fúnebre o digno de lamento","Fastuoso y de gran ostentación","Capaz de emitir luz propia","Relativo al combate cuerpo a cuerpo"] },
+  { word:"Ubérrimo",     correct:"Extraordinariamente abundante y fértil", options:["Extraordinariamente abundante y fértil","Dotado de mamas voluminosas","Que habita en las afueras de la ciudad","Perteneciente a la ubre bovina"] },
+  { word:"Falaz",        correct:"Engañoso, mentiroso, que induce a error",options:["Engañoso, mentiroso, que induce a error","Relativo a un argumento lógico defectuoso","Que tiene forma curva como una hoz","Dotado de gran capacidad oratoria"] },
+  { word:"Lóbrego",      correct:"Oscuro, tenebroso y profundamente triste",options:["Oscuro, tenebroso y profundamente triste","Cubierto de vegetación pantanosa","Propio del lobo o del comportamiento lupino","Que viste de negro por aflicción"] },
+  { word:"Zafio",        correct:"Grosero, tosco y carente de refinamiento",options:["Grosero, tosco y carente de refinamiento","De tonalidad azul similar al zafiro","Que trabaja en la recolección agrícola","Relativo al cultivo del azafrán"] },
+  { word:"Prolijo",      correct:"Excesivamente extenso, minucioso y detallado",options:["Excesivamente extenso, minucioso y detallado","Que genera abundante descendencia","Capaz de producir leche en exceso","Nacido de progenitor desconocido"] },
+  { word:"Adusto",       correct:"Severo, austero y de trato áspero y seco",options:["Severo, austero y de trato áspero y seco","Sometido a temperaturas muy elevadas","Fabricado con arcilla secada al sol","Capaz de acomodarse a cualquier medio"] },
+  { word:"Tácito",       correct:"Que se sobreentiende sin necesidad de expresarlo",options:["Que se sobreentiende sin necesidad de expresarlo","Que permanece en absoluto silencio","Relativo a una estrategia militar","Que actúa con lentitud deliberada"] },
+  { word:"Venal",        correct:"Que se deja sobornar con dinero o dádivas",options:["Que se deja sobornar con dinero o dádivas","Relativo a las venas del cuerpo","Que puede ser vendido legalmente","Perteneciente a la caza menor"] },
+  { word:"Solecismo",    correct:"Error contra la sintaxis o la construcción gramatical",options:["Error contra la sintaxis o la construcción gramatical","Figura retórica de exageración desmedida","Vicio de pronunciación de la letra ese","Doctrina que niega el libre albedrío"] },
+  { word:"Misántropo",   correct:"Que siente aversión profunda por el género humano",options:["Que siente aversión profunda por el género humano","Que colecciona objetos de forma obsesiva","Que desconfía sistemáticamente de todo","Que sufre ansiedad en espacios abiertos"] },
+  { word:"Procaz",       correct:"Desvergonzado, insolente y de lenguaje atrevido",options:["Desvergonzado, insolente y de lenguaje atrevido","Que actúa con gran habilidad y destreza","Perteneciente al género literario épico","Que defiende una causa con fervor"] },
+  { word:"Estulto",      correct:"Necio, insensato y carente de juicio",    options:["Necio, insensato y carente de juicio","Que permanece inmóvil como una estatua","Relativo a la ocultación deliberada","Que estudia sin método ni disciplina"] },
+  { word:"Icástico",     correct:"Natural, fiel a la realidad, sin idealización",options:["Natural, fiel a la realidad, sin idealización","Que provoca una impresión duradera","Perteneciente al arte de la iconografía","Que tiene propiedades adhesivas fuertes"] },
+  { word:"Facundo",      correct:"Que se expresa con gran fluidez y elocuencia",options:["Que se expresa con gran fluidez y elocuencia","Que posee conocimientos muy profundos","Capaz de realizar múltiples tareas a la vez","Relativo a la fecundidad del terreno"] },
+  { word:"Rémora",       correct:"Obstáculo, traba o cosa que detiene o retrasa",options:["Obstáculo, traba o cosa que detiene o retrasa","Pez de gran tamaño que habita en arrecifes","Sentimiento persistente de culpa o pesar","Instrumento náutico para medir profundidad"] },
+  { word:"Loa",          correct:"Alabanza, elogio o composición poética laudatoria",options:["Alabanza, elogio o composición poética laudatoria","Prenda de tela tosca usada en la antigüedad","Superficie plana de roca o losa de piedra","Especie de tejón que habita en América"] },
+
+  // ══════ Nivel 2: Erudito (20 palabras) ══════
+  { word:"Escatológico", correct:"Relativo a los excrementos, la suciedad o el fin del mundo",options:["Relativo a los excrementos, la suciedad o el fin del mundo","Perteneciente al estudio de las catacumbas cristianas","Que se comunica con frases entrecortadas e inconexas","Propio de la doctrina de las postrimerías del alma"] },
+  { word:"Propincuo",    correct:"Cercano, próximo o allegado en parentesco",options:["Cercano, próximo o allegado en parentesco","Que recibe una gratificación económica eventual","Inclinado favorablemente hacia una opinión","Perteneciente al patrimonio del príncipe"] },
+  { word:"Acerbo",       correct:"Áspero al gusto, cruel y riguroso en el trato",options:["Áspero al gusto, cruel y riguroso en el trato","Forjado o compuesto de aleación férrea","Relativo a la savia amarga de ciertos árboles","Conjunto indiviso de bienes heredados"] },
+  { word:"Execrable",    correct:"Digno de universal condena, repulsa y aborrecimiento",options:["Digno de universal condena, repulsa y aborrecimiento","Que puede llevarse a cabo sin obstáculo legal","Que segrega o expulsa residuos orgánicos","Perteneciente al género literario del exordio"] },
+  { word:"Inicuo",       correct:"Contrario a la justicia, la equidad y la rectitud moral",options:["Contrario a la justicia, la equidad y la rectitud moral","Que no ha tenido comienzo ni origen temporal","Vacío de contenido, inofensivo e insustancial","Que da inicio a una cadena de procesos lógicos"] },
+  { word:"Vergonzante",  correct:"Que siente vergüenza íntima y procura ocultar su situación",options:["Que siente vergüenza íntima y procura ocultar su situación","Que provoca sonrojo y bochorno en los demás","Que carece por completo del sentido del ridículo","Que se ruboriza con facilidad extrema en público"] },
+  { word:"Candoroso",    correct:"Ingenuo, sencillo y carente de malicia o doblez",options:["Ingenuo, sencillo y carente de malicia o doblez","Que emite calor radiante de forma natural","De color blanco inmaculado y luminoso","Que posee una voz melodiosa y afinada"] },
+  { word:"Pusilánime",   correct:"Falto de ánimo y valor para soportar la adversidad",options:["Falto de ánimo y valor para soportar la adversidad","De estatura exigua y complexión muy débil","Que padece inflamación purulenta del ánima","De carácter voluble, imprevisible y caprichoso"] },
+  { word:"Inexorable",   correct:"Que no se deja vencer por ruegos, súplicas o amenazas",options:["Que no se deja vencer por ruegos, súplicas o amenazas","Que no puede ser sometido a exorcismo ni conjuro","Que carece de práctica en la oración litúrgica","Incapaz de abandonar el lugar donde ha nacido"] },
+  { word:"Tumefacto",    correct:"Hinchado, inflamado por acumulación de líquido",options:["Hinchado, inflamado por acumulación de líquido","Cubierto por una capa de moho superficial","Que ha sido enterrado en una sepultura","Relativo a la elaboración artesanal de túmulos"] },
+  { word:"Lapso",        correct:"Intervalo de tiempo transcurrido entre dos sucesos",options:["Intervalo de tiempo transcurrido entre dos sucesos","Caída o deslizamiento súbito de tierra","Error involuntario al hablar o escribir","Período de inconsciencia breve y transitoria"] },
+  { word:"Imbricado",    correct:"Dispuesto en capas superpuestas como las tejas de un tejado",options:["Dispuesto en capas superpuestas como las tejas de un tejado","Envuelto en una maraña confusa de hilos","Que tiene forma de hélice o espiral ascendente","Relativo a la crianza de abejas melíferas"] },
+  { word:"Perentorio",   correct:"Urgente, apremiante, que no admite demora ni excusa",options:["Urgente, apremiante, que no admite demora ni excusa","Que pertenece a un período de transición","Relativo al tribunal supremo de justicia","Que caduca o prescribe por el paso del tiempo"] },
+  { word:"Ucronía",      correct:"Reconstrucción imaginaria de un pasado alternativo",options:["Reconstrucción imaginaria de un pasado alternativo","Sistema político gobernado por la multitud","Doctrina que niega la existencia del tiempo","Relato situado en un futuro tecnológicamente avanzado"] },
+  { word:"Deleznable",   correct:"Que se deshace o desmorona con suma facilidad; despreciable",options:["Que se deshace o desmorona con suma facilidad; despreciable","Que produce un placer intenso y duradero","Capaz de deslizarse sobre superficies húmedas","Que puede disolverse en agua sin agitación"] },
+  { word:"Enjundia",     correct:"Sustancia, fundamento, importancia y profundidad de algo",options:["Sustancia, fundamento, importancia y profundidad de algo","Grasa amarillenta de las aves utilizada en cocina","Conjunto de abejas obreras de una colmena","Líquido viscoso que segregan ciertas plantas"] },
+  { word:"Sagaz",        correct:"Astuto, perspicaz y que prevé con agudeza lo venidero",options:["Astuto, perspicaz y que prevé con agudeza lo venidero","Que posee un olfato excepcionalmente desarrollado","Perteneciente al género literario de la sátira","Que dispara flechas con precisión infalible"] },
+  { word:"Diatriba",     correct:"Discurso o escrito violento e injurioso contra alguien",options:["Discurso o escrito violento e injurioso contra alguien","Composición musical para dos instrumentos de viento","Doctrina filosófica que afirma dos principios opuestos","Enfermedad caracterizada por fiebre intermitente"] },
+  { word:"Pletórico",    correct:"Que rebosa abundancia, vitalidad o plenitud extrema",options:["Que rebosa abundancia, vitalidad o plenitud extrema","Que padece exceso de glóbulos rojos en la sangre","Relativo a la plebe o a las clases populares","Que ha alcanzado el máximo grado de sabiduría"] },
+  { word:"Oneroso",      correct:"Que implica un gasto, carga o gravamen económico pesado",options:["Que implica un gasto, carga o gravamen económico pesado","Que concede un honor o distinción muy notable","Relativo a los sueños y su interpretación profética","Que pesa físicamente más de lo aparente"] },
+
+  // ══════ Nivel 3: Arcano (20 palabras) ══════
+  { word:"Crepuscular",  correct:"Perteneciente al amanecer, al atardecer o a la penumbra",options:["Perteneciente al amanecer, al atardecer o a la penumbra","Que produce un chasquido o crujido al moverse","Relativo a la contracción de los músculos lisos","Que presenta una protuberancia en forma de cresta"] },
+  { word:"Melifluo",     correct:"Excesivamente dulce, suave y almibarado al expresarse",options:["Excesivamente dulce, suave y almibarado al expresarse","Que contiene miel o ha sido endulzado con ella","Que padece un estado de tristeza profunda y fluida","Perteneciente a la glándula del bazo"] },
+  { word:"Apolíneo",     correct:"Dotado de belleza serena, equilibrio y armonía clásica",options:["Dotado de belleza serena, equilibrio y armonía clásica","Carente de pulimento, brillo o acabado superficial","Relativo a la defensa argumental de una doctrina","Que ha perdido todo el polen por esterilidad"] },
+  { word:"Ditirambo",    correct:"Elogio desmesurado, exaltado y grandilocuente",options:["Elogio desmesurado, exaltado y grandilocuente","Canto coral de la antigua Grecia en honor a Dioniso","Composición poética de exactamente dos estrofas","Instrumento musical de doble cuerda pulsada"] },
+  { word:"Evanescente",  correct:"Que se atenúa y desaparece con rapidez, fugaz, efímero",options:["Que se atenúa y desaparece con rapidez, fugaz, efímero","Que transforma líquido en vapor por ebullición","Perteneciente a la etapa de la pubertad juvenil","Que experimenta un estado de arrobamiento místico"] },
+  { word:"Fatuo",        correct:"Necio, presuntuoso y vanamente orgulloso de sí mismo",options:["Necio, presuntuoso y vanamente orgulloso de sí mismo","Llama que arde sin consumir combustible aparente","Sometido al designio ineludible del destino","Que ha sido despojado de toda grasa corporal"] },
+  { word:"Imprecación",  correct:"Invocación de un mal o una desgracia sobre alguien",options:["Invocación de un mal o una desgracia sobre alguien","Plegaria o súplica ferviente dirigida a una deidad","Acto ritual de bendición con agua consagrada","Declaración formal de rechazo hacia una doctrina"] },
+  { word:"Lacónico",     correct:"Que se expresa con brevedad extrema y concisión",options:["Que se expresa con brevedad extrema y concisión","Relativo a los grandes lagos de agua dulce","Que provoca o estimula la secreción de lágrimas","Natural de la región griega de Laconia"] },
+  { word:"Nefando",      correct:"Torpe, indigno y abominable; de lo que no se debe hablar",options:["Torpe, indigno y abominable; de lo que no se debe hablar","Que carece de fase lunar visible desde la Tierra","Que niega moviendo la cabeza de un lado a otro","Incapaz de reconocer días fastos o nefastos"] },
+  { word:"Sibilino",     correct:"Oscuro, misterioso y difícil de descifrar o interpretar",options:["Oscuro, misterioso y difícil de descifrar o interpretar","Que emite un sonido agudo similar a un silbido","Propio de los bosques densos y las espesuras","Pariente consanguíneo de una profetisa antigua"] },
+  { word:"Estentóreo",   correct:"Que retruena con fuerza, muy ruidoso y resonante",options:["Que retruena con fuerza, muy ruidoso y resonante","Relativo al esternón o a la cavidad torácica","Que se expresa mediante gestos y ademanes exagerados","Perteneciente a la cría de aves esteparias"] },
+  { word:"Hediondo",     correct:"Que despide un olor fétido, nauseabundo y repulsivo",options:["Que despide un olor fétido, nauseabundo y repulsivo","Que provoca rechazo por su aspecto desagradable","Cubierto de una capa de hiedra trepadora","Que produce escalofríos y repelús al contacto"] },
+  { word:"Quimera",      correct:"Fantasía, ilusión o proyecto imposible que se persigue en vano",options:["Fantasía, ilusión o proyecto imposible que se persigue en vano","Organismo que posee células de dos especies distintas","Sustancia obtenida por combinación de metales fundidos","Teoría filosófica que postula tres principios del ser"] },
+  { word:"Abyección",    correct:"Estado de envilecimiento, degradación y bajeza moral extrema",options:["Estado de envilecimiento, degradación y bajeza moral extrema","Acto de renuncia formal a una religión o creencia","Proceso de limpieza profunda con sustancias cáusticas","Técnica quirúrgica para extirpar tejido infectado"] },
+  { word:"Perínclito",   correct:"Ilustre, insigne, digno de la más alta fama y gloria",options:["Ilustre, insigne, digno de la más alta fama y gloria","Que se inclina o dobla con facilidad extrema","Situado en la cima de una pendiente abrupta","Perteneciente a la última etapa de la vida"] },
+  { word:"Vitriólico",   correct:"Mordaz, cáustico, corrosivo y cruel en la expresión verbal",options:["Mordaz, cáustico, corrosivo y cruel en la expresión verbal","Que contiene ácido sulfúrico concentrado industrial","Relativo a la fabricación artesanal de vidrio soplado","Que ha sido tratado con una capa de esmalte vítreo"] },
+  { word:"Anodino",      correct:"Insustancial, ineficaz, que carece de interés o relevancia",options:["Insustancial, ineficaz, que carece de interés o relevancia","Que calma o mitiga el dolor de forma suave","Relativo al polo positivo de una pila eléctrica","Que transcurre sin un orden cronológico fijo"] },
+  { word:"Panegírico",   correct:"Discurso público de alabanza vehemente y encendida hacia alguien",options:["Discurso público de alabanza vehemente y encendida hacia alguien","Reunión multitudinaria de fieles de todas las religiones","Tratado filosófico que abarca todo el saber humano","Ceremonia en la que se reparte pan entre los pobres"] },
+  { word:"Inerme",       correct:"Que carece de armas, defensas o medios de protegerse",options:["Que carece de armas, defensas o medios de protegerse","Que no ha sido sometido a castigo ni multa","Incapaz de permanecer quieto o en calma","Que no ha merecido sanción por sus actos"] },
+  { word:"Execrar",      correct:"Condenar, maldecir y abominar con enérgica repulsa moral",options:["Condenar, maldecir y abominar con enérgica repulsa moral","Extraer mediante procedimiento quirúrgico controlado","Poner en práctica un plan previamente trazado","Expulsar de una comunidad religiosa o civil"] },
+
+  // ══════ Nivel 4: Críptico (20 palabras) ══════
+  { word:"Anfractuoso",  correct:"Lleno de sinuosidades, irregularidades, quiebros y recovecos",options:["Lleno de sinuosidades, irregularidades, quiebros y recovecos","Que presenta múltiples líneas de fractura internas","Capaz de vivir tanto en agua como en tierra firme","Que se comunica mediante signos y gestos manuales"] },
+  { word:"Entelequia",   correct:"Realidad ideal que solo existe en la mente; perfección imposible",options:["Realidad ideal que solo existe en la mente; perfección imposible","Inflamación crónica de las capas superficiales de la piel","Distancia angular entre dos cuerpos celestes lejanos","Colección ordenada de principios filosóficos afines"] },
+  { word:"Hialino",      correct:"Transparente, vítreo y diáfano como el cristal más puro",options:["Transparente, vítreo y diáfano como el cristal más puro","Perteneciente a las grandes masas de hielo glacial","Que contiene altas concentraciones de ácido hialurónico","Propio de un mamífero carroñero de la sabana africana"] },
+  { word:"Jeremiada",    correct:"Lamento o queja prolongada, lastimera y de tono afligido",options:["Lamento o queja prolongada, lastimera y de tono afligido","Composición poética de alabanza y regocijo espiritual","Inscripción funeraria grabada en piedra o mármol","Relación ordenada de dignidades eclesiásticas"] },
+  { word:"Nictálope",    correct:"Que posee una visión más aguda durante la noche que de día",options:["Que posee una visión más aguda durante la noche que de día","Que tiene más de dos ojos funcionales en el rostro","Privado totalmente del sentido de la vista de nacimiento","Que padece un parpadeo constante e involuntario"] },
+  { word:"Sicalíptico",  correct:"De carácter picante, erótico, malicioso y sexualmente sugerente",options:["De carácter picante, erótico, malicioso y sexualmente sugerente","Relativo al estudio clínico de los trastornos mentales","Que padece alucinaciones y delirios de persecución","Cifrado mediante un código secreto indescifrable"] },
+  { word:"Mansedumbre",  correct:"Condición de quien es dócil, apacible y de genio sosegado",options:["Condición de quien es dócil, apacible y de genio sosegado","Cualidad de la carne tierna y blanda al tacto","Posesión de una vivienda señorial de gran tamaño","Hábito adquirido de someterse a la voluntad ajena"] },
+  { word:"Tergiversar",  correct:"Alterar, deformar o falsear deliberadamente un significado",options:["Alterar, deformar o falsear deliberadamente un significado","Rotar un objeto tres veces sobre su propio eje","Traducir un poema conservando métrica y rima originales","Cambiar de institución académica a mitad de curso"] },
+  { word:"Cacofonía",    correct:"Combinación de sonidos desagradables, estridentes y discordantes",options:["Combinación de sonidos desagradables, estridentes y discordantes","Pérdida total de la capacidad de articular palabras","Instrumento rudimentario para amplificar la voz humana","Estilo de canto caracterizado por notas guturales"] },
+  { word:"Lapidario",    correct:"Expresado con concisión tajante y sentenciosa, sin concesiones",options:["Expresado con concisión tajante y sentenciosa, sin concesiones","Relativo al arte de tallar y grabar piedras preciosas","Que tiene la dureza, frialdad e impasibilidad de la roca","Condenado a morir por el lanzamiento de piedras"] },
+  { word:"Grandilocuente",correct:"Que emplea un estilo pomposo, altisonante y de falsa majestad",options:["Que emplea un estilo pomposo, altisonante y de falsa majestad","Que habla en un tono de voz excesivamente elevado","Capaz de comunicarse en muchas lenguas distintas","Que posee una gran capacidad de convocatoria oral"] },
+  { word:"Inefable",     correct:"Tan sublime que no puede expresarse con palabras humanas",options:["Tan sublime que no puede expresarse con palabras humanas","Que carece de la capacidad fisiológica del habla","Incapaz de cometer un error o equivocación jamás","Relativo a los acontecimientos que no pueden evitarse"] },
+  { word:"Criptografía", correct:"Arte de escribir mensajes mediante códigos secretos o cifrados",options:["Arte de escribir mensajes mediante códigos secretos o cifrados","Estudio de las cuevas subterráneas y sus formaciones","Técnica de dibujo con tinta invisible al ojo humano","Disciplina que estudia los fósiles microscópicos marinos"] },
+  { word:"Vituperio",    correct:"Ofensa grave, insulto afrentoso o difamación pública y notoria",options:["Ofensa grave, insulto afrentoso o difamación pública y notoria","Proceso de corrupción y putrefacción de la materia orgánica","Condición de quien ha sido rechazado por la sociedad","Ceremonia de purificación ritual mediante el fuego"] },
+  { word:"Desidia",      correct:"Negligencia culpable, abandono y falta de diligencia debida",options:["Negligencia culpable, abandono y falta de diligencia debida","Pérdida del deseo, la motivación y la iniciativa vital","Condición de quien ha sido despojado de sus bienes","Estado de sequedad extrema de la piel y las mucosas"] },
+  { word:"Escrutinio",   correct:"Examen minucioso, detallado atentamente de algo para conocerlo",options:["Examen minucioso, detallado atentamente de algo para conocerlo","Recuento oficial de votos tras una elección democrática","Registro escrito de bienes y propiedades de una persona","Interrogatorio formal realizado por una autoridad judicial"] },
+  { word:"Inopia",       correct:"Situación de indigencia, pobreza extrema y total escasez",options:["Situación de indigencia, pobreza extrema y total escasez","Estado de absoluta ignorancia sobre un asunto concreto","Condición de quien carece del sentido de la vista","Falta de opinión formada acerca de una cuestión"] },
+  { word:"Apologeta",    correct:"Persona que defiende con argumentos una doctrina o causa",options:["Persona que defiende con argumentos una doctrina o causa","Orador que pronuncia un discurso de disculpa o perdón","Individuo que se excusa constantemente de todo","Seguidor del dios mitológico Apolo en la antigüedad"] },
+  { word:"Sublime",      correct:"De elevación artística, moral o estética extraordinaria y excelsa",options:["De elevación artística, moral o estética extraordinaria y excelsa","Que asciende por debajo del umbral de la consciencia","Que se encuentra en un nivel inferior al suelo o superficie","Capaz de elevarse por encima de las dificultades mundanas"] },
+  { word:"Majadería",    correct:"Dicho o hecho necio, impertinente y carente de todo sentido",options:["Dicho o hecho necio, impertinente y carente de todo sentido","Golpe dado con un mazo o martillo de madera grande","Conjunto de hierbas machacadas en un mortero de cocina","Prenda de vestir confeccionada con tela burda de estopa"] },
+
+  // ══════ Nivel 5: Inefable (20 palabras) ══════
+  { word:"Beldad",       correct:"Belleza suprema, perfección estética fuera de lo común",options:["Belleza suprema, perfección estética fuera de lo común","Máquina de guerra empleada en asedios medievales","Territorio extenso gobernado por un señor feudal","Cualidad de quien posee gran fortaleza corporal"] },
+  { word:"Cenotafio",    correct:"Monumento funerario erigido en memoria de alguien sin contener sus restos",options:["Monumento funerario erigido en memoria de alguien sin contener sus restos","Recipiente destinado a guardar las cenizas de un difunto","Ciencia que estudia los organismos fosilizados en roca sedimentaria","Ceremonia solemne de esparcimiento de cenizas al viento"] },
+  { word:"Emolumento",   correct:"Retribución, honorario o pago correspondiente a un oficio o cargo",options:["Retribución, honorario o pago correspondiente a un oficio o cargo","Preparado farmacéutico para ablandar tejidos cutáneos","Documento legal que acredita la emancipación de un menor","Sustancia oleosa para suavizar y proteger la epidermis"] },
+  { word:"Faramalla",    correct:"Charlatanería ostentosa, artificio engañoso de falsa apariencia",options:["Charlatanería ostentosa, artificio engañoso de falsa apariencia","Tejido suntuoso originario de las rutas de Oriente Medio","Torreón defensivo construido sobre la muralla exterior","Agrupación de establecimientos de venta de medicamentos"] },
+  { word:"Gaznápiro",    correct:"Sujeto torpe, simple, palurdo y fácilmente embaucable",options:["Sujeto torpe, simple, palurdo y fácilmente embaucable","Especie de búho de gran tamaño que habita en bosques densos","Instrumento de viento fabricado con caña hueca de bambú","Apósito de gasa estéril usado para cubrir heridas abiertas"] },
+  { word:"Ígneo",        correct:"Perteneciente al fuego o dotado de su naturaleza abrasadora",options:["Perteneciente al fuego o dotado de su naturaleza abrasadora","Que desconoce por completo un tema o una materia","Que carece de clasificación dentro de un sistema lógico","Descendiente de un linaje de estirpe aristocrática"] },
+  { word:"Lenguaraz",    correct:"Atrevido, insolente y desvergonzado en el modo de expresarse",options:["Atrevido, insolente y desvergonzado en el modo de expresarse","Que posee una lengua de dimensiones anormalmente grandes","Capaz de hablar con soltura numerosos idiomas distintos","Que utiliza la lengua como herramienta de forma habilidosa"] },
+  { word:"Oropel",       correct:"Apariencia falsa de riqueza; cosa de brillo engañoso sin valor real",options:["Apariencia falsa de riqueza; cosa de brillo engañoso sin valor real","Aleación metálica de oro con bajo quilataje y pureza","Piel curtida de animal teñida de color dorado intenso","Perteneciente a un ave americana de plumaje amarillo vivo"] },
+  { word:"Superchería",  correct:"Engaño doloso, fraude premeditado o impostura artera",options:["Engaño doloso, fraude premeditado o impostura artera","Cualidad de quien se supera constantemente a sí mismo","Condición de quien se halla por encima de las leyes","Conjunto de mercancías ofertadas a precio muy rebajado"] },
+  { word:"Zarrapastroso",correct:"Cubierto de harapos, andrajoso, sucio y de aspecto miserable",options:["Cubierto de harapos, andrajoso, sucio y de aspecto miserable","Que arrastra las sílabas al hablar de forma perezosa","Cubierto de espinas y maleza de zarzamora silvestre","Que ha recibido un zarpazo o arañazo profundo de animal"] },
+  { word:"Cicatero",     correct:"Que escatima mezquinamente hasta lo más mínimo e insignificante",options:["Que escatima mezquinamente hasta lo más mínimo e insignificante","Que padece una dolencia crónica del aparato digestivo","Relativo a la crianza y doma de caballos de pura raza","Que organiza o administra un campamento militar"] },
+  { word:"Abuhado",      correct:"Que presenta hinchazón, tumefacción o aspecto abotargado",options:["Que presenta hinchazón, tumefacción o aspecto abotargado","Que ha sido sometido a los efectos del humo y el vapor","Perteneciente a la corte del antiguo imperio babilónico","Que emite un sonido grave similar al del búho"] },
+  { word:"Zahúrda",      correct:"Pocilga, lugar extremadamente sucio, asqueroso y maloliente",options:["Pocilga, lugar extremadamente sucio, asqueroso y maloliente","Recipiente de barro cocido para guardar aceite o vino","Cueva excavada en la roca usada como vivienda troglodita","Establo destinado exclusivamente al ganado ovino trashumante"] },
+  { word:"Cenutrio",     correct:"Sujeto torpe, mentecato, de escaso entendimiento y razón",options:["Sujeto torpe, mentecato, de escaso entendimiento y razón","Individuo encargado de custodiar las cenizas de un horno crematorio","Persona que ha sobrepasado la edad de cien años de vida","Guardián de un cementerio o campo santo municipal"] },
+  { word:"Caquéctico",   correct:"Que padece desnutrición y deterioro físico extremos",options:["Que padece desnutrición y deterioro físico extremos","Que sufre accesos repetidos de risa incontrolable e inmotivada","Relativo a la descomposición bacteriana de alimentos","Que imita el sonido de las aves con gran precisión"] },
+  { word:"Chocarrero",   correct:"Bufón, grosero, de humor zafio y lenguaje soez y ordinario",options:["Bufón, grosero, de humor zafio y lenguaje soez y ordinario","Que trabaja en la fabricación artesanal de chocolate","Que tropieza y choca contra los objetos al caminar","Relativo al oficio de la chocarería o venta ambulante"] },
+  { word:"Desueto",      correct:"Anticuado, caído en completo desuso, obsoleto por el tiempo",options:["Anticuado, caído en completo desuso, obsoleto por el tiempo","Que ha perdido toda la humedad y se ha resecado por completo","Relativo a la muda o cambio de piel en los reptiles","Que ha sido despojado de su dueño o propietario legítimo"] },
+  { word:"Fementido",    correct:"Falso, traicionero, que falta deliberadamente a la palabra dada",options:["Falso, traicionero, que falta deliberadamente a la palabra dada","Que ha perdido la razón o el juicio por completo","Relativo a la fermentación de sustancias orgánicas vegetales","Que sufre una dolencia crónica en el fémur o la cadera"] },
+  { word:"Pancista",     correct:"Persona que antepone su propio provecho a cualquier principio o ideal",options:["Persona que antepone su propio provecho a cualquier principio o ideal","Individuo que padece una inflamación crónica del páncreas","Que adopta posturas corporales extrañas y forzadas","Miembro de una corriente filosófica que defiende el pan como base social"] },
+  { word:"Gazuza",       correct:"Hambre intensa, voraz y acuciante, difícil de saciar",options:["Hambre intensa, voraz y acuciante, difícil de saciar","Bebida carbonatada de sabor dulce y aspecto turbio","Especie de gacela enana que habita en zonas áridas","Trampa para cazar animales pequeños en el bosque"] },
+];
+
+// ── PALABRAS SELECCIONADAS PARA ESTA PARTIDA ──
+let TEST_WORDS = [];
+
+// ── STATE ──
+const WORDS_PER_LEVEL = 10; // 10 seleccionadas de 20 por nivel = 50 total
+const LEVELS = 5;
+let currentIndex = 0;
+let score = 0;
+let wrong = 0;
+let selectedOption = null;
+let revealed = false;
+let streak = 0;
+let bestStreak = 0;
+let perLevelCorrect = [0, 0, 0, 0, 0];
+let perLevelTotal = [0, 0, 0, 0, 0];
+
+// ── HELPERS ──
+function getLevel(idx) { return Math.min(LEVELS, Math.floor(idx / WORDS_PER_LEVEL) + 1); }
+function getLevelClass(lvl) { return 'difficulty-' + lvl; }
+
+// ── SELECCIÓN ALEATORIA ──
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function selectTestWords() {
+  // Selecciona 10 palabras aleatorias de cada nivel (20 disponibles por nivel)
+  TEST_WORDS = [];
+  for (let lvl = 0; lvl < LEVELS; lvl++) {
+    const pool = WORDS_POOL.slice(lvl * 20, (lvl + 1) * 20);
+    const selected = shuffle(pool).slice(0, WORDS_PER_LEVEL);
+    TEST_WORDS.push(...selected);
+  }
+}
+
+// ── START ──
+function startQuiz() {
+  selectTestWords(); // nueva selección aleatoria cada partida
+  currentIndex = 0;
+  score = 0;
+  wrong = 0;
+  streak = 0;
+  bestStreak = 0;
+  perLevelCorrect = [0,0,0,0,0];
+  perLevelTotal = [0,0,0,0,0];
+  switchScreen('quizScreen');
+  renderQuestion();
+}
+
+// ── RENDER ──
+function renderQuestion() {
+  if (currentIndex >= TEST_WORDS.length) { return showResults(); }
+  const q = TEST_WORDS[currentIndex];
+  const lvl = getLevel(currentIndex);
+  const lvlClass = getLevelClass(lvl);
+
+  revealed = false;
+  selectedOption = null;
+
+  document.getElementById('levelBadge').textContent = 'Nivel ' + lvl;
+  document.getElementById('levelBadge').className = 'progress-badge ' + lvlClass;
+  document.getElementById('counterText').textContent = (currentIndex + 1);
+  document.getElementById('totalText').textContent = TEST_WORDS.length;
+  document.getElementById('scoreLive').innerHTML = 'Aciertos: <strong>' + score + '</strong>';
+  document.getElementById('progressBar').style.width = ((currentIndex / TEST_WORDS.length) * 100) + '%';
+  document.getElementById('wordDisplay').textContent = q.word;
+  document.getElementById('feedbackToast').textContent = '';
+  document.getElementById('feedbackToast').className = 'feedback-toast';
+
+  // Shuffle options
+  const opts = [...q.options];
+  for (let i = opts.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [opts[i], opts[j]] = [opts[j], opts[i]];
+  }
+
+  const letters = ['A', 'B', 'C', 'D'];
+  const grid = document.getElementById('optionsGrid');
+  grid.innerHTML = opts.map((opt, i) => `
+    <button class="option-btn" data-answer="${opt.replace(/"/g, '&quot;')}">
+      <span class="option-letter">${letters[i]}</span>
+      <span>${opt}</span>
+    </button>
+  `).join('');
+
+  // Asignar event listeners (más robusto que inline onclick)
+  grid.querySelectorAll('.option-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      if (revealed) return;
+      grid.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+      this.classList.add('selected');
+      selectedOption = this.dataset.answer;
+      document.getElementById('checkBtn').disabled = false;
+    });
+  });
+
+  const checkBtn = document.getElementById('checkBtn');
+  checkBtn.textContent = 'Comprobar';
+  checkBtn.disabled = true;
+  checkBtn.onclick = handleCheck;
+}
+
+// ── CHECK / CONTINUE ──
+function handleCheck() {
+  if (!revealed) {
+    checkAnswer();
+  } else {
+    currentIndex++;
+    renderQuestion();
+  }
+}
+
+function checkAnswer() {
+  if (!selectedOption) return;
+  const q = TEST_WORDS[currentIndex];
+  const lvl = getLevel(currentIndex) - 1;
+  const isCorrect = (selectedOption === q.correct);
+  revealed = true;
+
+  perLevelTotal[lvl]++;
+
+  if (isCorrect) {
+    score++;
+    streak++;
+    if (streak > bestStreak) bestStreak = streak;
+    perLevelCorrect[lvl]++;
+  } else {
+    wrong++;
+    streak = 0;
+  }
+
+  // Mark all buttons
+  document.querySelectorAll('.option-btn').forEach(btn => {
+    btn.classList.add('locked');
+    const ans = btn.dataset.answer;
+    if (ans === q.correct) {
+      btn.classList.add('correct');
+    } else if (ans === selectedOption && !isCorrect) {
+      btn.classList.add('incorrect');
+    }
+  });
+
+  // Feedback
+  const fb = document.getElementById('feedbackToast');
+  if (isCorrect) {
+    fb.textContent = '✓ ¡Correcto!';
+    fb.className = 'feedback-toast correct-fb';
+  } else {
+    fb.textContent = '✗ Incorrecto — La respuesta correcta era: «' + q.correct + '»';
+    fb.className = 'feedback-toast incorrect-fb';
+  }
+
+  document.getElementById('scoreLive').innerHTML = 'Aciertos: <strong>' + score + '</strong>';
+
+  const btn = document.getElementById('checkBtn');
+  btn.textContent = (currentIndex < TEST_WORDS.length - 1) ? 'Continuar  →' : 'Ver resultados';
+  btn.disabled = false;
+}
+
+// ── RESULTS ──
+function showResults() {
+  switchScreen('resultsScreen');
+  const total = TEST_WORDS.length;
+  const pct = Math.round((score / total) * 100);
+
+  // Grade
+  let gradeText, gradeColor;
+  if (pct >= 90) { gradeText = '🏆 ¡Excelencia léxica! Eres un verdadero erudito.'; gradeColor = '#c9a96e'; }
+  else if (pct >= 70) { gradeText = '🥇 Muy buen nivel. Dominas el léxico culto.'; gradeColor = '#4caf91'; }
+  else if (pct >= 50) { gradeText = '🥈 Buen intento. Tienes una base sólida.'; gradeColor = '#8b9dc3'; }
+  else if (pct >= 30) { gradeText = '🥉 Hay margen de mejora. ¡Sigue aprendiendo!'; gradeColor = '#d4856b'; }
+  else { gradeText = '📚 Todo camino empieza con una palabra. ¡A estudiar!'; gradeColor = '#e0556a'; }
+  document.getElementById('resultsGrade').textContent = gradeText;
+  document.getElementById('resultsGrade').style.color = gradeColor;
+
+  // Big score ring
+  document.getElementById('scoreBig').textContent = score;
+  document.getElementById('scoreDenom').textContent = 'de ' + total + ' aciertos (de 100 en el banco)';
+  const circumference = 2 * Math.PI * 72;
+  const offset = circumference - (pct / 100) * circumference;
+  const circle = document.getElementById('scoreCircle');
+  circle.style.strokeDasharray = circumference;
+  setTimeout(() => { circle.style.strokeDashoffset = offset; }, 200);
+
+  // Stats
+  document.getElementById('statCorrect').textContent = score;
+  document.getElementById('statWrong').textContent = wrong;
+  document.getElementById('statPct').textContent = pct + '%';
+  document.getElementById('statStreak').textContent = bestStreak;
+
+  // Per-level bars
+  const levelNames = ['Culto','Erudito','Arcano','Críptico','Inefable'];
+  const lvlClasses = ['l1','l2','l3','l4','l5'];
+  const perLevelDiv = document.getElementById('perLevelChart');
+  perLevelDiv.innerHTML = perLevelCorrect.map((correct, i) => {
+    const lvlPct = perLevelTotal[i] > 0 ? Math.round((correct / perLevelTotal[i]) * 100) : 0;
+    return `
+      <div class="level-bar-item">
+        <div class="level-bar-label ${lvlClasses[i]}">${levelNames[i]}</div>
+        <div class="level-bar-track">
+          <div class="level-bar-fill ${lvlClasses[i]}" style="height: 0%" data-height="${lvlPct}%"></div>
+        </div>
+        <div class="level-bar-score">${correct}/${perLevelTotal[i]}</div>
+      </div>
+    `;
+  }).join('');
+
+  // Animate level bars
+  setTimeout(() => {
+    document.querySelectorAll('.level-bar-fill').forEach(el => {
+      el.style.height = el.dataset.height;
+    });
+  }, 400);
+
+  // Horizontal bars
+  const hBars = document.getElementById('horizontalBars');
+  hBars.innerHTML = `
+    <div class="h-bar-row">
+      <span class="h-bar-label" style="color:var(--green)">Correctas</span>
+      <div class="h-bar-track"><div class="h-bar-fill" style="width:0%;background:linear-gradient(90deg,#4caf91,#6dd4b0)" data-width="${pct}%"><span class="h-bar-fill-inner">${score}</span></div></div>
+    </div>
+    <div class="h-bar-row">
+      <span class="h-bar-label" style="color:var(--red)">Falladas</span>
+      <div class="h-bar-track"><div class="h-bar-fill" style="width:0%;background:linear-gradient(90deg,#e0556a,#f08090)" data-width="${100-pct}%"><span class="h-bar-fill-inner">${wrong}</span></div></div>
+    </div>
+    <div class="h-bar-row">
+      <span class="h-bar-label" style="color:var(--accent)">Racha máx</span>
+      <div class="h-bar-track"><div class="h-bar-fill" style="width:0%;background:linear-gradient(90deg,#c9a96e,#e2c88a)" data-width="${Math.min(100, (bestStreak/total)*100)}%"><span class="h-bar-fill-inner">${bestStreak}</span></div></div>
+    </div>
+  `;
+  setTimeout(() => {
+    document.querySelectorAll('.h-bar-fill[data-width]').forEach(el => {
+      el.style.width = el.dataset.width;
+    });
+  }, 600);
+
+  // Confetti if good score
+  if (pct >= 60) { spawnConfetti(); }
+}
+
+// ── CONFETTI ──
+function spawnConfetti() {
+  const container = document.getElementById('confettiContainer');
+  const colors = ['#c9a96e','#e2c88a','#4caf91','#8b9dc3','#b491c8','#d4856b','#5ba0b9','#e0556a','#f0c080','#fff'];
+  const pieces = [];
+  for (let i = 0; i < 120; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.left = Math.random() * 100 + '%';
+    el.style.top = -(Math.random() * 40 + 10) + 'px';
+    el.style.width = (Math.random() * 10 + 6) + 'px';
+    el.style.height = (Math.random() * 10 + 6) + 'px';
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+    el.style.animationDuration = (Math.random() * 2 + 2.5) + 's';
+    el.style.animationDelay = Math.random() * 1.5 + 's';
+    el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    container.appendChild(el);
+    pieces.push(el);
+  }
+  setTimeout(() => { pieces.forEach(el => el.remove()); }, 5000);
+}
+
+// ── RESTART ──
+function restartQuiz() {
+  document.getElementById('confettiContainer').innerHTML = '';
+  startQuiz();
+}
+
+// ── SHARE ──
+function shareResults() {
+  const pct = Math.round((score / TEST_WORDS.length) * 100);
+  const levelNames = ['Culto','Erudito','Arcano','Críptico','Inefable'];
+  let text = '📖 Test de Palabras Raras en Español\n';
+  text += '🎯 ' + score + '/' + TEST_WORDS.length + ' (' + pct + '%)\n';
+  text += '📊 Por nivel: ';
+  text += perLevelCorrect.map((c, i) => levelNames[i].substring(0,3) + ':' + c + '/' + perLevelTotal[i]).join(' | ');
+  text += '\n🏆 Mejor racha: ' + bestStreak + '\n';
+  text += '¿Te atreves a superarlo?';
+
+  const btn = document.querySelector('#resultsScreen .btn-secondary');
+  const original = btn.textContent;
+
+  function onSuccess() {
+    btn.textContent = '✓ ¡Copiado!';
+    setTimeout(() => { btn.textContent = original; }, 2000);
+  }
+
+  // Intentar Clipboard API (requiere HTTPS en iOS)
+  if (navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(onSuccess).catch(() => fallbackCopy(text, onSuccess));
+  } else {
+    fallbackCopy(text, onSuccess);
+  }
+}
+
+function fallbackCopy(text, onSuccess) {
+  // Fallback para iOS Safari sin HTTPS (file:// o localhost inseguro)
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.left = '-9999px';
+  ta.style.top = '-9999px';
+  ta.style.opacity = '0';
+  ta.style.fontSize = '16px'; /* iOS Safari exige 16px mínimo para no hacer zoom */
+  ta.setAttribute('readonly', '');
+  document.body.appendChild(ta);
+
+  // Forzar foco y selección — iOS Safari a veces requiere interacción
+  ta.focus();
+  ta.select();
+  ta.setSelectionRange(0, 999999); /* seleccionar todo el contenido */
+
+  try {
+    const ok = document.execCommand('copy');
+    if (ok && onSuccess) onSuccess();
+    else throw new Error('execCommand returned false');
+  } catch (e) {
+    const btn = document.querySelector('#resultsScreen .btn-secondary');
+    btn.textContent = '⚠ No se pudo copiar';
+    setTimeout(() => { btn.textContent = '📋 Copiar resultado'; }, 2000);
+  }
+
+  document.body.removeChild(ta);
+}
+
+// ── SCREEN SWITCH ──
+function switchScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (id === 'resultsScreen') {
+    // re-trigger animation
+    const card = document.querySelector('#resultsScreen .results-card');
+    card.style.animation = 'none';
+    card.offsetHeight;
+    card.style.animation = '';
+  }
+}
+</script>
+
+</body>
+</html>
