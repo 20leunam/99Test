@@ -14,7 +14,7 @@ const TEST_MANIFEST = [
 ];
 
 const STORAGE_KEY = '99test_results';
-const EPOCH = new Date(2026, 5, 17);
+const EPOCH = new Date(2026, 5, 15); // 15 jun = primer test disponible
 
 /* ─── FECHA ── */
 function dateStr(d) {
