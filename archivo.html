@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="base-path" content=".">
+<title>Tests anteriores — 99Test</title>
+<link rel="stylesheet" href="compartido/estilos.css">
+</head>
+<body>
+<div id="headerPlaceholder"></div>
+
+<div class="main-wrap">
+  <div class="screen active" style="width:100%">
+    <div class="card">
+      <h2 style="font-family:'Playfair Display';font-size:1.4rem;margin-bottom:3px">📚 Tests anteriores</h2>
+      <p style="color:var(--text-secondary);font-size:0.88rem;margin-bottom:18px">Todos los tests disponibles. Cada día se asigna uno distinto.</p>
+      <div class="archive-list" id="archiveList"></div>
+    </div>
+  </div>
+</div>
+
+<div id="footerPlaceholder"></div>
+<script src="compartido/motor.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const results = getResults();
+  const list = document.getElementById('archiveList');
+
+  list.innerHTML = TEST_MANIFEST.map((test, i) => {
+    // Check if this test was completed on its assigned day
+    const assigned = new Date(EPOCH);
+    assigned.setDate(assigned.getDate() + i);
+    const key = dateStr(assigned);
+    const done = results[key];
+
+    return `
+      <div class="archive-item" onclick="goToPage('tests/${test.folder}/')">
+        <div class="ai-num">#${i+1}</div>
+        <div class="ai-title">${test.title}</div>
+        <span class="ai-emojis">${test.emojis}</span>
+        <div style="font-size:0.78rem;color:${done ? 'var(--green)' : 'var(--text-secondary)'}">${done ? '✅' : '—'}</div>
+      </div>
+    `;
+  }).join('');
+});
+</script>
+</body>
+</html>

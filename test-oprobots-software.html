@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <title>OPRobots — Test de Software · 50 preguntas</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="theme-color" content="#1b176b">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+    <style>
+        *,*::before,*::after{box-sizing:border-box}
+        body{font-family:'Roboto','Helvetica Neue',Arial,sans-serif;font-weight:300;background-color:#f5f5f5;color:#3c4858;margin:0;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-tap-highlight-color:transparent}
+        h1,h2,h3,h4,h5,h6{font-family:'Roboto Slab','Times New Roman',serif;font-weight:700}
+        .page-header{height:26vh;min-height:160px;max-height:240px;position:relative;background:linear-gradient(60deg,#2b2953,#1b176b);display:flex;align-items:center;justify-content:center;overflow:hidden}
+        .page-header::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background-image:radial-gradient(circle at 20% 50%,rgba(255,255,255,0.05) 0%,transparent 50%),radial-gradient(circle at 80% 50%,rgba(255,255,255,0.03) 0%,transparent 50%),repeating-linear-gradient(0deg,transparent,transparent 30px,rgba(255,255,255,0.015) 30px,rgba(255,255,255,0.015) 31px),repeating-linear-gradient(90deg,transparent,transparent 30px,rgba(255,255,255,0.015) 30px,rgba(255,255,255,0.015) 31px)}
+        .page-header .container{position:relative;z-index:2;text-align:center;padding:0 20px}
+        .page-header .brand h1{color:#fff;font-size:2.2rem;font-weight:700;margin:0 0 4px;letter-spacing:0.02em;text-shadow:0 2px 10px rgba(0,0,0,0.3)}
+        .page-header .brand h3{color:rgba(255,255,255,0.85);font-family:'Roboto','Helvetica Neue',Arial,sans-serif;font-weight:300;font-size:1rem;margin:0;line-height:1.5}
+        @media(max-width:600px){.page-header{height:22vh;min-height:140px}.page-header .brand h1{font-size:1.5rem}.page-header .brand h3{font-size:0.85rem}}
+        .main-raised{background:#fff;border-radius:6px 6px 0 0;box-shadow:0 16px 24px 2px rgba(0,0,0,0.14),0 6px 30px 5px rgba(0,0,0,0.12),0 8px 10px -5px rgba(0,0,0,0.2);margin:-40px 30px 0;position:relative;z-index:2;padding:20px 0 8px}
+        @media(max-width:768px){.main-raised{margin:-30px 15px 0;padding:16px 0 4px}}
+        @media(max-width:480px){.main-raised{margin:-20px 8px 0;border-radius:4px 4px 0 0}}
+        .container{max-width:800px;margin:0 auto;padding:0 20px}
+        @media(max-width:480px){.container{padding:0 12px}}
+        .section{padding:14px 0}
+        .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 30px;border:none;border-radius:30px;font-family:'Roboto','Helvetica Neue',Arial,sans-serif;font-size:0.875rem;font-weight:500;letter-spacing:0.04em;text-transform:uppercase;cursor:pointer;transition:all 0.3s cubic-bezier(0.4,0,0.2,1);position:relative;overflow:hidden;outline:none;-webkit-appearance:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation;user-select:none;-webkit-user-select:none;text-decoration:none}
+        .btn:active{transform:translateY(0)}
+        .btn-opr{color:#fff;background:linear-gradient(60deg,#2b2953,#1b176b);box-shadow:0 2px 2px 0 rgba(27,23,107,0.14),0 3px 1px -2px rgba(27,23,107,0.2),0 1px 5px 0 rgba(27,23,107,0.12)}
+        .btn-opr:hover{box-shadow:0 5px 20px 0px rgba(0,0,0,0.2),0 13px 24px -11px rgba(27,23,107,0.6);transform:translateY(-2px)}
+        .btn-opr:disabled{opacity:0.45;cursor:not-allowed;pointer-events:none;box-shadow:none;transform:none}
+        .btn-outline{color:#1b176b;background:transparent;border:1px solid #1b176b;box-shadow:none}
+        .btn-outline:hover{background:rgba(27,23,107,0.06);transform:translateY(-1px)}
+        .screen{display:none}
+        .screen.active{display:block;animation:fadeSlideIn 0.4s ease}
+        @keyframes fadeSlideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+        .start-content{text-align:center;padding:16px 0 24px}
+        .start-content .icon-hero{font-size:64px;margin-bottom:8px;display:block;color:#1b176b}
+        .start-content h2{color:#1b176b;font-size:1.8rem;font-weight:700;margin:0 0 6px}
+        .start-content .subtitle{color:#999;font-family:'Roboto',sans-serif;font-weight:300;font-size:0.95rem;line-height:1.6;margin:0 auto 6px;max-width:520px}
+        .start-content .subtitle small{font-size:0.78rem;color:#aaa}
+        .category-pills{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:20px 0 28px}
+        .category-pill{padding:5px 16px;border-radius:100px;font-size:0.7rem;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;background:#e9e8f0;color:#1b176b;font-family:'Roboto',sans-serif}
+        .quiz-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px}
+        .progress-info{display:flex;align-items:center;gap:12px}
+        .progress-badge{font-family:'Roboto',sans-serif;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;padding:4px 12px;border-radius:100px;background:#e9e8f0;color:#1b176b}
+        .counter-text{font-family:'Roboto',sans-serif;font-size:0.85rem;color:#999;font-weight:400}
+        .counter-text strong{color:#3c4858;font-weight:700;font-size:1rem}
+        .progress-bar-wrap{width:100%;height:4px;background:#e9e8f0;border-radius:100px;margin-bottom:24px;overflow:hidden}
+        .progress-bar-fill{height:100%;background:linear-gradient(60deg,#534b8c,#1b176b);border-radius:100px;transition:width 0.5s cubic-bezier(0.4,0,0.2,1);will-change:width}
+        .question-card{background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:6px;padding:24px 24px 22px;margin-bottom:20px;position:relative;box-shadow:0 1px 4px 0 rgba(0,0,0,0.06)}
+        .question-card .category-tag{font-family:'Roboto',sans-serif;font-size:0.66rem;text-transform:uppercase;letter-spacing:0.1em;color:#534b8c;margin-bottom:8px;font-weight:500}
+        .question-card .question-text{font-family:'Roboto Slab','Times New Roman',serif;font-size:1rem;font-weight:400;color:#3c4858;line-height:1.65}
+        .question-card .question-number{position:absolute;top:12px;right:16px;font-family:'Roboto Slab',serif;font-size:0.72rem;color:#bbb;font-weight:700}
+        @media(max-width:600px){.question-card{padding:20px 16px 18px}.question-card .question-text{font-size:0.9rem}}
+        .options-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+        @media(max-width:560px){.options-grid{grid-template-columns:1fr}}
+        .option-btn{display:flex;align-items:flex-start;gap:10px;padding:13px 16px;background:#fff;border:1px solid rgba(0,0,0,0.1);border-radius:6px;cursor:pointer;transition:all 0.25s cubic-bezier(0.4,0,0.2,1);text-align:left;font-family:'Roboto','Helvetica Neue',Arial,sans-serif;font-size:0.84rem;font-weight:400;color:#3c4858;line-height:1.5;position:relative;-webkit-appearance:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation;user-select:none;-webkit-user-select:none;min-height:48px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+        .option-btn:hover:not(.locked){border-color:#1b176b;box-shadow:0 2px 8px rgba(27,23,107,0.1);background:#fafaff}
+        .option-btn.selected{border-color:#1b176b!important;background:#e9e8f0!important;box-shadow:0 0 0 3px rgba(27,23,107,0.15)!important}
+        .option-btn.correct{border-color:#4caf50!important;background:#e8f5e9!important;box-shadow:0 0 0 3px rgba(76,175,80,0.2)!important}
+        .option-btn.incorrect{border-color:#f44336!important;background:#ffebee!important;box-shadow:0 0 0 3px rgba(244,67,54,0.2)!important}
+        .option-btn.locked{pointer-events:none}
+        .option-letter{width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:50%;font-weight:700;font-size:0.76rem;font-family:'Roboto',sans-serif;background:#f0f0f0;color:#777;flex-shrink:0;transition:all 0.25s}
+        .option-btn.selected .option-letter{background:#1b176b;color:#fff}
+        .option-btn.correct .option-letter{background:#4caf50;color:#fff}
+        .option-btn.incorrect .option-letter{background:#f44336;color:#fff}
+        .feedback-toast{text-align:center;margin-bottom:12px;font-weight:500;font-family:'Roboto',sans-serif;font-size:0.85rem;min-height:22px;transition:all 0.25s}
+        .feedback-toast.correct-fb{color:#4caf50}
+        .feedback-toast.incorrect-fb{color:#f44336}
+        .check-btn-wrap{text-align:center}
+        .results-content{text-align:center;padding:8px 0 24px}
+        .results-content h2{color:#1b176b;font-size:1.7rem;font-weight:700;margin:0 0 4px}
+        .results-subtitle{color:#999;font-family:'Roboto',sans-serif;font-weight:300;font-size:0.9rem;margin:0 0 24px}
+        .big-score{text-align:center;margin-bottom:24px}
+        .score-ring{display:inline-flex;align-items:center;justify-content:center;width:130px;height:130px;border-radius:50%;position:relative}
+        .score-ring svg{position:absolute;top:0;left:0;transform:rotate(-90deg)}
+        .score-value{font-family:'Roboto Slab','Times New Roman',serif;font-size:2.6rem;font-weight:700;color:#1b176b}
+        .score-label{font-family:'Roboto',sans-serif;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.08em;color:#999;margin-top:8px;font-weight:400}
+        .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+        @media(max-width:560px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+        .stat-box{background:#fff;border-radius:6px;padding:14px 10px;text-align:center;border:1px solid rgba(0,0,0,0.08);box-shadow:0 1px 4px 0 rgba(0,0,0,0.04)}
+        .stat-box .stat-num{font-family:'Roboto Slab','Times New Roman',serif;font-size:1.4rem;font-weight:700;margin-bottom:1px}
+        .stat-box .stat-label{font-family:'Roboto',sans-serif;font-size:0.65rem;text-transform:uppercase;letter-spacing:0.06em;color:#999;font-weight:500}
+        .stat-num.green{color:#4caf50}.stat-num.red{color:#f44336}.stat-num.gold{color:#e6a817}.stat-num.white{color:#3c4858}
+        .fun-fact{background:#e9e8f0;border:1px solid rgba(27,23,107,0.12);border-radius:6px;padding:14px 18px;margin-bottom:20px;font-family:'Roboto',sans-serif;font-size:0.8rem;color:#555;line-height:1.6;text-align:left}
+        .fun-fact strong{color:#1b176b}
+        .horizontal-bars{display:flex;flex-direction:column;gap:7px;margin-bottom:24px;max-width:460px;margin-left:auto;margin-right:auto}
+        .h-bar-row{display:flex;align-items:center;gap:10px}
+        .h-bar-label{width:80px;font-family:'Roboto',sans-serif;font-size:0.7rem;font-weight:500;text-align:right;flex-shrink:0;text-transform:uppercase;letter-spacing:0.04em}
+        .h-bar-track{flex:1;height:18px;background:#e9e8f0;border-radius:100px;overflow:hidden;position:relative}
+        .h-bar-fill{height:100%;border-radius:100px;transition:width 1.2s cubic-bezier(0.4,0,0.2,1);display:flex;align-items:center;justify-content:flex-end;padding-right:10px;will-change:width}
+        .h-bar-fill-inner{font-family:'Roboto',sans-serif;font-size:0.65rem;font-weight:700;color:#fff}
+        .results-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:4px}
+        .section-title{text-align:center;margin-bottom:12px}
+        .section-title h3{color:#1b176b;font-size:0.76rem;text-transform:uppercase;letter-spacing:0.08em;font-family:'Roboto',sans-serif;font-weight:500;margin:0}
+        .test-footer{text-align:center;padding:16px 0 6px;color:#aaa;font-family:'Roboto',sans-serif;font-size:0.72rem;font-weight:300}
+        .test-footer strong{font-weight:500;color:#888}
+        .confetti-container{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;overflow:hidden}
+        .confetti-piece{position:absolute;width:10px;height:10px;border-radius:2px;animation:confettiDrop linear forwards;will-change:transform,opacity}
+        @keyframes confettiDrop{0%{transform:translateY(-100vh) rotate(0deg);opacity:1}100%{transform:translateY(105vh) rotate(720deg);opacity:0}}
+        @media(max-width:480px){.start-content h2{font-size:1.4rem}.results-content h2{font-size:1.3rem}.btn{padding:10px 22px;font-size:0.78rem}}
+    </style>
+</head>
+
+<body>
+<div class="page-header">
+    <div class="container">
+        <div class="brand">
+            <h1>Test de Software</h1>
+            <h3><strong>OPRobots</strong> &mdash; 10 preguntas aleatorias de 50 · Firmware, algoritmos, protocolos y curiosidades</h3>
+        </div>
+    </div>
+</div>
+<div class="main main-raised">
+    <div class="container">
+
+        <div class="section screen active" id="startScreen">
+            <div class="start-content">
+                <span class="icon-hero"><i class="material-icons" style="font-size:64px;">code</i></span>
+                <h2>¿Cuánto sabes del software de OPRobots?</h2>
+                <p class="subtitle">Firmware, algoritmos de control, protocolos de comunicación, procesado de señales, simulación y estrategias de competición.</p>
+                <p class="subtitle"><small>Firmware · Algoritmos · Protocolos · Simulación · Estrategias · Curiosidades</small></p>
+                <div class="category-pills">
+                    <span class="category-pill">Firmware</span><span class="category-pill">PID</span><span class="category-pill">Protocolos</span><span class="category-pill">Algoritmos</span><span class="category-pill">Simulación</span>
+                </div>
+                <button class="btn btn-opr" onclick="startQuiz()"><i class="material-icons" style="font-size:18px;">play_arrow</i> Iniciar test</button>
+            </div>
+        </div>
+
+        <div class="section screen" id="quizScreen">
+            <div class="quiz-header">
+                <div class="progress-info">
+                    <span class="progress-badge" id="levelBadge">Software</span>
+                    <span class="counter-text">Pregunta <strong id="counterText">1</strong> de <strong id="totalText">10</strong></span>
+                </div>
+                <span class="counter-text" id="scoreLive"><i class="material-icons" style="font-size:16px;vertical-align:-3px;">check_circle</i> <strong>0</strong></span>
+            </div>
+            <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar" style="width:0%"></div></div>
+            <div class="question-card">
+                <div class="question-number" id="questionNumber">#1</div>
+                <div class="category-tag" id="categoryTag">SOFTWARE</div>
+                <div class="question-text" id="questionDisplay">—</div>
+            </div>
+            <div class="feedback-toast" id="feedbackToast"></div>
+            <div class="options-grid" id="optionsGrid"></div>
+            <div class="check-btn-wrap"><button class="btn btn-opr" id="checkBtn" disabled onclick="handleCheck()">Comprobar</button></div>
+        </div>
+
+        <div class="section screen" id="resultsScreen">
+            <div class="results-content">
+                <h2>Resultados</h2>
+                <p class="results-subtitle" id="resultsGrade"></p>
+                <div class="big-score">
+                    <div class="score-ring">
+                        <svg width="130" height="130" viewBox="0 0 130 130">
+                            <circle cx="65" cy="65" r="56" fill="none" stroke="#e9e8f0" stroke-width="7"/>
+                            <circle cx="65" cy="65" r="56" fill="none" stroke="url(#scoreGrad)" stroke-width="7" stroke-linecap="round" stroke-dasharray="351.86" id="scoreCircle" stroke-dashoffset="351.86"/>
+                            <defs><linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#534b8c"/><stop offset="100%" stop-color="#1b176b"/></linearGradient></defs>
+                        </svg>
+                        <span class="score-value" id="scoreBig">0</span>
+                    </div>
+                    <div class="score-label" id="scoreDenom">de 10 aciertos</div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-box"><div class="stat-num green" id="statCorrect">0</div><div class="stat-label">Correctas</div></div>
+                    <div class="stat-box"><div class="stat-num red" id="statWrong">0</div><div class="stat-label">Falladas</div></div>
+                    <div class="stat-box"><div class="stat-num gold" id="statPct">0%</div><div class="stat-label">Precisión</div></div>
+                    <div class="stat-box"><div class="stat-num white" id="statStreak">0</div><div class="stat-label">Mejor racha</div></div>
+                </div>
+                <div class="fun-fact" id="funFact" style="display:none;"></div>
+                <div class="section-title"><h3><i class="material-icons" style="font-size:15px;vertical-align:-3px;">bar_chart</i> Distribución</h3></div>
+                <div class="horizontal-bars" id="horizontalBars"></div>
+                <div class="results-actions">
+                    <button class="btn btn-opr" onclick="restartQuiz()"><i class="material-icons" style="font-size:18px;">replay</i> Repetir test</button>
+                    <button class="btn btn-outline" onclick="shareResults()"><i class="material-icons" style="font-size:18px;">content_copy</i> Copiar resultado</button>
+                </div>
+                <div class="test-footer"><strong>OPRobots</strong> &mdash; Vigo, Galicia &mdash; <strong>github.com/OPRobots</strong></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="confetti-container" id="confettiContainer"></div>
+
+<script>
+var QUESTIONS_POOL = [
+    {category:"Firmware · IDE",question:"¿Qué entorno de desarrollo utilizan FujitoraBot y ZoroBot3 para compilar su firmware?",correct:"VSCode con PlatformIO, usando LibOpenCM3 como capa de abstracción del hardware",options:["VSCode con PlatformIO, usando LibOpenCM3 como capa de abstracción del hardware","STM32CubeIDE con HAL de STMicroelectronics, con todas las caracteristicas y especificaciones tecnicas","Keil MDK-ARM con CMSIS-RTOS, siendo este un componente esencial del sistema de desarrollo","Arduino IDE con biblioteca STM32duino, para un rendimiento optimo en condiciones de compilacion"]},
+    {category:"Firmware · Bibliotecas",question:"¿Por qué OPRobots eligió LibOpenCM3 en lugar del HAL de ST para sus STM32?",correct:"LibOpenCM3 es open-source, más ligero y ofrece control total del hardware sin las capas de abstracción del HAL",options:["LibOpenCM3 es open-source, más ligero y ofrece control total del hardware sin las capas de abstracción del HAL","El HAL de ST no soporta el STM32F405 con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","LibOpenCM3 fue impuesto por las competiciones con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","El HAL de ST requiere licencia de pago"]},
+    {category:"Firmware · Lenguaje",question:"¿En qué lenguaje está escrito el firmware de FujitoraBot?",correct:"C (100%), sin una sola línea de C++",options:["C (100%), sin una sola línea de C++","C++ (82%) con algo de C con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Rust con bindings a LibOpenCM3","MicroPython sobre firmware base"]},
+    {category:"Firmware · Lenguaje",question:"¿Qué lenguaje domina el repositorio de DragonBot?",correct:"C++ (98.6%), con una pequeña parte en C",options:["C++ (98.6%), con una pequeña parte en C","C (100%), con todas las","Python (70%) con C para las","Ensamblador ARM Thumb-2"]},
+    {category:"Firmware · Arduino",question:"¿Para qué proyectos utiliza OPRobots el Arduino IDE?",correct:"IRStart (ATTiny13 y ESP32 C3), OneShot125 en Arduino Nano, y los robots más antiguos como YokozunaBot y KizaruBot",options:["IRStart (ATTiny13 y ESP32 C3), OneShot125 en Arduino Nano, y los robots más antiguos como YokozunaBot y KizaruBot","FujitoraBot y ZoroBot3 con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Exclusivamente para PacifistaBot con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Ninguno todos usan PlatformIO con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador"]},
+    {category:"Algoritmos · Laberinto",question:"¿Qué algoritmo de resolución de laberintos utiliza ZoroBot3?",correct:"TimeBased FloodFill, que pondera el coste de las celdas en función del tiempo estimado para recorrerlas",options:["TimeBased FloodFill, que pondera el coste de las celdas en función del tiempo estimado para recorrerlas","A* con heuristica de distancia Manhattan, con todas las caracteristicas con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Dijkstra puro sin ponderacion temporal, siendo un componente esencial con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Tremaux con marcado fisico de paredes, para rendimiento optimo"]},
+    {category:"Algoritmos · PID",question:"¿Cuántos controladores PID ejecuta simultáneamente ZoroBot3 en su lazo de control de 1 ms?",correct:"Cuatro: velocidad lineal, velocidad angular, control de pared frontal y control de pared lateral",options:["Cuatro: velocidad lineal, velocidad angular, control de pared frontal y control de pared lateral","Dos: velocidad lineal y angular unicamente con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Tres: velocidad, angulo y distancia a la pared","Seis: uno por cada estado de navegacion"]},
+    {category:"Algoritmos · Perfiles",question:"¿Qué tipo de perfil de aceleración utiliza ZoroBot3 para ejecutar giros suaves?",correct:"Perfiles de aceleración senoidal, que minimizan el jerk y evitan que las ruedas patinen en curvas cerradas",options:["Perfiles de aceleración senoidal, que minimizan el jerk y evitan que las ruedas patinen en curvas cerradas","Perfiles trapezoidales clasicos con rampa lineal, con caracteristicas","Perfiles S-Curve de septimo orden, siendo componente esencial","Aceleracion constante con saturacion, para rendimiento optimo"]},
+    {category:"Algoritmos · Navegación",question:"¿Qué estrategia de recuperación emplea ZoroBot3 cuando pierde la referencia de la pared lateral?",correct:"Resetea su estimación de posición para recalibrarse respecto a la pared detectada más cercana",options:["Resetea su estimación de posición para recalibrarse respecto a la pared detectada más cercana","Detiene el robot y emite un pitido de error con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Continua con la ultima estimacion valida con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Cambia a modo wall-follower derecho sin detenerse con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador"]},
+    {category:"Algoritmos · Estrategia",question:"¿Qué modos de funcionamiento tiene programados ZoroBot3 además del FloodFill?",correct:"Wall-follower (izquierda y derecha), exploración sistemática y programas de movimiento predefinidos",options:["Wall-follower (izquierda y derecha), exploración sistemática y programas de movimiento predefinidos","Solo FloodFill sin modos alternativos con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Modo speed-run y modo conservador con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Modo autonomo con SLAM y modo teleoperado"]},
+    {category:"Algoritmos · Siguelíneas",question:"¿Qué tipo de control emplea DragonBot para seguir la línea?",correct:"Control PID basado en la posición de la línea calculada a partir del array de 12 sensores QRE1113 con ganancia ajustable individualmente",options:["Control PID basado en la posición de la línea calculada a partir del array de 12 sensores QRE1113 con ganancia ajustable individualmente","Control ON/OFF con histeresis sobre el sensor central, con caracteristicas con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Control predictivo basado en modelo (MPC), siendo componente esencial","Logica difusa con 3 funciones de pertenencia, para rendimiento optimo"]},
+    {category:"Procesado · Sensores",question:"¿Mediante qué técnica filtra ZoroBot3 la luz ambiente en sus sensores IR sin usar filtro físico?",correct:"Los emisores SFH-4550 se conmutan ON/OFF a 16 kHz mediante una máquina de estados; la diferencia entre ON y OFF elimina la componente ambiente",options:["Los emisores SFH-4550 se conmutan ON/OFF a 16 kHz mediante una máquina de estados; la diferencia entre ON y OFF elimina la componente ambiente","Filtro digital paso-bajo con frecuencia de corte a 100 Hz","Deteccion sincrona con señal de referencia de 38 kHz","Cancelacion adaptativa por pares de sensores"]},
+    {category:"Procesado · DMA",question:"¿Cómo adquiere ZoroBot3 las lecturas de sus sensores analógicos sin carga para la CPU?",correct:"Todos los valores analógicos se leen mediante DMA (Acceso Directo a Memoria) cada 1 ms, sin intervención del procesador principal",options:["Todos los valores analógicos se leen mediante DMA (Acceso Directo a Memoria) cada 1 ms, sin intervención del procesador principal","Por polling secuencial en el lazo principal de 1 ms con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Mediante interrupciones independientes para cada canal ADC con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Usando un coprocesador externo dedicado al muestreo con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador"]},
+    {category:"Procesado · MeltyBrain",question:"¿Cómo estima el proyecto H3LIS-demo las RPM de un robot MeltyBrain sin usar giroscopio?",correct:"Calcula aceleración centrípeta ac = √(ax²+ay²), luego ω = √(ac/r) y convierte a RPM. El ángulo integra ω con Δt=1ms",options:["Calcula aceleración centrípeta ac = √(ax²+ay²), luego ω = √(ac/r) y convierte a RPM. El ángulo integra ω con Δt=1ms","Cuenta los cruces por cero del eje Z sincronizados con gravedad con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Aplica una FFT sobre 1024 muestras con ventana de Blackman con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Detecta el pico maximo de aceleracion por vuelta"]},
+    {category:"Procesado · Encoders",question:"¿Cómo decodifica ZoroBot3 la cuadratura de sus encoders magnéticos AS5145B?",correct:"Por hardware, usando dos timers del STM32 configurados en modo encoder. Sin intervención de la CPU",options:["Por hardware, usando dos timers del STM32 configurados en modo encoder. Sin intervención de la CPU","Por interrupcion externa en cada flanco de los canales con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Mediante una maquina de estados software que muestrea","Usando el coprocesador CORDIC del STM32F4"]},
+    {category:"Procesado · IR",question:"¿Qué receptor de 38 kHz incorpora ZoroBot3 para control remoto por infrarrojos?",correct:"TSSP77038TR, usado probablemente para recibir comandos de inicio/parada durante las competiciones",options:["TSSP77038TR, usado probablemente para recibir comandos de inicio/parada durante las competiciones","TSOP4838 el mismo que usa IRStart","TSOP1738 estandar en robotica educativa","VS1838B generico compatible con NEC"]},
+    {category:"Protocolos · CRSF",question:"¿Qué velocidad UART se requiere para decodificar 16 canales ELRS en el proyecto CRSF-demo?",correct:"420000 bps, muy por encima de los 115200 bps estándar. Implementa FailSafe para pérdida de señal",options:["420000 bps, muy por encima de los 115200 bps estándar. Implementa FailSafe para pérdida de señal","115200 bps suficiente para 16 canales con compresion, con caracteristicas con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","921600 bps el maximo del STM32F401, siendo componente esencial con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","250000 bps estandar en receptores ELRS, para rendimiento optimo con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador"]},
+    {category:"Protocolos · OneShot125",question:"¿Cuál es la frecuencia efectiva de actualización del protocolo OneShot125?",correct:"4 kHz (ciclo de 250 µs), 80 veces superior a los 50 Hz del PWM estándar de 20 ms",options:["4 kHz (ciclo de 250 µs), 80 veces superior a los 50 Hz del PWM estándar de 20 ms","1 kHz 20 veces superior al PWM estandar, con caracteristicas con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","8 kHz 160 veces superior al PWM estandar, siendo componente esencial con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","500 Hz 10 veces superior al PWM estandar, para rendimiento optimo"]},
+    {category:"Protocolos · RC-05",question:"¿Qué funcionalidad proporcionan los DIP switches de 2 posiciones en el mando IRStart?",correct:"Permiten seleccionar qué robot controlar, codificando la dirección en el protocolo RC-05",options:["Permiten seleccionar qué robot controlar, codificando la dirección en el protocolo RC-05","Configuran la potencia del LED IR entre 3 niveles con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Seleccionan entre modo Start/Stop y modo Ready","Activan el canal de emparejamiento Bluetooth"]},
+    {category:"Protocolos · SPI",question:"¿Qué periférico SPI del STM32F401 utiliza el proyecto H3LIS-demo para comunicarse con el acelerómetro?",correct:"SPI1 en los pines PA5 (SCK), PA6 (MISO) y PA7 (MOSI), con PA0 como Chip Select",options:["SPI1 en los pines PA5 (SCK), PA6 (MISO) y PA7 (MOSI), con PA0 como Chip Select","SPI2 en los pines PB13-PB15 con PB12 como CS","SPI3 en los pines PC10-PC12 con PA15 como CS","I2C1 en PB6-PB7 en lugar de SPI"]},
+    {category:"Memoria · SRAM",question:"¿Qué valor hexadecimal actúa como marcador mágico en el header de la SRAM externa del proyecto SRAM-demo?",correct:"0x6D17, en un header de 16 bytes que incluye num_records, head_pos, tail_pos y bytes_used",options:["0x6D17, en un header de 16 bytes que incluye num_records, head_pos, tail_pos y bytes_used","0xA55A en un header de 8 bytes con CRC incluido con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","0xBEEF en una estructura de 12 bytes con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","0xDEAD en un bloque de 32 bytes con doble copia con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador"]},
+    {category:"Memoria · Buffer circular",question:"¿Qué marcador especial inserta el buffer circular de SRAM-demo cuando el puntero de escritura llega al final físico de la memoria?",correct:"Un registro con type=0xFF (WRAP) que indica al lector que debe saltar al inicio (0x000010)",options:["Un registro con type=0xFF (WRAP) que indica al lector que debe saltar al inicio (0x000010)","Un puntero enlazado que apunta a la siguiente direccion con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Un bit de overflow en el registro de estado del chip con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","No usa marcador simplemente resetea el puntero"]},
+    {category:"Memoria · Tipos",question:"¿Qué tipos de registros puede almacenar el buffer circular de SRAM-demo?",correct:"SRAM_TYPE_SENSOR (logs con timestamp, velocidad de motores, batería), SRAM_TYPE_CIRCUIT (mapeo de celdas del laberinto) y tipos personalizados definidos por el usuario (0x03-0xFD)",options:["SRAM_TYPE_SENSOR (logs con timestamp, velocidad de motores, batería), SRAM_TYPE_CIRCUIT (mapeo de celdas del laberinto) y tipos personalizados definidos por el usuario (0x03-0xFD)","Solo registros de tipo SENSOR con timestamp y datos del ADC con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Hasta 256 tipos predefinidos con esquema fijo de 32 bytes","Exclusivamente datos binarios sin tipado con offset"]},
+    {category:"Memoria · Iteración",question:"¿Cómo permite el iterador de SRAM-demo filtrar registros sin necesidad de cargar todo el buffer en RAM?",correct:"Filtra por tipo de registro (type_id) directamente desde la SRAM SPI, devolviendo un registro por llamada",options:["Filtra por tipo de registro (type_id) directamente desde la SRAM SPI, devolviendo un registro por llamada","Carga el buffer completo en RAM y filtra en software","Usa un indice en memoria flash que mapea tipos","No permite filtrar siempre devuelve todos los registros"]},
+    {category:"Simulación · Micromouse",question:"¿Qué simulador externo utiliza OPRobots para probar algoritmos de micromouse sin necesidad de robot físico?",correct:"mms (Micromouse Simulator), un fork del proyecto de mackorone con 109 forks. Permite probar FloodFill y otros algoritmos en laberintos virtuales",options:["mms (Micromouse Simulator), un fork del proyecto de mackorone con 109 forks. Permite probar FloodFill y otros algoritmos en laberintos virtuales","Webots con un modelo 3D completo de ZoroBot3 con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Gazebo con el plugin ROS de micromouse con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Un simulador propietario llamado OPRSim con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador"]},
+    {category:"Simulación · FloodFill",question:"¿Qué herramienta propia desarrolló OPRobots para simular y visualizar el algoritmo TimeBased FloodFill?",correct:"TimeBased-FloodFill-Simulator, un simulador independiente alojado en su GitHub bajo licencia GPL-3.0",options:["TimeBased-FloodFill-Simulator, un simulador independiente alojado en su GitHub bajo licencia GPL-3.0","Un plugin para el simulador mms que anade pesos temporales con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Un script de Python que genera mapas de calor de celdas con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Una interfaz web interactiva alojada en oprobots.org"]},
+    {category:"Utilidades · Web",question:"¿Qué utilidad web ofrece OPRobots para generar paredes de laberintos con precisión?",correct:"Maze Wall Placer, una herramienta interactiva alojada en oprobots.org/utils-helpers/maze-wall-placer",options:["Maze Wall Placer, una herramienta interactiva alojada en oprobots.org/utils-helpers/maze-wall-placer","Un script de Python que exporta laberintos en SVG con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Una extension de KiCAD para generar pistas de micromouse","Un plugin de FreeCAD para diseno parametrico"]},
+    {category:"Utilidades · Web",question:"Además del generador de paredes, ¿qué otras herramientas web ofrece OPRobots en su sección Utils & Helpers?",correct:"Un generador de perfiles de giro basados en tiempo, un generador de laberintos para OSHWDem y un temporizador con cuenta atrás para competiciones",options:["Un generador de perfiles de giro basados en tiempo, un generador de laberintos para OSHWDem y un temporizador con cuenta atrás para competiciones","Un calculador de PID interactivo y un simulador de motores","Un conversor de unidades para robotica y editor de trayectorias","Un visualizador 3D de modelos STL y validador de reglas"]},
+    {category:"Simulación · Lenguaje",question:"¿En qué lenguaje está escrito el simulador TimeBased-FloodFill-Simulator?",correct:"C (100%), igual que el firmware que ejecuta el algoritmo real en el robot",options:["C (100%), igual que el firmware que ejecuta el algoritmo real en el robot","Python con visualizacion mediante matplotlib con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","JavaScript para ejecutarse en navegador web con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","C++ con interfaz grafica en Qt con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador"]},
+    {category:"Licencias · GPL",question:"¿Bajo qué licencia se publica FujitoraBot?",correct:"GPL-3.0, la licencia más común en los repositorios de OPRobots",options:["GPL-3.0, la licencia más común en los repositorios de OPRobots","MIT para maxima libertad de uso con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","AGPL-3.0 igual que FujitoraBot2 con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","GPL-2.0 igual que DragonBot"]},
+    {category:"Licencias · AGPL",question:"¿Por qué FujitoraBot2 usa AGPL-3.0 en lugar de GPL-3.0?",correct:"AGPL-3.0 cubre también el uso en red (SaaS), ofreciendo mayor protección al hardware abierto frente a quien use el código sin compartir mejoras",options:["AGPL-3.0 cubre también el uso en red (SaaS), ofreciendo mayor protección al hardware abierto frente a quien use el código sin compartir mejoras","Es la unica licencia compatible con LibOpenCM3 con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Fue requerida por el fabricante del STM32F4","Permite el uso comercial sin publicar el codigo fuente"]},
+    {category:"Licencias · DragonBot",question:"¿Qué licencia inusual utiliza DragonBot dentro del ecosistema OPRobots?",correct:"GPL-2.0, a diferencia de la mayoría de proyectos del equipo que usan GPL-3.0",options:["GPL-2.0, a diferencia de la mayoría de proyectos del equipo que usan GPL-3.0","MIT siendo el unico proyecto con licencia permisiva, con caracteristicas","Apache 2.0 por incluir bibliotecas de terceros, siendo componente esencial","BSD de 3 clausulas la mas simple del equipo, para rendimiento optimo"]},
+    {category:"Repositorios · Estado",question:"¿Qué repositorios de OPRobots están actualmente archivados (read-only)?",correct:"OneShot125 y Centrifugal-Suction-Fan, entre otros. OneShot125 quedó obsoleto al integrarse en proyectos más grandes",options:["OneShot125 y Centrifugal-Suction-Fan, entre otros. OneShot125 quedó obsoleto al integrarse en proyectos más grandes","FujitoraBot y ZoroBot3 reemplazados por nuevas versiones con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Todos los anteriores a 2018 por politica del equipo con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Solo Centrifugal-Suction-Fan el resto estan activos con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador"]},
+    {category:"Repositorios · Popularidad",question:"¿Cuál es el repositorio de OPRobots con más estrellas en GitHub?",correct:"FujitoraBot con 63 estrellas, seguido de ZoroBot3 con 35",options:["FujitoraBot con 63 estrellas, seguido de ZoroBot3 con 35","ZoroBot3 con 35 estrellas seguido de FujitoraBot2 con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","DragonBot con 7 estrellas con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Centrifugal-Suction-Fan con 18 estrellas"]},
+    {category:"Repositorios · Forks",question:"¿Qué proyecto de OPRobots tiene 109 forks, muy por encima de cualquier otro?",correct:"mms (Micromouse Simulator), un fork del simulador de mackorone adaptado por el equipo",options:["mms (Micromouse Simulator), un fork del simulador de mackorone adaptado por el equipo","FujitoraBot por ser el mas popular, con todas las caracteristicas con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","ZoroBot3 por su palmares de competicion, siendo componente esencial","KiCADLibraries al ser usadas por otros equipos, para rendimiento optimo"]},
+    {category:"Repositorios · Commits",question:"¿Cuántos commits tiene el repositorio de ZoroBot3 en su rama master?",correct:"442 commits, reflejando el intenso desarrollo iterativo del robot más laureado",options:["442 commits, reflejando el intenso desarrollo iterativo del robot más laureado","130 commits similares a FujitoraBot","197 commits como DragonBot","Mas de 1000 commits siendo el mas longevo"]},
+    {category:"Competición · Palmarés",question:"¿Cuál es el palmarés exacto de ZoroBot3 en competición?",correct:"7 medallas de oro, 0 de plata, 0 de bronce. Ha competido en España (OSHWDem), Portugal (Micromouse Portuguese Contest) y Rumanía (RoboChallenge)",options:["7 medallas de oro, 0 de plata, 0 de bronce. Ha competido en España (OSHWDem), Portugal (Micromouse Portuguese Contest) y Rumanía (RoboChallenge)","5 oros y 2 platas en competiciones espanolas exclusivamente con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","3 oros 2 platas y 1 bronce en torneos internacionales con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","10 medallas en total con mayoria de platas con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador"]},
+    {category:"Competición · OSHWDem",question:"¿Qué declaración aparece en el README de FujitoraBot sobre su rendimiento en España?",correct:"\"MAS RAPIDO DE ESPAÑA!!\", título conseguido en la OSHWDem 2019",options:["\"MAS RAPIDO DE ESPAÑA!!\", título conseguido en la OSHWDem 2019","\"Campeon de Europa\" tras vencer en RoboChallenge con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","\"Subcampeon del mundo\" por su participacion en All Japan con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","\"Robot del ano\" premio otorgado por la LNRC"]},
+    {category:"Competición · All Japan",question:"¿En qué categoría compitió OPRobots en el All Japan Robot-Sumo Tournament 2017?",correct:"Minisumo, con un robot \"estilo tanque\" muy lento pero con gran fuerza magnética. Ganaron el Battle Royale inaugural de 10 robots",options:["Minisumo, con un robot \"estilo tanque\" muy lento pero con gran fuerza magnética. Ganaron el Battle Royale inaugural de 10 robots","Robotracer con FujitoraBot quedando en semifinales con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Micromouse con ZoroBot2Y alcanzando cuartos de final","Humanoide con SuperFrankyBot ganando la categoria"]},
+    {category:"Competición · RoboChallenge",question:"¿En qué país y años ganó ZoroBot3 la categoría de laberinto en RoboChallenge?",correct:"Rumanía, en 2024 y 2025 (bicampeón consecutivo)",options:["Rumanía, en 2024 y 2025 (bicampeón consecutivo)","Serbia en 2023 y 2024","Hungria en 2024","Espana en 2023"]},
+    {category:"Competición · México",question:"¿En qué evento mexicano ganó OPRobots la categoría de laberinto?",correct:"Space Invaders Games II, donde se alzaron con la victoria en laberinto",options:["Space Invaders Games II, donde se alzaron con la victoria en laberinto","RoboGames 2021 en categoria siguelineas con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Talent Land 2022 en categoria minisumo con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","RUNIBOT 2023 en categoria innovacion con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador"]},
+    {category:"Competición · Solar",question:"¿Qué resultado obtuvo SunnyGo en las regatas solares?",correct:"Ganó la Regata Solar 2022, pero perdió los timones en 2019 y 2023 (en esta última ñapeado para ganar la prueba de velocidad)",options:["Ganó la Regata Solar 2022, pero perdió los timones en 2019 y 2023 (en esta última ñapeado para ganar la prueba de velocidad)","Gano todas las ediciones de 2019 a 2023 con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Solo compitio en 2022 ganando por abandono del rival con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Nunca gano por problemas cronicos de estanqueidad"]},
+    {category:"Estrategia · Sumo",question:"¿Qué estrategia de arranque implementaba YokozunaBot para MiniSumo?",correct:"Arranque frontal, lateral y trasero, con control de línea blanca mediante 4 CNY70",options:["Arranque frontal, lateral y trasero, con control de línea blanca mediante 4 CNY70","Solo arranque frontal agresivo buscando el centro con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Giro sobre si mismo hasta detectar al rival","Espera pasiva en el centro del dohyo hasta ser atacado"]},
+    {category:"Estrategia · Succión",question:"¿Qué ventaja competitiva proporciona el sistema de succión centrífuga en siguelíneas?",correct:"Aumenta drásticamente la fuerza normal sobre las ruedas sin añadir masa, permitiendo mayor velocidad en curvas sin derrapar",options:["Aumenta drásticamente la fuerza normal sobre las ruedas sin añadir masa, permitiendo mayor velocidad en curvas sin derrapar","Refrigera los motores brushless para evitar sobrecalentamiento","Limpia la pista de polvo antes del paso de los sensores","Genera un colchon de aire que reduce la friccion con el suelo"]},
+    {category:"Estrategia · Sumo",question:"¿Por qué JimbeiBot, a pesar de tener motores brushless de 200W, resultó más lento de lo esperado?",correct:"Tenía mal agarre al suelo. La potencia sin tracción efectiva se traduce en patinaje, no en velocidad",options:["Tenía mal agarre al suelo. La potencia sin tracción efectiva se traduce en patinaje, no en velocidad","Los motores estaban limitados por software al 50% con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","La bateria no podia suministrar la corriente necesaria con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","El peso excesivo del blindaje anulaba la ventaja con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador"]},
+    {category:"Cultura · One Piece",question:"¿Qué tres almirantes de One Piece dan nombre a sendos siguelíneas de OPRobots?",correct:"Kizaru (KizaruBot y KizaruBot2), Akainu (AkainuBot) y Fujitora (FujitoraBot y FujitoraBot2)",options:["Kizaru (KizaruBot y KizaruBot2), Akainu (AkainuBot) y Fujitora (FujitoraBot y FujitoraBot2)","Aokiji Smoker y Garp, con todas las caracteristicas tecnicas con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Sengoku Kong y Zephyr, siendo un componente esencial del sistema con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Ryokugyu Issho y Kuzan, para un rendimiento optimo en condiciones"]},
+    {category:"Cultura · One Piece",question:"¿Por qué ZoroBot tiene un nombre irónico según los propios OPRobots?",correct:"Zoro es el personaje de One Piece con peor sentido de la orientación, y ZoroBot era un robot de laberinto que se perdió muchísimas veces",options:["Zoro es el personaje de One Piece con peor sentido de la orientación, y ZoroBot era un robot de laberinto que se perdió muchísimas veces","Zoro usa tres espadas y el robot tenia tres ruedas con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Zoro es verde y el robot era de color verde","El creador del robot se llama Zoro en la vida real"]},
+    {category:"Cultura · Pacifistas",question:"¿De dónde viene el nombre PacifistaBot?",correct:"Del ejército de Pacifistas de One Piece, desarrollados a partir de PX-0 (antiguo Kuma). La idea es que muchos kits creen un gran ejército",options:["Del ejército de Pacifistas de One Piece, desarrollados a partir de PX-0 (antiguo Kuma). La idea es que muchos kits creen un gran ejército","De la palabra pacifista porque el robot no esta para combate","Del patrocinador del kit la empresa Pacifista Robotics","Es un acronimo de Programmable Autonomous Interface"]},
+    {category:"Cultura · Open Source",question:"¿Cuál es la filosofía de OPRobots respecto al código abierto?",correct:"\"La mejor forma de aprender y evolucionar es compartiendo el conocimiento y mejorándolo en comunidad\". Todos sus proyectos principales están 100% en GitHub",options:["\"La mejor forma de aprender y evolucionar es compartiendo el conocimiento y mejorándolo en comunidad\". Todos sus proyectos principales están 100% en GitHub","El codigo es abierto solo para uso educativo requiriendo licencia con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Comparten disenos pero no el codigo de competicion con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Solo el hardware es abierto el software es propietario con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador"]},
+    {category:"Cultura · Kits",question:"¿En qué año comenzó OPRobots a ofrecer kits de robótica de competición?",correct:"2023, con la serie PX que incluye PX-CORE como placa base universal y varios módulos intercambiables",options:["2023, con la serie PX que incluye PX-CORE como placa base universal y varios módulos intercambiables","2021 con el kit PacifistaBot con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","2022 con los modulos de succion centrifuga con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","2024 con el lanzamiento de la tienda online"]},
+    {category:"Web · Diseño",question:"¿Quién diseñó la página web de OPRobots?",correct:"@robotaleh, uno de los tres miembros visibles del equipo en GitHub",options:["@robotaleh, uno de los tres miembros visibles del equipo en GitHub","@hunter-digi-ace el fundador del equipo con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Creative Tim usando su plantilla Material Kit","Un disenador externo contratado para el proyecto"]},
+    {category:"Web · Framework",question:"¿Sobre qué framework CSS está construida la web de OPRobots?",correct:"Material Kit de Creative Tim, basado en Bootstrap 4 y Material Design",options:["Material Kit de Creative Tim, basado en Bootstrap 4 y Material Design","Tailwind CSS con componentes personalizados","Bulma con temas de Material Design","Foundation 6 con el tema Yeti"]},
+    {category:"Web · Secciones",question:"¿Qué secciones componen la web de OPRobots?",correct:"Nuestros Robots, Presentaciones, Utils & Helpers, Tienda y enlaces a redes sociales y GitHub",options:["Nuestros Robots, Presentaciones, Utils & Helpers, Tienda y enlaces a redes sociales y GitHub","Inicio Blog Tienda Foro y Contacto con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Robots Competiciones Equipo Patrocinadores y Prensa con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Documentacion API Descargas Tienda y Soporte con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador"]},
+    {category:"Curiosidades · Historia",question:"¿Cuál fue el primer robot de OPRobots y cuántas veces se incendió?",correct:"ZoroBot (2016). Ardío 7 veces. Usaba motores reciclados de impresora y sensores IR digitales, una configuración \"suicida\"",options:["ZoroBot (2016). Ardío 7 veces. Usaba motores reciclados de impresora y sensores IR digitales, una configuración \"suicida\"","KizaruBot (2016) nunca ardio pero sus sensores no funcionaban con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","AkainuBot (2017) ardio 3 veces por sobrecalentamiento con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","YokozunaBot (2017) se incendio una vez por cortocircuito"]},
+    {category:"Curiosidades · SuperFrankyBot",question:"¿Cuántas veces compitió SuperFrankyBot y con qué resultado?",correct:"Solo compitió una vez... y ganó. Medio año de trabajo para una única aparición victoriosa",options:["Solo compitió una vez... y ganó. Medio año de trabajo para una única aparición victoriosa","Tres veces ganando dos de ellas con interfaz de depuracion serie y capacidad de actualizacion remota mediante bootloader integrado en el microcontrolador","Mas de 10 torneos con 7 victorias","Nunca llego a competir por problemas de peso"]},
+    {category:"Curiosidades · ViolaBot",question:"¿Quién era ViolaBot y qué le ocurrió en sus distintas iteraciones?",correct:"Un siguelíneas que ganó EuskoBot 2017 como Viola2Bot. Su nombre rompe la tradición One Piece; Viola es un personaje secundario de la serie",options:["Un siguelíneas que ganó EuskoBot 2017 como Viola2Bot. Su nombre rompe la tradición One Piece; Viola es un personaje secundario de la serie","Un robot de laberinto experimental que nunca funciono","Un prototipo secreto que nunca se publico en GitHub","El nombre en clave del proyecto PacifistaBot"]},
+];var FUN_FACTS = [
+    "<span class=\"emoji\">🧠</span> OPRobots usa exclusivamente <strong>LibOpenCM3</strong> —una biblioteca open-source para ARM Cortex-M— en lugar del HAL oficial de ST. Esto les da control total sobre cada registro del microcontrolador.",
+    "<span class=\"emoji\">🔄</span> El buffer circular de <strong>SRAM-demo</strong> sobreescribe automáticamente los registros más antiguos cuando se llena, ideal para logging continuo en competición sin intervención del firmware.",
+    "<span class=\"emoji\">📐</span> El algoritmo <strong>TimeBased FloodFill</strong> de ZoroBot3 pondera cada celda del laberinto según el tiempo necesario para recorrerla, no solo por distancia. Esto marca la diferencia entre ganar y perder.",
+    "<span class=\"emoji\">🏗️</span> El repositorio <strong>mms</strong> (Micromouse Simulator) es el más forkado de OPRobots con <strong>109 forks</strong>, muy por encima de cualquier robot real del equipo.",
+    "<span class=\"emoji\">📝</span> El README de <strong>FujitoraBot</strong> declara orgullosamente: <strong>\"MAS RAPIDO DE ESPAÑA!!\"</strong>, título revalidado por el equipo en competición nacional.",
+    "<span class=\"emoji\">⚡</span> <strong>OneShot125</strong> es 80 veces más rápido que el PWM estándar de radiocontrol. Donde un servo ve un pulso cada 20 ms, OneShot125 completa el ciclo en solo 250 µs."
+];
+
+var QUESTIONS_PER_TEST = 10;
+var TEST_QUESTIONS = [];
+var currentIndex = 0;
+var score = 0;
+var wrong = 0;
+var selectedOption = null;
+var revealed = false;
+var streak = 0;
+var bestStreak = 0;
+
+function shuffle(arr){var a=[].concat(arr);for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function selectTestQuestions(){TEST_QUESTIONS=shuffle(QUESTIONS_POOL).slice(0,QUESTIONS_PER_TEST)}
+function startQuiz(){selectTestQuestions();currentIndex=0;score=0;wrong=0;streak=0;bestStreak=0;switchScreen('quizScreen');renderQuestion()}
+function renderQuestion(){
+    if(currentIndex>=TEST_QUESTIONS.length)return showResults();
+    var q=TEST_QUESTIONS[currentIndex];
+    revealed=false;selectedOption=null;
+    document.getElementById('counterText').textContent=(currentIndex+1);
+    document.getElementById('totalText').textContent=TEST_QUESTIONS.length;
+    document.getElementById('questionNumber').textContent='#'+(currentIndex+1);
+    document.getElementById('scoreLive').innerHTML='<i class="material-icons" style="font-size:16px;vertical-align:-3px;">check_circle</i> <strong>'+score+'</strong>';
+    document.getElementById('progressBar').style.width=((currentIndex/TEST_QUESTIONS.length)*100)+'%';
+    document.getElementById('questionDisplay').textContent=q.question;
+    document.getElementById('categoryTag').textContent=q.category;
+    document.getElementById('feedbackToast').textContent='';document.getElementById('feedbackToast').className='feedback-toast';
+    var opts=[].concat(q.options);
+    for(var i=opts.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=opts[i];opts[i]=opts[j];opts[j]=t}
+    var letters=['A','B','C','D'];
+    var grid=document.getElementById('optionsGrid');
+    grid.innerHTML=opts.map(function(o,i){return'<button class="option-btn" data-answer="'+o.replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'"><span class="option-letter">'+letters[i]+'</span><span>'+o+'</span></button>'}).join('');
+    grid.querySelectorAll('.option-btn').forEach(function(b){b.addEventListener('click',function(){if(revealed)return;grid.querySelectorAll('.option-btn').forEach(function(x){x.classList.remove('selected')});this.classList.add('selected');selectedOption=this.dataset.answer;document.getElementById('checkBtn').disabled=false})});
+    var cb=document.getElementById('checkBtn');cb.textContent='Comprobar';cb.disabled=true;cb.onclick=handleCheck
+}
+function handleCheck(){if(!revealed)checkAnswer();else{currentIndex++;renderQuestion()}}
+function checkAnswer(){
+    if(!selectedOption)return;
+    var q=TEST_QUESTIONS[currentIndex];
+    var ok=(selectedOption===q.correct);revealed=true;
+    if(ok){score++;streak++;if(streak>bestStreak)bestStreak=streak}else{wrong++;streak=0}
+    document.querySelectorAll('.option-btn').forEach(function(b){b.classList.add('locked');if(b.dataset.answer===q.correct)b.classList.add('correct');else if(b.dataset.answer===selectedOption&&!ok)b.classList.add('incorrect')});
+    var fb=document.getElementById('feedbackToast');
+    if(ok){fb.textContent='✓ ¡Correcto!';fb.className='feedback-toast correct-fb'}else{fb.textContent='✗ Incorrecto. La respuesta correcta está marcada en verde.';fb.className='feedback-toast incorrect-fb'}
+    document.getElementById('scoreLive').innerHTML='<i class="material-icons" style="font-size:16px;vertical-align:-3px;">check_circle</i> <strong>'+score+'</strong>';
+    var btn=document.getElementById('checkBtn');btn.textContent=(currentIndex<TEST_QUESTIONS.length-1)?'Continuar  →':'Ver resultados';btn.disabled=false
+}
+function showResults(){
+    switchScreen('resultsScreen');
+    var t=TEST_QUESTIONS.length,pct=Math.round((score/t)*100);
+    var gt,gc;
+    if(pct>=90){gt='🏆 ¡Eres un experto en software de OPRobots!';gc='#e6a817'}
+    else if(pct>=70){gt='🥇 ¡Muy buen nivel! Dominas el firmware y los algoritmos del equipo.';gc='#4caf50'}
+    else if(pct>=50){gt='🥈 Buen intento. Lo fundamental lo tienes.';gc='#1b176b'}
+    else if(pct>=30){gt='🥉 Conocimiento básico. Explora github.com/OPRobots para profundizar.';gc='#f44336'}
+    else{gt='🔧 ¡Bienvenido! Descubre el software de OPRobots en github.com/OPRobots';gc='#f44336'}
+    document.getElementById('resultsGrade').textContent=gt;document.getElementById('resultsGrade').style.color=gc;
+    document.getElementById('scoreBig').textContent=score;
+    document.getElementById('scoreDenom').textContent='de '+t+' aciertos (banco de '+QUESTIONS_POOL.length+' preguntas)';
+    var circ=2*Math.PI*56,off=circ-(pct/100)*circ;
+    var cir=document.getElementById('scoreCircle');cir.style.strokeDasharray=circ;setTimeout(function(){cir.style.strokeDashoffset=off},200);
+    document.getElementById('statCorrect').textContent=score;
+    document.getElementById('statWrong').textContent=wrong;
+    document.getElementById('statPct').textContent=pct+'%';
+    document.getElementById('statStreak').textContent=bestStreak;
+    var ff=document.getElementById('funFact');
+    ff.innerHTML=FUN_FACTS[Math.floor(Math.random()*FUN_FACTS.length)];ff.style.display='block';
+    document.getElementById('horizontalBars').innerHTML=
+        '<div class="h-bar-row"><span class="h-bar-label" style="color:#4caf50">Correctas</span><div class="h-bar-track"><div class="h-bar-fill" style="width:0%;background:linear-gradient(60deg,#43a047,#66bb6a)" data-width="'+pct+'%"><span class="h-bar-fill-inner">'+score+'</span></div></div></div>'+
+        '<div class="h-bar-row"><span class="h-bar-label" style="color:#f44336">Falladas</span><div class="h-bar-track"><div class="h-bar-fill" style="width:0%;background:linear-gradient(60deg,#e53935,#ef5350)" data-width="'+(100-pct)+'%"><span class="h-bar-fill-inner">'+wrong+'</span></div></div></div>'+
+        '<div class="h-bar-row"><span class="h-bar-label" style="color:#1b176b">Racha máx</span><div class="h-bar-track"><div class="h-bar-fill" style="width:0%;background:linear-gradient(60deg,#534b8c,#1b176b)" data-width="'+Math.min(100,(bestStreak/t)*100)+'%"><span class="h-bar-fill-inner">'+bestStreak+'</span></div></div></div>';
+    setTimeout(function(){document.querySelectorAll('.h-bar-fill[data-width]').forEach(function(e){e.style.width=e.dataset.width})},600);
+    if(pct>=60)spawnConfetti()
+}
+function spawnConfetti(){
+    var c=document.getElementById('confettiContainer'),cols=['#1b176b','#534b8c','#2b2953','#4caf50','#e6a817','#f44336','#e9e8f0','#bbb','#fff'],pcs=[];
+    for(var i=0;i<100;i++){var e=document.createElement('div');e.className='confetti-piece';e.style.left=Math.random()*100+'%';e.style.top=-(Math.random()*40+10)+'px';e.style.width=(Math.random()*8+5)+'px';e.style.height=(Math.random()*8+5)+'px';e.style.background=cols[Math.floor(Math.random()*cols.length)];e.style.animationDuration=(Math.random()*2+2.5)+'s';e.style.animationDelay=Math.random()*1.5+'s';e.style.borderRadius=Math.random()>0.5?'50%':'2px';c.appendChild(e);pcs.push(e)}
+    setTimeout(function(){pcs.forEach(function(e){e.remove()})},5000)
+}
+function restartQuiz(){document.getElementById('confettiContainer').innerHTML='';startQuiz()}
+function shareResults(){
+    var pct=Math.round((score/TEST_QUESTIONS.length)*100);
+    var text='💻 Test de Software OPRobots\n🎯 '+score+'/'+TEST_QUESTIONS.length+' ('+pct+'%)\n🏆 Mejor racha: '+bestStreak+'\n📊 Precisión: '+pct+'%\n🔗 oprobots.org · github.com/OPRobots\n¿Te atreves a superarlo?';
+    var btn=document.querySelector('#resultsScreen .btn-outline'),orig=btn.innerHTML;
+    function ok(){btn.innerHTML='<i class="material-icons" style="font-size:18px;">check</i> ¡Copiado!';setTimeout(function(){btn.innerHTML=orig},2000)}
+    if(navigator.clipboard&&navigator.clipboard.writeText&&window.isSecureContext)navigator.clipboard.writeText(text).then(ok).catch(function(){fallbackCopy(text,ok)});else fallbackCopy(text,ok)
+}
+function fallbackCopy(text,ok){
+    var ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.left='-9999px';ta.style.top='-9999px';ta.style.opacity='0';ta.style.fontSize='16px';ta.setAttribute('readonly','');document.body.appendChild(ta);ta.focus();ta.select();ta.setSelectionRange(0,999999);
+    try{var r=document.execCommand('copy');if(r&&ok)ok()}catch(e){var b=document.querySelector('#resultsScreen .btn-outline');b.innerHTML='<i class="material-icons" style="font-size:18px;">error</i> No se pudo copiar';setTimeout(function(){b.innerHTML='<i class="material-icons" style="font-size:18px;">content_copy</i> Copiar resultado'},2000)}
+    document.body.removeChild(ta)
+}
+function switchScreen(id){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active')});document.getElementById(id).classList.add('active')}
+</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="base-path" content="../..">
+<meta name="test-id" content="0">
+<meta name="test-title" content="Mezcla Explosiva">
+<title>Test: Mezcla Explosiva — 99Test</title>
+<link rel="stylesheet" href="../../compartido/estilos.css">
+</head>
+<body>
+
+<div id="headerPlaceholder"></div>
+<div id="isTestPage" style="display:none"></div>
+<div class="main-wrap"><div class="screen active" style="width:100%"><div id="app"></div></div></div>
+<div id="footerPlaceholder"></div>
+
+<script>
+const QUESTIONS = [
+  { q: "¿Cuál es el río más largo del mundo?", opts: ["Amazonas", "Nilo", "Misisipi", "Yangtsé"], correct: 1, cat: "🌍 Geografía", exp: "El río Nilo mide unos 6.650 km, ligeramente más largo que el Amazonas." },
+  { q: "¿Cuál es el país más pequeño del mundo?", opts: ["Mónaco", "Ciudad del Vaticano", "San Marino", "Liechtenstein"], correct: 1, cat: "🌍 Geografía", exp: "El Vaticano tiene solo 0,44 km². Es el país independiente más pequeño." },
+  { q: "¿Qué significa 'efímero'?", opts: ["Muy grande", "Que dura poco", "Muy antiguo", "Que brilla"], correct: 1, cat: "📖 Lengua", exp: "Efímero significa que dura muy poco tiempo, pasajero." },
+  { q: "¿En qué año cayó el muro de Berlín?", opts: ["1987", "1989", "1991", "1985"], correct: 1, cat: "📜 Historia", exp: "El muro cayó el 9 de noviembre de 1989, marcando el fin de la Guerra Fría." },
+  { q: "¿Cuántos huesos tiene un adulto?", opts: ["106", "206", "306", "156"], correct: 1, cat: "🔬 Ciencia", exp: "Un adulto tiene 206 huesos. Los bebés nacen con ~270 que se fusionan." },
+  { q: "¿Cuál es el animal terrestre más rápido?", opts: ["León", "Guepardo", "Antílope", "Caballo"], correct: 1, cat: "🔬 Ciencia", exp: "El guepardo alcanza hasta 110 km/h en carreras cortas." },
+  { q: "¿Qué insecto puede vivir sin cabeza varios días?", opts: ["Hormiga", "Cucaracha", "Mosca", "Abeja"], correct: 1, cat: "🧠 Curiosidades", exp: "Una cucaracha vive hasta una semana sin cabeza, pues respira por espiráculos." },
+  { q: "¿Quién pintó 'La noche estrellada'?", opts: ["Picasso", "Van Gogh", "Dalí", "Monet"], correct: 1, cat: "🎨 Arte", exp: "Van Gogh la pintó en 1889 desde el asilo de Saint-Rémy." },
+  { q: "¿Qué gas respiramos principalmente del aire?", opts: ["Oxígeno", "Nitrógeno", "CO₂", "Argón"], correct: 1, cat: "🔬 Ciencia", exp: "El aire es ~78 % nitrógeno y solo ~21 % oxígeno." },
+  { q: "¿Cuál es un antónimo de 'benévolo'?", opts: ["Malévolo", "Amable", "Compasivo", "Gentil"], correct: 0, cat: "📖 Lengua", exp: "Malévolo significa malvado, lo opuesto a benévolo." },
+];
+</script>
+<script src="../../compartido/motor.js"></script>
+</body>
+</html>
