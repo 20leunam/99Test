@@ -33,6 +33,12 @@ const TEST_MANIFEST = [
 const STORAGE_KEY = '99test_results';
 const EPOCH = new Date(2026, 5, 15); // 15 jun = primer test disponible
 
+/* ─── SUPABASE (Ranking Global) ── */
+const SUPABASE_URL = 'https://gtccqkokowjuztuyjmgz.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd0Y2Nxa29rb3dqdXp0dXlqbWd6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE4MDY5OTksImV4cCI6MjA5NzM4Mjk5OX0.6myFEFMB-mzxvj9SlANLeWHmx9cV6ID0Qz60fgaC9bs';
+
+let lastQuizResult = null;
+
 /* ─── FECHA ── */
 function dateStr(d) {
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
@@ -106,6 +112,9 @@ function renderHeader() {
       </button>
       <button class="menu-item" onclick="goToPage('tests/especiales/')">
         <span class="emoji">⭐</span> Tests especiales
+      </button>
+      <button class="menu-item" onclick="goToPage('')">
+        <span class="emoji">🏆</span> Ranking global
       </button>
       <button class="menu-item" onclick="goToPage('sobre.html')">
         <span class="emoji">ℹ️</span> Sobre 99Test
@@ -184,6 +193,114 @@ function saveResult(key, data) {
   const r = getResults();
   r[key] = data;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(r));
+}
+
+/* ─── RANKING GLOBAL (Supabase) ── */
+async function saveToRanking(alias, correct, total, pct, testId, testTitle) {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/rankings`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_ANON_KEY,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({
+        alias, score: correct, total, pct,
+        test_id: testId, test_title: testTitle,
+        date: dateStr(new Date())
+      })
+    });
+    return res.ok;
+  } catch (e) {
+    console.error('Error al guardar en ranking:', e);
+    return false;
+  }
+}
+
+async function fetchRanking(limit = 20) {
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/rankings?select=alias,score,total,pct,test_title,date,created_at&order=pct.desc,score.desc&limit=${limit}`,
+      { headers: { 'apikey': SUPABASE_ANON_KEY, 'Accept': 'application/json' } }
+    );
+    if (!res.ok) return [];
+    return await res.json();
+  } catch (e) {
+    console.error('Error al obtener ranking:', e);
+    return [];
+  }
+}
+
+async function submitRanking() {
+  const input = document.getElementById('aliasInput');
+  const feedback = document.getElementById('rankingFeedback');
+  if (!input || !lastQuizResult) return;
+
+  let alias = input.value.trim();
+  if (alias.length < 2 || alias.length > 20) {
+    if (feedback) { feedback.textContent = '✏️ El alias debe tener entre 2 y 20 caracteres.'; feedback.className = 'ranking-feedback error'; }
+    return;
+  }
+
+  // Sanitize
+  alias = alias.replace(/[^\wáéíóúñüÁÉÍÓÚÑÜ\s-]/g, '');
+  if (!alias || alias.length < 2) {
+    if (feedback) { feedback.textContent = '✏️ Solo letras, números y guiones.'; feedback.className = 'ranking-feedback error'; }
+    return;
+  }
+
+  localStorage.setItem('99test_alias', alias);
+
+  const btn = document.getElementById('saveRankingBtn');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ Guardando...'; }
+  if (feedback) { feedback.textContent = ''; feedback.className = 'ranking-feedback'; }
+
+  const r = lastQuizResult;
+  const ok = await saveToRanking(alias, r.correct, r.total, r.pct, r.testId, r.title);
+
+  if (ok) {
+    if (feedback) { feedback.textContent = '✅ ¡Puntuación guardada en el ranking global!'; feedback.className = 'ranking-feedback success'; }
+    if (btn) { btn.textContent = '✅ Enviado'; }
+  } else {
+    if (feedback) { feedback.textContent = '❌ Error de conexión. Inténtalo de nuevo.'; feedback.className = 'ranking-feedback error'; }
+    if (btn) { btn.disabled = false; btn.textContent = '📤 Reintentar'; }
+  }
+}
+
+async function renderRanking(containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  container.innerHTML = '<div class="ranking-loading">⏳ Cargando ranking...</div>';
+
+  const data = await fetchRanking(20);
+  if (!data || data.length === 0) {
+    container.innerHTML = '<div class="ranking-empty">📭 Aún no hay puntuaciones. ¡Sé el primero!</div>';
+    return;
+  }
+
+  const medals = ['🥇', '🥈', '🥉'];
+  const rows = data.slice(0, 10).map((r, i) => {
+    const rank = medals[i] || `#${i+1}`;
+    const pctEmoji = r.pct >= 90 ? '🏆' : r.pct >= 70 ? '⭐' : r.pct >= 50 ? '✅' : '📚';
+    return `<div class="ranking-row ${i < 3 ? 'top' : ''}">
+      <span class="rr-rank">${rank}</span>
+      <span class="rr-alias">${escHtml(r.alias)}</span>
+      <span class="rr-score">${pctEmoji} ${r.score}/${r.total}</span>
+      <span class="rr-pct">${r.pct}%</span>
+      <span class="rr-test">${escHtml(r.test_title || '')}</span>
+    </div>`;
+  }).join('');
+
+  container.innerHTML = rows;
+}
+
+function escHtml(s) {
+  if (!s) return '';
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
 }
 
 function calcStreak() {
@@ -438,6 +555,11 @@ function showQuizResults() {
 
   const app = byId('app');
   if (!app) return;
+
+  // Store result for possible ranking submission
+  lastQuizResult = { correct, total, pct, testId: quizState.testId, title: quizState.title };
+  const savedAlias = localStorage.getItem('99test_alias') || '';
+
   app.innerHTML = `
     <div class="card">
       <div class="results-hero">
@@ -456,11 +578,24 @@ function showQuizResults() {
         <div class="stat-box"><div class="num white">${calcStreak()}</div><div class="lbl">Racha 🔥</div></div>
       </div>
       ${bars ? `<div class="breakdown"><h3>📊 Por categoría</h3>${bars}</div>` : ''}
+      <div class="ranking-submit">
+        <h3>🏆 Ranking Global</h3>
+        <p class="ranking-subtitle">Compite con otros jugadores. Introduce tu alias y guarda tu puntuación.</p>
+        <div class="alias-row">
+          <input type="text" id="aliasInput" class="alias-input" placeholder="Tu alias (ej: 20leunam)" maxlength="20" value="${escHtml(savedAlias)}">
+          <button class="btn btn-primary btn-sm" id="saveRankingBtn">📤 Guardar</button>
+        </div>
+        <div id="rankingFeedback" class="ranking-feedback"></div>
+      </div>
       <div class="btn-row">
         <button class="btn btn-primary" onclick="repeatTest()">🔁 Repetir test</button>
         <button class="btn btn-secondary" onclick="goToPage('')">🏠 Inicio</button>
       </div>
     </div>`;
+
+  // Attach ranking save handler
+  const rankBtn = document.getElementById('saveRankingBtn');
+  if (rankBtn) rankBtn.addEventListener('click', submitRanking);
 
   if (pct >= 70) spawnConfetti();
 }

@@ -170,6 +170,13 @@
         <div class="hp-bottom hp-cta-sm" style="align-self:flex-start">⭐ Explorar →</div>
       </div>
     </div>
+    <!-- Ranking Global -->
+    <div class="ranking-hub" id="rankingHub">
+      <div class="ranking-hub-header">🏆 Ranking Global</div>
+      <div class="ranking-hub-body" id="rankingHubBody">
+        <div class="ranking-loading">⏳ Cargando ranking...</div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -207,6 +214,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const navTo = () => goToPage('tests/' + test.folder + '/' + test.test + '/');
   document.getElementById('tdCard').onclick = navTo;
   document.getElementById('tdBtn').onclick = navTo;
+
+  // Cargar ranking global
+  renderRanking('rankingHubBody');
 });
 </script>
 </body>

@@ -443,6 +443,108 @@ body.dark .cat-item:hover { border-color: #444; }
   animation: confettiDrop linear forwards; will-change: transform, opacity;
 }
 
+/* ─── RANKING GLOBAL ── */
+.ranking-hub {
+  margin-top: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px 20px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+.ranking-hub::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--gold-gradient);
+}
+.ranking-hub-header {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.4rem; font-weight: 700; margin-bottom: 16px;
+}
+.ranking-hub-body { min-height: 60px; }
+
+.ranking-loading, .ranking-empty {
+  text-align: center; color: var(--text-secondary);
+  font-size: 0.88rem; padding: 30px 0;
+}
+
+.ranking-row {
+  display: grid;
+  grid-template-columns: 36px 1fr 80px 50px 1.6fr;
+  gap: 8px;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition);
+  border-bottom: 1px solid var(--border);
+}
+.ranking-row:last-child { border-bottom: none; }
+.ranking-row.top { background: var(--accent-bg); }
+.ranking-row:hover { background: var(--surface-raised); }
+
+.rr-rank { font-size: 1rem; text-align: center; font-weight: 700; }
+.rr-alias {
+  font-weight: 600; font-size: 0.88rem; overflow: hidden;
+  text-overflow: ellipsis; white-space: nowrap;
+}
+.rr-score { font-size: 0.82rem; color: var(--text-secondary); text-align: right; }
+.rr-pct {
+  font-size: 0.88rem; font-weight: 700; text-align: center;
+  background: var(--gold-gradient); -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; background-clip: text;
+}
+.rr-test {
+  font-size: 0.75rem; color: var(--text-secondary);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  text-align: right;
+}
+
+/* Ranking submit en resultados */
+.ranking-submit {
+  margin: 18px 0 10px;
+  padding: 16px;
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  text-align: center;
+}
+.ranking-submit h3 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.1rem; font-weight: 700; margin-bottom: 4px;
+}
+.ranking-submit .ranking-subtitle {
+  font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 12px;
+}
+.alias-row {
+  display: flex; gap: 8px; justify-content: center; align-items: center;
+  flex-wrap: wrap;
+}
+.alias-input {
+  padding: 10px 14px; border-radius: 100px; border: 1px solid var(--border);
+  background: var(--surface); color: var(--text);
+  font-family: 'Inter', system-ui, sans-serif; font-size: 0.88rem;
+  outline: none; transition: all var(--transition); width: 200px;
+}
+.alias-input:focus {
+  border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow);
+}
+.ranking-feedback {
+  margin-top: 8px; font-size: 0.82rem; font-weight: 600;
+  min-height: 22px;
+}
+.ranking-feedback.success { color: var(--green); }
+.ranking-feedback.error { color: var(--red); }
+
+@media (max-width: 540px) {
+  .ranking-row {
+    grid-template-columns: 30px 1fr 60px 40px;
+    font-size: 0.82rem;
+  }
+  .rr-test { display: none; }
+  .alias-input { width: 160px; }
+}
+
 /* ─── RESPONSIVE ── */
 @media (max-width: 520px) {
   .card { padding: 22px 14px 18px; }
