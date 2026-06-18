@@ -18,7 +18,7 @@
 
   .hub-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1.8fr 1fr 1fr;
+    grid-template-columns: 1fr 1.3fr 2fr 1.3fr 1fr;
     gap: 20px;
     align-items: stretch;
     width: 100%;
@@ -51,6 +51,15 @@
 
   .hub-panel.featured {
     padding: 52px 36px 36px;
+    border-color: var(--accent);
+    box-shadow: 0 8px 40px var(--accent-shadow), var(--shadow-lg);
+  }
+  .hub-panel.featured::before {
+    height: 5px;
+    background: linear-gradient(135deg, #c9a96e, #f0d68a, #c9a96e);
+  }
+  body.dark .hub-panel.featured {
+    box-shadow: 0 8px 50px var(--accent-shadow), var(--shadow-lg);
   }
   .hub-panel .hp-spacer { flex: 1; }
   .hub-panel .hp-bottom { margin-top: auto; }
