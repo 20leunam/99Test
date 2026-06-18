@@ -211,17 +211,18 @@ async function saveToRanking(alias, correct, total, pct, testId, testTitle) {
         date: dateStr(new Date())
       })
     });
-    return res.ok;
+    if (res.status === 409) return 'duplicate';
+    return res.ok ? 'ok' : 'error';
   } catch (e) {
     console.error('Error al guardar en ranking:', e);
-    return false;
+    return 'error';
   }
 }
 
-async function fetchRanking(limit = 20) {
+async function fetchAllRankings() {
   try {
     const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/rankings?select=alias,score,total,pct,test_title,date,created_at&order=pct.desc,score.desc&limit=${limit}`,
+      `${SUPABASE_URL}/rest/v1/rankings?select=alias,score,total,pct,test_title,date,created_at&order=created_at.desc`,
       { headers: { 'apikey': SUPABASE_ANON_KEY, 'Accept': 'application/json' } }
     );
     if (!res.ok) return [];
@@ -257,11 +258,14 @@ async function submitRanking() {
   if (feedback) { feedback.textContent = ''; feedback.className = 'ranking-feedback'; }
 
   const r = lastQuizResult;
-  const ok = await saveToRanking(alias, r.correct, r.total, r.pct, r.testId, r.title);
+  const result = await saveToRanking(alias, r.correct, r.total, r.pct, r.testId, r.title);
 
-  if (ok) {
+  if (result === 'ok') {
     if (feedback) { feedback.textContent = '✅ ¡Puntuación guardada en el ranking global!'; feedback.className = 'ranking-feedback success'; }
     if (btn) { btn.textContent = '✅ Enviado'; }
+  } else if (result === 'duplicate') {
+    if (feedback) { feedback.textContent = 'ℹ️ Ya guardaste una puntuación para este test. Solo cuenta la primera.'; feedback.className = 'ranking-feedback'; }
+    if (btn) { btn.textContent = '✅ Ya enviado'; btn.disabled = true; }
   } else {
     if (feedback) { feedback.textContent = '❌ Error de conexión. Inténtalo de nuevo.'; feedback.className = 'ranking-feedback error'; }
     if (btn) { btn.disabled = false; btn.textContent = '📤 Reintentar'; }
@@ -274,22 +278,42 @@ async function renderRanking(containerId) {
 
   container.innerHTML = '<div class="ranking-loading">⏳ Cargando ranking...</div>';
 
-  const data = await fetchRanking(20);
+  const data = await fetchAllRankings();
   if (!data || data.length === 0) {
     container.innerHTML = '<div class="ranking-empty">📭 Aún no hay puntuaciones. ¡Sé el primero!</div>';
     return;
   }
 
+  // Agrupar por alias
+  const byAlias = {};
+  data.forEach(r => {
+    if (!byAlias[r.alias]) byAlias[r.alias] = [];
+    byAlias[r.alias].push(r);
+  });
+
+  // Para cada alias: ordenar por fecha descendente, tomar últimos 10, sumar
+  const aggregated = Object.entries(byAlias).map(([alias, entries]) => {
+    entries.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+    const last10 = entries.slice(0, 10);
+    const totalScore = last10.reduce((sum, e) => sum + e.score, 0);
+    const totalQs = last10.reduce((sum, e) => sum + e.total, 0);
+    const avgPct = totalQs > 0 ? Math.round((totalScore / totalQs) * 100) : 0;
+    return { alias, totalScore, totalQs, avgPct, testsCount: last10.length };
+  });
+
+  // Ordenar: más puntos primero, luego mejor porcentaje
+  aggregated.sort((a, b) => b.totalScore - a.totalScore || b.avgPct - a.avgPct);
+
   const medals = ['🥇', '🥈', '🥉'];
-  const rows = data.slice(0, 10).map((r, i) => {
+  const rows = aggregated.slice(0, 10).map((r, i) => {
     const rank = medals[i] || `#${i+1}`;
-    const pctEmoji = r.pct >= 90 ? '🏆' : r.pct >= 70 ? '⭐' : r.pct >= 50 ? '✅' : '📚';
+    const star = r.avgPct >= 90 ? '🏆' : r.avgPct >= 70 ? '⭐' : r.avgPct >= 50 ? '✅' : '📚';
     return `<div class="ranking-row ${i < 3 ? 'top' : ''}">
       <span class="rr-rank">${rank}</span>
       <span class="rr-alias">${escHtml(r.alias)}</span>
-      <span class="rr-score">${pctEmoji} ${r.score}/${r.total}</span>
-      <span class="rr-pct">${r.pct}%</span>
-      <span class="rr-test">${escHtml(r.test_title || '')}</span>
+      <span class="rr-score">${star} ${r.totalScore}/${r.totalQs}</span>
+      <span class="rr-pct">${r.avgPct}%</span>
+      <span class="rr-test">${r.testsCount} tests</span>
     </div>`;
   }).join('');
 

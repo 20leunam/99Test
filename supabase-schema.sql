@@ -32,6 +32,9 @@ CREATE POLICY "Inserción anónima en ranking"
 -- 5. Índice para ordenar rápido por puntuación
 CREATE INDEX idx_rankings_pct ON rankings (pct DESC, score DESC);
 
+-- 6. Evitar duplicados: un mismo alias solo puede guardar una vez por test y día
+ALTER TABLE rankings ADD CONSTRAINT unique_alias_test_date UNIQUE (alias, test_id, date);
+
 -- ═══════════════════════════════════════════════════════════
 --  Tabla: sugerencias de tests
 -- ═══════════════════════════════════════════════════════════
