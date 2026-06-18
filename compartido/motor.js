@@ -303,6 +303,94 @@ function escHtml(s) {
   return d.innerHTML;
 }
 
+/* ─── SUGERENCIAS (Supabase) ── */
+async function saveSuggestion(text, author) {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/suggestions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_ANON_KEY,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({ suggestion: text, author })
+    });
+    return res.ok;
+  } catch (e) {
+    console.error('Error al guardar sugerencia:', e);
+    return false;
+  }
+}
+
+async function fetchSuggestions() {
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/suggestions?select=*&order=created_at.desc&limit=20`,
+      { headers: { 'apikey': SUPABASE_ANON_KEY, 'Accept': 'application/json' } }
+    );
+    if (!res.ok) return [];
+    return await res.json();
+  } catch (e) {
+    console.error('Error al obtener sugerencias:', e);
+    return [];
+  }
+}
+
+async function submitSuggestion() {
+  const input = document.getElementById('suggestInput');
+  const feedback = document.getElementById('suggestFeedback');
+  if (!input) return;
+
+  const text = input.value.trim();
+  if (text.length < 3 || text.length > 100) {
+    if (feedback) { feedback.textContent = '✏️ Escribe al menos 3 caracteres.'; feedback.className = 'ranking-feedback error'; }
+    return;
+  }
+
+  const author = localStorage.getItem('99test_alias') || 'Anónimo';
+
+  const btn = document.getElementById('suggestBtn');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳...'; }
+  if (feedback) { feedback.textContent = ''; feedback.className = 'ranking-feedback'; }
+
+  const ok = await saveSuggestion(text, author);
+
+  if (ok) {
+    if (feedback) { feedback.textContent = '✅ ¡Propuesta enviada!'; feedback.className = 'ranking-feedback success'; }
+    if (btn) { btn.textContent = 'Enviado ✓'; }
+    input.value = '';
+    // Refresh list
+    renderSuggestions('suggestList');
+  } else {
+    if (feedback) { feedback.textContent = '❌ Error al enviar. Inténtalo de nuevo.'; feedback.className = 'ranking-feedback error'; }
+    if (btn) { btn.disabled = false; btn.textContent = 'Enviar'; }
+  }
+}
+
+async function renderSuggestions(containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  container.innerHTML = '<div class="ranking-loading">⏳ Cargando propuestas...</div>';
+
+  const data = await fetchSuggestions();
+  if (!data || data.length === 0) {
+    container.innerHTML = '<div class="suggest-empty">💡 Sé el primero en proponer un tema.</div>';
+    return;
+  }
+
+  const items = data.map(s => {
+    const date = s.created_at ? new Date(s.created_at) : null;
+    const dateStr = date ? `${date.getDate()}/${date.getMonth()+1}` : '';
+    return `<div class="suggest-item">
+      <span class="si-text">${escHtml(s.suggestion)}</span>
+      <span class="si-meta">${escHtml(s.author)} · ${dateStr}</span>
+    </div>`;
+  }).join('');
+
+  container.innerHTML = items;
+}
+
 function calcStreak() {
   const r = getResults();
   const d = new Date(); d.setHours(0,0,0,0);

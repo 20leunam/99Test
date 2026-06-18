@@ -170,11 +170,35 @@
         <div class="hp-bottom hp-cta-sm" style="align-self:flex-start">⭐ Explorar →</div>
       </div>
     </div>
-    <!-- Ranking Global -->
-    <div class="ranking-hub" id="rankingHub">
-      <div class="ranking-hub-header">🏆 Ranking Global</div>
-      <div class="ranking-hub-body" id="rankingHubBody">
-        <div class="ranking-loading">⏳ Cargando ranking...</div>
+    <!-- Bottom grid: Sugerencias + Ranking -->
+    <div class="hub-bottom-grid">
+      <!-- Left: Propon un test -->
+      <div class="hub-panel" id="suggestPanel" style="cursor:default">
+        <span class="hp-icon">💡</span>
+        <div class="hp-title">Propon un test</div>
+        <div class="hp-subtitle">¿Tienes una idea para un tema de test? ¡Coméntanoslo aquí!</div>
+        <div class="suggest-input-row">
+          <input type="text" id="suggestInput" class="alias-input" placeholder="Ej: Animales prehistóricos" maxlength="100">
+          <button class="btn btn-primary btn-sm" id="suggestBtn">Enviar</button>
+        </div>
+        <div id="suggestFeedback" class="ranking-feedback"></div>
+        <div class="hp-spacer"></div>
+        <div style="margin-top:14px;border-top:1px solid var(--border);padding-top:10px">
+          <div style="font-size:0.78rem;font-weight:600;color:var(--text-secondary);margin-bottom:8px">📋 Propuestas de la comunidad</div>
+          <div class="suggest-list" id="suggestList">
+            <div class="ranking-loading">⏳ Cargando propuestas...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Ranking Global -->
+      <div class="hub-panel" id="rankingHubPanel" style="cursor:default">
+        <span class="hp-icon">🏆</span>
+        <div class="hp-title">Ranking Global</div>
+        <div class="hp-subtitle">Los mejores puntajes de la comunidad</div>
+        <div class="ranking-in-panel" id="rankingHubBody">
+          <div class="ranking-loading">⏳ Cargando ranking...</div>
+        </div>
       </div>
     </div>
   </div>
@@ -217,6 +241,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Cargar ranking global
   renderRanking('rankingHubBody');
+
+  // Cargar sugerencias y attach handler
+  renderSuggestions('suggestList');
+  const sBtn = document.getElementById('suggestBtn');
+  if (sBtn) sBtn.addEventListener('click', submitSuggestion);
+  const sInp = document.getElementById('suggestInput');
+  if (sInp) sInp.addEventListener('keydown', e => { if (e.key === 'Enter') submitSuggestion(); });
 });
 </script>
 </body>

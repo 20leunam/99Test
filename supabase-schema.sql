@@ -31,3 +31,24 @@ CREATE POLICY "Inserción anónima en ranking"
 
 -- 5. Índice para ordenar rápido por puntuación
 CREATE INDEX idx_rankings_pct ON rankings (pct DESC, score DESC);
+
+-- ═══════════════════════════════════════════════════════════
+--  Tabla: sugerencias de tests
+-- ═══════════════════════════════════════════════════════════
+
+CREATE TABLE suggestions (
+  id BIGSERIAL PRIMARY KEY,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  suggestion TEXT NOT NULL,
+  author TEXT DEFAULT 'Anónimo'
+);
+
+ALTER TABLE suggestions ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Lectura pública de sugerencias"
+  ON suggestions FOR SELECT
+  USING (true);
+
+CREATE POLICY "Inserción anónima de sugerencias"
+  ON suggestions FOR INSERT
+  WITH CHECK (true);

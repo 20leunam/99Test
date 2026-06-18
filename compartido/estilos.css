@@ -443,27 +443,49 @@ body.dark .cat-item:hover { border-color: #444; }
   animation: confettiDrop linear forwards; will-change: transform, opacity;
 }
 
-/* ─── RANKING GLOBAL ── */
-.ranking-hub {
-  margin-top: 20px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 28px 24px 20px;
-  box-shadow: var(--shadow-lg);
-  position: relative;
-  overflow: hidden;
+/* ─── BOTTOM GRID (Sugerencias + Ranking) ── */
+.hub-bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  width: 100%;
+  margin-top: 24px;
 }
-.ranking-hub::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: var(--gold-gradient);
+@media (max-width: 860px) {
+  .hub-bottom-grid { grid-template-columns: 1fr; max-width: 480px; margin-left: auto; margin-right: auto; }
 }
-.ranking-hub-header {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.4rem; font-weight: 700; margin-bottom: 16px;
-}
-.ranking-hub-body { min-height: 60px; }
 
+.hub-bottom-grid .hub-panel {
+  cursor: default;
+}
+.hub-bottom-grid .hub-panel:hover {
+  transform: none;
+}
+
+/* ─── SUGERENCIAS ── */
+.suggest-input-row {
+  display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+}
+.suggest-input-row .alias-input { flex: 1; min-width: 140px; }
+
+.suggest-list { max-height: 260px; overflow-y: auto; }
+.suggest-empty {
+  text-align: center; color: var(--text-secondary);
+  font-size: 0.82rem; padding: 20px 0;
+}
+
+.suggest-item {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 10px; padding: 8px 8px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.85rem;
+}
+.suggest-item:last-child { border-bottom: none; }
+.si-text { flex: 1; font-weight: 500; }
+.si-meta { font-size: 0.72rem; color: var(--text-secondary); white-space: nowrap; }
+
+/* ─── RANKING GLOBAL ── */
+.ranking-in-panel { margin: 0 -4px; }
 .ranking-loading, .ranking-empty {
   text-align: center; color: var(--text-secondary);
   font-size: 0.88rem; padding: 30px 0;
