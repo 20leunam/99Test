@@ -15,25 +15,25 @@
     justify-content: center;
     padding: 0 20px;
   }
-  .home-body .footer { padding: 10px 20px; }
+  .home-body .footer { padding: 12px 20px; }
 
   .hub-grid {
     display: grid;
-    grid-template-columns: 1fr 2fr 3fr 2fr 1fr;
-    gap: 18px;
+    grid-template-columns: 1.4fr 2fr 3fr 2fr 1.4fr;
+    gap: 22px;
     align-items: stretch;
     width: 100%;
-    max-width: 1600px;
+    max-width: 1800px;
   }
-  @media (max-width: 900px) {
-    .hub-grid { grid-template-columns: 1fr; max-width: 480px; }
+  @media (max-width: 1000px) {
+    .hub-grid { grid-template-columns: 1fr; max-width: 520px; }
   }
 
   .hub-panel {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 24px 18px 16px;
+    padding: 30px 22px 20px;
     box-shadow: var(--shadow-lg);
     position: relative;
     overflow: hidden;
@@ -46,78 +46,78 @@
   .hub-panel.static { cursor: default; }
   .hub-panel.static:hover { transform: none; }
   .hub-panel::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
     background: var(--gold-gradient);
   }
 
   .hub-panel.featured {
-    padding: 28px 22px 18px;
+    padding: 36px 28px 24px;
     border-color: var(--accent);
-    box-shadow: 0 6px 30px var(--accent-shadow), var(--shadow-lg);
+    box-shadow: 0 8px 40px var(--accent-shadow), var(--shadow-lg);
   }
   .hub-panel.featured::before {
-    height: 4px;
+    height: 5px;
     background: linear-gradient(135deg, #c9a96e, #f0d68a, #c9a96e);
   }
   body.dark .hub-panel.featured {
-    box-shadow: 0 6px 40px var(--accent-shadow), var(--shadow-lg);
+    box-shadow: 0 8px 50px var(--accent-shadow), var(--shadow-lg);
   }
   .hub-panel .hp-spacer { flex: 1; }
   .hub-panel .hp-bottom { margin-top: auto; }
 
-  .hp-icon { font-size: 1.7rem; margin-bottom: 4px; display: block; }
+  .hp-icon { font-size: 2.2rem; margin-bottom: 5px; display: block; }
   .hp-title {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 1.1rem; font-weight: 700; margin-bottom: 3px;
+    font-size: 1.4rem; font-weight: 700; margin-bottom: 4px;
   }
-  .hp-subtitle { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 8px; line-height: 1.35; }
+  .hp-subtitle { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 10px; line-height: 1.5; }
 
-  .hub-panel p, .hub-panel li { font-size: 0.78rem; line-height: 1.4; }
-  .hub-panel p { margin-bottom: 2px; }
+  .hub-panel p, .hub-panel li { font-size: 1rem; line-height: 1.5; }
+  .hub-panel p { margin-bottom: 3px; }
 
   .hp-test-card {
     background: var(--surface-raised); border: 1px solid var(--border);
-    border-radius: var(--radius-sm); padding: 12px; margin: 8px 0;
+    border-radius: var(--radius-sm); padding: 16px; margin: 10px 0;
     text-align: center;
   }
-  .hp-test-card .tc-emoji { font-size: 2.2rem; display: block; margin-bottom: 2px; }
+  .hp-test-card .tc-emoji { font-size: 2.8rem; display: block; margin-bottom: 3px; }
   .hp-test-card .tc-name {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 1.2rem; font-weight: 700;
+    font-size: 1.55rem; font-weight: 700;
     background: var(--gold-gradient); -webkit-background-clip: text;
     -webkit-text-fill-color: transparent; background-clip: text;
   }
-  .hp-test-card .tc-meta { font-size: 0.72rem; color: var(--text-secondary); margin-top: 2px; }
+  .hp-test-card .tc-meta { font-size: 0.9rem; color: var(--text-secondary); margin-top: 3px; }
   .hp-test-card .tc-day {
-    display: inline-block; font-size: 0.65rem; text-transform: uppercase;
+    display: inline-block; font-size: 0.82rem; text-transform: uppercase;
     letter-spacing: 0.05em; font-weight: 600;
-    padding: 2px 10px; border-radius: 100px;
+    padding: 3px 12px; border-radius: 100px;
     background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent-border);
-    margin-top: 4px;
+    margin-top: 5px;
   }
 
   .hp-cta {
-    display: inline-block; margin-top: 8px; padding: 8px 24px;
-    border-radius: 100px; font-weight: 600; font-size: 0.82rem;
+    display: inline-block; margin-top: 10px; padding: 10px 30px;
+    border-radius: 100px; font-weight: 600; font-size: 1.05rem;
     background: var(--gold-gradient); color: #fff; border: none;
     cursor: pointer; transition: all var(--transition);
-    box-shadow: 0 4px 16px var(--accent-shadow);
+    box-shadow: 0 4px 20px var(--accent-shadow);
   }
-  .hp-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 20px var(--accent-shadow); }
+  .hp-cta:hover { transform: translateY(-1px); box-shadow: 0 8px 26px var(--accent-shadow); }
   .hp-cta-sm {
-    display: inline-flex; align-items: center; gap: 6px;
-    margin-top: 6px; padding: 7px 16px;
-    border-radius: 100px; font-weight: 600; font-size: 0.75rem;
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-top: 8px; padding: 9px 20px;
+    border-radius: 100px; font-weight: 600; font-size: 0.95rem;
     background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent-border);
     cursor: pointer; transition: all var(--transition);
   }
   .hp-cta-sm:hover { background: var(--accent-border); }
 
   .hp-done {
-    display: inline-flex; align-items: center; gap: 4px;
-    padding: 4px 12px; border-radius: 100px; font-size: 0.72rem; font-weight: 600;
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 5px 14px; border-radius: 100px; font-size: 0.9rem; font-weight: 600;
     background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border);
-    margin-bottom: 6px;
+    margin-bottom: 8px;
   }
 </style>
 </head>
@@ -132,7 +132,7 @@
         <span class="hp-icon">🧪</span>
         <div class="hp-title">Sobre 99Test</div>
         <div class="hp-subtitle">Un test nuevo cada día. Diez preguntas. Todos los temas.</div>
-        <div style="font-size:0.8rem;color:var(--text-secondary);line-height:1.6">
+        <div style="font-size:0.95rem;color:var(--text-secondary);line-height:1.6">
           <p>📅 6 categorías temáticas que rotan cada semana</p>
           <p>📚 30 preguntas por test · 10 por partida</p>
           <p>🔥 Lleva tu racha de días seguidos</p>
@@ -153,8 +153,8 @@
         </div>
         <div id="suggestFeedback" class="ranking-feedback"></div>
         <div class="hp-spacer"></div>
-        <div style="margin-top:14px;border-top:1px solid var(--border);padding-top:10px">
-          <div style="font-size:0.78rem;font-weight:600;color:var(--text-secondary);margin-bottom:8px">📋 Propuestas de la comunidad</div>
+        <div style="margin-top:16px;border-top:1px solid var(--border);padding-top:12px">
+          <div style="font-size:0.9rem;font-weight:600;color:var(--text-secondary);margin-bottom:10px">📋 Propuestas de la comunidad</div>
           <div class="suggest-list" id="suggestList">
             <div class="ranking-loading">⏳ Cargando propuestas...</div>
           </div>
@@ -201,7 +201,7 @@
         <span class="hp-icon">⭐</span>
         <div class="hp-title">Tests Especiales</div>
         <div class="hp-subtitle">Tests temáticos con personalidad propia</div>
-        <div style="font-size:0.8rem;color:var(--text-secondary);line-height:1.6">
+        <div style="font-size:0.95rem;color:var(--text-secondary);line-height:1.6">
           <p>📖 Paraules rares del català</p>
           <p>📖 Palabras raras del español</p>
           <p>🤖 OPRobots — Hardware y Software</p>

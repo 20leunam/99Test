@@ -445,39 +445,39 @@ body.dark .cat-item:hover { border-color: #444; }
 
 /* ─── SUGERENCIAS ── */
 .suggest-input-row {
-  display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+  display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
 }
-.suggest-input-row .alias-input { flex: 1; min-width: 140px; }
+.suggest-input-row .alias-input { flex: 1; min-width: 180px; }
 
-.suggest-list { max-height: 140px; overflow-y: auto; }
+.suggest-list { max-height: 180px; overflow-y: auto; }
 .suggest-empty {
   text-align: center; color: var(--text-secondary);
-  font-size: 0.72rem; padding: 12px 0;
+  font-size: 0.9rem; padding: 16px 0;
 }
 
 .suggest-item {
   display: flex; justify-content: space-between; align-items: center;
-  gap: 6px; padding: 4px 4px;
+  gap: 8px; padding: 5px 5px;
   border-bottom: 1px solid var(--border);
-  font-size: 0.72rem;
+  font-size: 0.88rem;
 }
 .suggest-item:last-child { border-bottom: none; }
 .si-text { flex: 1; font-weight: 500; }
-.si-meta { font-size: 0.65rem; color: var(--text-secondary); white-space: nowrap; }
+.si-meta { font-size: 0.78rem; color: var(--text-secondary); white-space: nowrap; }
 
 /* ─── RANKING GLOBAL ── */
 .ranking-in-panel { margin: 0 -4px; }
 .ranking-loading, .ranking-empty {
   text-align: center; color: var(--text-secondary);
-  font-size: 0.88rem; padding: 30px 0;
+  font-size: 1rem; padding: 24px 0;
 }
 
 .ranking-row {
   display: grid;
-  grid-template-columns: 22px 1fr 44px 30px;
-  gap: 3px;
+  grid-template-columns: 28px 1fr 56px 38px;
+  gap: 4px;
   align-items: center;
-  padding: 4px 2px;
+  padding: 5px 3px;
   border-radius: var(--radius-sm);
   transition: background var(--transition);
   border-bottom: 1px solid var(--border);
@@ -486,14 +486,14 @@ body.dark .cat-item:hover { border-color: #444; }
 .ranking-row.top { background: var(--accent-bg); }
 .ranking-row:hover { background: var(--surface-raised); }
 
-.rr-rank { font-size: 0.75rem; text-align: center; font-weight: 700; }
+.rr-rank { font-size: 0.9rem; text-align: center; font-weight: 700; }
 .rr-alias {
-  font-weight: 600; font-size: 0.72rem; overflow: hidden;
+  font-weight: 600; font-size: 0.85rem; overflow: hidden;
   text-overflow: ellipsis; white-space: nowrap;
 }
-.rr-score { font-size: 0.68rem; color: var(--text-secondary); text-align: right; white-space: nowrap; }
+.rr-score { font-size: 0.8rem; color: var(--text-secondary); text-align: right; white-space: nowrap; }
 .rr-pct {
-  font-size: 0.72rem; font-weight: 700; text-align: center;
+  font-size: 0.85rem; font-weight: 700; text-align: center;
   background: var(--gold-gradient); -webkit-background-clip: text;
   -webkit-text-fill-color: transparent; background-clip: text;
 }
@@ -501,8 +501,8 @@ body.dark .cat-item:hover { border-color: #444; }
 
 /* Ranking submit en resultados */
 .ranking-submit {
-  margin: 12px 0 6px;
-  padding: 10px;
+  margin: 15px 0 8px;
+  padding: 12px;
   background: var(--surface-raised);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -510,27 +510,27 @@ body.dark .cat-item:hover { border-color: #444; }
 }
 .ranking-submit h3 {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 0.9rem; font-weight: 700; margin-bottom: 2px;
+  font-size: 1.1rem; font-weight: 700; margin-bottom: 3px;
 }
 .ranking-submit .ranking-subtitle {
-  font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 8px;
+  font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 10px;
 }
 .alias-row {
-  display: flex; gap: 6px; justify-content: center; align-items: center;
+  display: flex; gap: 8px; justify-content: center; align-items: center;
   flex-wrap: wrap;
 }
 .alias-input {
-  padding: 7px 12px; border-radius: 100px; border: 1px solid var(--border);
+  padding: 9px 14px; border-radius: 100px; border: 1px solid var(--border);
   background: var(--surface); color: var(--text);
-  font-family: 'Inter', system-ui, sans-serif; font-size: 0.78rem;
-  outline: none; transition: all var(--transition); width: 160px;
+  font-family: 'Inter', system-ui, sans-serif; font-size: 0.95rem;
+  outline: none; transition: all var(--transition); width: 200px;
 }
 .alias-input:focus {
   border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow);
 }
 .ranking-feedback {
-  margin-top: 8px; font-size: 0.82rem; font-weight: 600;
-  min-height: 22px;
+  margin-top: 8px; font-size: 1rem; font-weight: 600;
+  min-height: 28px;
 }
 .ranking-feedback.success { color: var(--green); }
 .ranking-feedback.error { color: var(--red); }
@@ -538,13 +538,13 @@ body.dark .cat-item:hover { border-color: #444; }
 @media (max-width: 540px) {
   .ranking-row {
     grid-template-columns: 22px 1fr 44px 30px;
-    padding: 6px 2px;
+    padding: 4px 2px;
     gap: 3px;
   }
-  .rr-rank { font-size: 0.78rem; }
-  .rr-alias { font-size: 0.76rem; }
-  .rr-score { font-size: 0.7rem; }
-  .rr-pct { font-size: 0.76rem; }
+  .rr-rank { font-size: 0.8rem; }
+  .rr-alias { font-size: 0.78rem; }
+  .rr-score { font-size: 0.72rem; }
+  .rr-pct { font-size: 0.78rem; }
   .alias-input { width: 160px; }
 }
 
