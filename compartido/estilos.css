@@ -449,21 +449,21 @@ body.dark .cat-item:hover { border-color: #444; }
 }
 .suggest-input-row .alias-input { flex: 1; min-width: 140px; }
 
-.suggest-list { max-height: 260px; overflow-y: auto; }
+.suggest-list { max-height: 140px; overflow-y: auto; }
 .suggest-empty {
   text-align: center; color: var(--text-secondary);
-  font-size: 0.82rem; padding: 20px 0;
+  font-size: 0.72rem; padding: 12px 0;
 }
 
 .suggest-item {
   display: flex; justify-content: space-between; align-items: center;
-  gap: 10px; padding: 8px 8px;
+  gap: 6px; padding: 4px 4px;
   border-bottom: 1px solid var(--border);
-  font-size: 0.85rem;
+  font-size: 0.72rem;
 }
 .suggest-item:last-child { border-bottom: none; }
 .si-text { flex: 1; font-weight: 500; }
-.si-meta { font-size: 0.72rem; color: var(--text-secondary); white-space: nowrap; }
+.si-meta { font-size: 0.65rem; color: var(--text-secondary); white-space: nowrap; }
 
 /* ─── RANKING GLOBAL ── */
 .ranking-in-panel { margin: 0 -4px; }
@@ -474,10 +474,10 @@ body.dark .cat-item:hover { border-color: #444; }
 
 .ranking-row {
   display: grid;
-  grid-template-columns: 26px 1fr 50px 34px;
-  gap: 4px;
+  grid-template-columns: 22px 1fr 44px 30px;
+  gap: 3px;
   align-items: center;
-  padding: 7px 4px;
+  padding: 4px 2px;
   border-radius: var(--radius-sm);
   transition: background var(--transition);
   border-bottom: 1px solid var(--border);
@@ -486,14 +486,14 @@ body.dark .cat-item:hover { border-color: #444; }
 .ranking-row.top { background: var(--accent-bg); }
 .ranking-row:hover { background: var(--surface-raised); }
 
-.rr-rank { font-size: 0.85rem; text-align: center; font-weight: 700; }
+.rr-rank { font-size: 0.75rem; text-align: center; font-weight: 700; }
 .rr-alias {
-  font-weight: 600; font-size: 0.82rem; overflow: hidden;
+  font-weight: 600; font-size: 0.72rem; overflow: hidden;
   text-overflow: ellipsis; white-space: nowrap;
 }
-.rr-score { font-size: 0.75rem; color: var(--text-secondary); text-align: right; white-space: nowrap; }
+.rr-score { font-size: 0.68rem; color: var(--text-secondary); text-align: right; white-space: nowrap; }
 .rr-pct {
-  font-size: 0.82rem; font-weight: 700; text-align: center;
+  font-size: 0.72rem; font-weight: 700; text-align: center;
   background: var(--gold-gradient); -webkit-background-clip: text;
   -webkit-text-fill-color: transparent; background-clip: text;
 }
@@ -501,8 +501,8 @@ body.dark .cat-item:hover { border-color: #444; }
 
 /* Ranking submit en resultados */
 .ranking-submit {
-  margin: 18px 0 10px;
-  padding: 16px;
+  margin: 12px 0 6px;
+  padding: 10px;
   background: var(--surface-raised);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -510,20 +510,20 @@ body.dark .cat-item:hover { border-color: #444; }
 }
 .ranking-submit h3 {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.1rem; font-weight: 700; margin-bottom: 4px;
+  font-size: 0.9rem; font-weight: 700; margin-bottom: 2px;
 }
 .ranking-submit .ranking-subtitle {
-  font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 12px;
+  font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 8px;
 }
 .alias-row {
-  display: flex; gap: 8px; justify-content: center; align-items: center;
+  display: flex; gap: 6px; justify-content: center; align-items: center;
   flex-wrap: wrap;
 }
 .alias-input {
-  padding: 10px 14px; border-radius: 100px; border: 1px solid var(--border);
+  padding: 7px 12px; border-radius: 100px; border: 1px solid var(--border);
   background: var(--surface); color: var(--text);
-  font-family: 'Inter', system-ui, sans-serif; font-size: 0.88rem;
-  outline: none; transition: all var(--transition); width: 200px;
+  font-family: 'Inter', system-ui, sans-serif; font-size: 0.78rem;
+  outline: none; transition: all var(--transition); width: 160px;
 }
 .alias-input:focus {
   border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow);
