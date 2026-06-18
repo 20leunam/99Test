@@ -474,10 +474,10 @@ body.dark .cat-item:hover { border-color: #444; }
 
 .ranking-row {
   display: grid;
-  grid-template-columns: 36px 1fr 80px 50px 1.6fr;
-  gap: 8px;
+  grid-template-columns: 26px 1fr 50px 34px;
+  gap: 4px;
   align-items: center;
-  padding: 10px 12px;
+  padding: 7px 4px;
   border-radius: var(--radius-sm);
   transition: background var(--transition);
   border-bottom: 1px solid var(--border);
@@ -486,22 +486,18 @@ body.dark .cat-item:hover { border-color: #444; }
 .ranking-row.top { background: var(--accent-bg); }
 .ranking-row:hover { background: var(--surface-raised); }
 
-.rr-rank { font-size: 1rem; text-align: center; font-weight: 700; }
+.rr-rank { font-size: 0.85rem; text-align: center; font-weight: 700; }
 .rr-alias {
-  font-weight: 600; font-size: 0.88rem; overflow: hidden;
+  font-weight: 600; font-size: 0.82rem; overflow: hidden;
   text-overflow: ellipsis; white-space: nowrap;
 }
-.rr-score { font-size: 0.82rem; color: var(--text-secondary); text-align: right; }
+.rr-score { font-size: 0.75rem; color: var(--text-secondary); text-align: right; white-space: nowrap; }
 .rr-pct {
-  font-size: 0.88rem; font-weight: 700; text-align: center;
+  font-size: 0.82rem; font-weight: 700; text-align: center;
   background: var(--gold-gradient); -webkit-background-clip: text;
   -webkit-text-fill-color: transparent; background-clip: text;
 }
-.rr-test {
-  font-size: 0.75rem; color: var(--text-secondary);
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  text-align: right;
-}
+.rr-test { display: none; }
 
 /* Ranking submit en resultados */
 .ranking-submit {
@@ -541,10 +537,14 @@ body.dark .cat-item:hover { border-color: #444; }
 
 @media (max-width: 540px) {
   .ranking-row {
-    grid-template-columns: 30px 1fr 60px 40px;
-    font-size: 0.82rem;
+    grid-template-columns: 22px 1fr 44px 30px;
+    padding: 6px 2px;
+    gap: 3px;
   }
-  .rr-test { display: none; }
+  .rr-rank { font-size: 0.78rem; }
+  .rr-alias { font-size: 0.76rem; }
+  .rr-score { font-size: 0.7rem; }
+  .rr-pct { font-size: 0.76rem; }
   .alias-input { width: 160px; }
 }
 

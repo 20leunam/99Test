@@ -313,7 +313,6 @@ async function renderRanking(containerId) {
       <span class="rr-alias">${escHtml(r.alias)}</span>
       <span class="rr-score">${star} ${r.totalScore}/${r.totalQs}</span>
       <span class="rr-pct">${r.avgPct}%</span>
-      <span class="rr-test">${r.testsCount} tests</span>
     </div>`;
   }).join('');
 
