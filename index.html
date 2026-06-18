@@ -18,13 +18,13 @@
 
   .hub-grid {
     display: grid;
-    grid-template-columns: 1fr 1.8fr 1fr;
-    gap: 24px;
+    grid-template-columns: 1fr 1fr 1.8fr 1fr 1fr;
+    gap: 20px;
     align-items: stretch;
     width: 100%;
-    max-width: 1100px;
+    max-width: 1300px;
   }
-  @media (max-width: 860px) {
+  @media (max-width: 900px) {
     .hub-grid { grid-template-columns: 1fr; max-width: 480px; }
   }
 
@@ -41,7 +41,9 @@
     display: flex;
     flex-direction: column;
   }
-  .hub-panel:hover { transform: translateY(-3px); }
+  .hub-panel:hover:not(.static) { transform: translateY(-3px); }
+  .hub-panel.static { cursor: default; }
+  .hub-panel.static:hover { transform: none; }
   .hub-panel::before {
     content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
     background: var(--gold-gradient);
@@ -113,9 +115,9 @@
 <div id="headerPlaceholder"></div>
 
 <div class="home-main">
-  <div class="screen active" style="width:100%;max-width:960px">
+  <div class="screen active" style="width:100%;max-width:1350px">
     <div class="hub-grid" id="hubGrid">
-      <!-- Left: Sobre 99Test -->
+      <!-- Sobre 99Test -->
       <div class="hub-panel" onclick="goToPage('sobre.html')">
         <span class="hp-icon">🧪</span>
         <div class="hp-title">Sobre 99Test</div>
@@ -130,7 +132,26 @@
         <div class="hp-bottom hp-cta-sm" style="align-self:flex-start">ℹ️ Más información →</div>
       </div>
 
-      <!-- Center: Test del Día (featured, larger) -->
+      <!-- Propon un test -->
+      <div class="hub-panel static" id="suggestPanel">
+        <span class="hp-icon">💡</span>
+        <div class="hp-title">Propon un test</div>
+        <div class="hp-subtitle">¿Tienes una idea para un tema de test? ¡Coméntanoslo aquí!</div>
+        <div class="suggest-input-row">
+          <input type="text" id="suggestInput" class="alias-input" placeholder="Ej: Animales prehistóricos" maxlength="100">
+          <button class="btn btn-primary btn-sm" id="suggestBtn">Enviar</button>
+        </div>
+        <div id="suggestFeedback" class="ranking-feedback"></div>
+        <div class="hp-spacer"></div>
+        <div style="margin-top:14px;border-top:1px solid var(--border);padding-top:10px">
+          <div style="font-size:0.78rem;font-weight:600;color:var(--text-secondary);margin-bottom:8px">📋 Propuestas de la comunidad</div>
+          <div class="suggest-list" id="suggestList">
+            <div class="ranking-loading">⏳ Cargando propuestas...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Test del Día (featured) -->
       <div class="hub-panel featured" id="todayPanel">
         <div style="text-align:center">
           <div class="hp-icon" id="tdEmoji">📅</div>
@@ -155,7 +176,17 @@
         </div>
       </div>
 
-      <!-- Right: Tests Especiales -->
+      <!-- Ranking Global -->
+      <div class="hub-panel static" id="rankingHubPanel">
+        <span class="hp-icon">🏆</span>
+        <div class="hp-title">Ranking Global</div>
+        <div class="hp-subtitle">Los mejores puntajes de la comunidad</div>
+        <div class="ranking-in-panel" id="rankingHubBody">
+          <div class="ranking-loading">⏳ Cargando ranking...</div>
+        </div>
+      </div>
+
+      <!-- Tests Especiales -->
       <div class="hub-panel" onclick="goToPage('tests/especiales/')">
         <span class="hp-icon">⭐</span>
         <div class="hp-title">Tests Especiales</div>
@@ -168,37 +199,6 @@
         </div>
         <div class="hp-spacer"></div>
         <div class="hp-bottom hp-cta-sm" style="align-self:flex-start">⭐ Explorar →</div>
-      </div>
-    </div>
-    <!-- Bottom grid: Sugerencias + Ranking -->
-    <div class="hub-bottom-grid">
-      <!-- Left: Propon un test -->
-      <div class="hub-panel" id="suggestPanel" style="cursor:default">
-        <span class="hp-icon">💡</span>
-        <div class="hp-title">Propon un test</div>
-        <div class="hp-subtitle">¿Tienes una idea para un tema de test? ¡Coméntanoslo aquí!</div>
-        <div class="suggest-input-row">
-          <input type="text" id="suggestInput" class="alias-input" placeholder="Ej: Animales prehistóricos" maxlength="100">
-          <button class="btn btn-primary btn-sm" id="suggestBtn">Enviar</button>
-        </div>
-        <div id="suggestFeedback" class="ranking-feedback"></div>
-        <div class="hp-spacer"></div>
-        <div style="margin-top:14px;border-top:1px solid var(--border);padding-top:10px">
-          <div style="font-size:0.78rem;font-weight:600;color:var(--text-secondary);margin-bottom:8px">📋 Propuestas de la comunidad</div>
-          <div class="suggest-list" id="suggestList">
-            <div class="ranking-loading">⏳ Cargando propuestas...</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Right: Ranking Global -->
-      <div class="hub-panel" id="rankingHubPanel" style="cursor:default">
-        <span class="hp-icon">🏆</span>
-        <div class="hp-title">Ranking Global</div>
-        <div class="hp-subtitle">Los mejores puntajes de la comunidad</div>
-        <div class="ranking-in-panel" id="rankingHubBody">
-          <div class="ranking-loading">⏳ Cargando ranking...</div>
-        </div>
       </div>
     </div>
   </div>

@@ -443,25 +443,6 @@ body.dark .cat-item:hover { border-color: #444; }
   animation: confettiDrop linear forwards; will-change: transform, opacity;
 }
 
-/* ─── BOTTOM GRID (Sugerencias + Ranking) ── */
-.hub-bottom-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  width: 100%;
-  margin-top: 24px;
-}
-@media (max-width: 860px) {
-  .hub-bottom-grid { grid-template-columns: 1fr; max-width: 480px; margin-left: auto; margin-right: auto; }
-}
-
-.hub-bottom-grid .hub-panel {
-  cursor: default;
-}
-.hub-bottom-grid .hub-panel:hover {
-  transform: none;
-}
-
 /* ─── SUGERENCIAS ── */
 .suggest-input-row {
   display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
